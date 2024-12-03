@@ -14,7 +14,7 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<TLoginSchema>({ resolver: zodResolver(loginSchema) });
 
   const router = useRouter();

@@ -14,7 +14,7 @@ const SignupForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<TRegisterSchema>({ resolver: zodResolver(registerSchema) });
 
   const router = useRouter();
