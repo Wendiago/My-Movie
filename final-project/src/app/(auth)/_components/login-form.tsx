@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PasswordInput } from "./password-input";
 import { paths } from "@/lib/routes";
-import { useLogin, useLogout } from "@/api/auth/auth";
+import { useLogin } from "@/api/auth/auth";
 import { useRouter } from "next/navigation";
 import LoginGoogleButton from "./google-login-button";
 const LoginForm = () => {
