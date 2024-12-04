@@ -34,19 +34,19 @@ app.options("*", (req, res) => {
   res.sendStatus(204);
 });
 
-app.use((req, res, next) => {
-  const originalCookie = res.cookie.bind(res);
-  res.cookie = (name, value, options = {}) => {
-    const defaultOptions = {
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-      sameSite: "None",
-    };
-    const finalOptions = { ...defaultOptions, ...options };
-    originalCookie(name, value, finalOptions);
-  };
-  next();
-});
+// app.use((req, res, next) => {
+//   const originalCookie = res.cookie.bind(res);
+//   res.cookie = (name, value, options = {}) => {
+//     const defaultOptions = {
+//       secure: process.env.NODE_ENV === "production",
+//       httpOnly: true,
+//       sameSite: "None",
+//     };
+//     const finalOptions = { ...defaultOptions, ...options };
+//     originalCookie(name, value, finalOptions);
+//   };
+//   next();
+// });
 
 app.options("*", cors());
 
