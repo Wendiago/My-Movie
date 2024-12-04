@@ -18,7 +18,7 @@ app.use(
       "http://localhost:3000",
       "https://final-project-tau-swart.vercel.app/",
     ],
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    methods: ["GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
