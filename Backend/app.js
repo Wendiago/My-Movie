@@ -16,11 +16,27 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://final-project-tau-swart.vercel.app",
+      "https://final-project-tau-swart.vercel.app/",
     ],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
 );
+
+app.use((req, res, next) => {
+  const originalCookie = res.cookie.bind(res);
+  res.cookie = (name, value, options = {}) => {
+    const defaultOptions = {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: "None",
+    };
+    const finalOptions = { ...defaultOptions, ...options };
+    originalCookie(name, value, finalOptions);
+  };
+  next();
+});
+
 app.options("*", cors());
 
 app.use(express.static(path.join(__dirname, "public")));
