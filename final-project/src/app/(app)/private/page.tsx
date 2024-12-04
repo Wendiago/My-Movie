@@ -2,7 +2,7 @@
 import { useLogout } from "@/api/auth/auth";
 import { Button } from "@/components/ui/button";
 import { paths } from "@/lib/routes";
-import { Popcorn, TestTube } from "lucide-react";
+import { Popcorn } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
