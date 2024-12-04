@@ -16,12 +16,23 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://final-project-tau-swart.vercel.app/",
+      "https://final-project-tau-swart.vercel.app",
     ],
     methods: ["GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
     credentials: true,
   })
 );
+
+app.options("*", (req, res) => {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://final-project-tau-swart.vercel.app"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.sendStatus(204);
+});
 
 app.use((req, res, next) => {
   const originalCookie = res.cookie.bind(res);
