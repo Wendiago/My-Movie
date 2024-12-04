@@ -34,20 +34,27 @@ app.options("*", (req, res) => {
   res.sendStatus(204);
 });
 
-// app.use((req, res, next) => {
-//   const originalCookie = res.cookie.bind(res);
-//   res.cookie = (name, value, options = {}) => {
-//     const defaultOptions = {
-//       secure: process.env.NODE_ENV === "production",
-//       httpOnly: true,
-//       sameSite: "None",
-//     };
-//     const finalOptions = { ...defaultOptions, ...options };
-//     originalCookie(name, value, finalOptions);
-//   };
-//   next();
-// });
+app.use((req, res, next) => {
+  const originalCookie = res.cookie.bind(res);
 
+  res.cookie = (name, value, options = {}) => {
+    const defaultOptions = {
+      secure: process.env.NODE_ENV === "production", // Only set secure cookies in production
+      httpOnly: true,
+      sameSite: "None", // For cross-origin cookies
+    };
+
+    // Ensure 'secure' is set to false for local development
+    if (process.env.NODE_ENV !== "production") {
+      defaultOptions.secure = false; // Allow cookies over HTTP in local development
+    }
+
+    const finalOptions = { ...defaultOptions, ...options };
+    originalCookie(name, value, finalOptions);
+  };
+
+  next();
+});
 app.options("*", cors());
 
 app.use(express.static(path.join(__dirname, "public")));
