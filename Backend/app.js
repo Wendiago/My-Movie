@@ -16,7 +16,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://final-project-tau-swart.vercel.app",
+      "https://final-project-smoky-theta.vercel.app",
     ],
     methods: ["GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
@@ -27,7 +27,7 @@ app.use(
 app.options("*", (req, res) => {
   res.header(
     "Access-Control-Allow-Origin",
-    "https://final-project-tau-swart.vercel.app"
+    "https://final-project-smoky-theta.vercel.app"
   );
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
