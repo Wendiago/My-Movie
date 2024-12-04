@@ -50,14 +50,14 @@ router.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     session: false,
-    failureRedirect: "http://localhost:3000/login",
+    failureRedirect: `${process.env.API_URL}/login`,
   }),
   (req, res) => {
     // Access user object and tokens from req.user
     const { user, accessToken, refreshToken, refreshTokenExp } = req.user;
     setTokenCookies(res, accessToken, refreshToken, refreshTokenExp);
 
-    res.redirect("http://localhost:3000/all-project");
+    res.redirect(`${process.env.API_URL}/private`);
   }
 );
 

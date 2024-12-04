@@ -84,7 +84,7 @@ exports.confirmSignup = catchAsync(async (req, res, next) => {
 
     await grantUserAccessToApp(res, user);
   }
-  res.redirect("http://localhost:3000/private");
+  res.redirect(`${process.env.API_URL}/private`);
 });
 
 exports.loginUser = catchAsync(async (req, res, next) => {
