@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  console.log("Request: ", request);
+  //console.log("Request: ", request);
   console.log("middleware trigger");
   const accessToken = request.cookies.get("accessToken")?.value;
   console.log("Access token: ", accessToken);
@@ -20,7 +20,6 @@ export async function middleware(request: NextRequest) {
       headers: {
         cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
       },
-      credentials: "include",
     }
   );
 
@@ -45,16 +44,12 @@ export async function middleware(request: NextRequest) {
     nextResponse.cookies.set("accessToken", String(newAccessToken), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
-      domain: "final-project-b2ai.onrender.com",
     });
   }
   if (newRefreshToken) {
     nextResponse.cookies.set("refreshToken", String(newRefreshToken), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
-      domain: "final-project-b2ai.onrender.com",
     });
   }
 

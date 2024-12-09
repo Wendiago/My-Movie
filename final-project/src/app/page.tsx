@@ -1,8 +1,9 @@
 "use client";
-import LoginForm from "@/app/(auth)/_components/login-form";
 
-const Login = () => {
-  return <LoginForm></LoginForm>;
+import { Shell } from "@/components/ui/shell";
+
+const Home = () => {
+  return <Shell className=""></Shell>;
 };
 
-export default Login;
+export default Home;

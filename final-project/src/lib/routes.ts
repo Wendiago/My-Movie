@@ -14,6 +14,6 @@ export const paths = {
     },
   },
   private: {
-    getHref: () => "/private",
+    getHref: () => "/home",
   },
 };
