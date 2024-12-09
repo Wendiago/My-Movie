@@ -11,13 +11,6 @@ import { paths } from "@/lib/routes";
 import { useRouter } from "next/navigation";
 import { useRegister } from "@/api/auth/auth";
 import LoginGoogleButton from "./google-login-button";
-import {
-  Toast,
-  ToastTitle,
-  ToastDescription,
-  ToastClose,
-  ToastViewport,
-} from "@/components/ui/toast";
 import { toast } from "@/hooks/use-toast";
 
 const SignupForm = () => {
