@@ -16,15 +16,9 @@ import {
   ToastTitle,
   ToastDescription,
   ToastClose,
-  ToastViewport
+  ToastViewport,
 } from "@/components/ui/toast";
-
-interface ToastProps {
-  id: string;
-  title: string;
-  description: string;
-  variant: "success" | "error" | "info";
-}
+import { toast } from "@/hooks/use-toast";
 
 const SignupForm = () => {
   const {
@@ -32,33 +26,24 @@ const SignupForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<TRegisterSchema>({ resolver: zodResolver(registerSchema) });
-  const [toasts, setToasts] = React.useState<ToastProps[]>([]);
 
   const router = useRouter();
-
-  const addToast = (toast: Omit<ToastProps, "id">) => {
-    const id = Math.random().toString(36).substring(2, 9);
-    setToasts((prev) => [...prev, { id, ...toast }]);
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 5000);
-  };
 
   const registerMutation = useRegister({
     onSuccess: () => {
       // Navigate to verify page
-      addToast({
-        title: "Register Successful",
-        description: "Register successful! Please wait.",
+      toast({
         variant: "success",
+        title: "Register successfully",
+        description: "Redirected to verify page",
       });
       router.push(paths.auth.verify.getHref());
     },
     onError: (error: Error) => {
-      addToast({
-        title: "Register Failed",
-        description: error.message || "An unexpected error occurred.",
-        variant: "error",
+      toast({
+        variant: "destructive",
+        title: "Register failed",
+        description: error.message,
       });
     },
   });
@@ -66,19 +51,6 @@ const SignupForm = () => {
   const onSubmit = (data: TRegisterSchema) => {
     const { email, password } = data;
     registerMutation.mutate({ email, password });
-  };
-
-  const getVariantStyles = (variant: string) => {
-    switch (variant) {
-      case "success":
-        return "bg-green-500 text-white";
-      case "error":
-        return "bg-red-500 text-white";
-      case "info":
-        return "bg-blue-500 text-white";
-      default:
-        return "bg-gray-800 text-white";
-    }
   };
 
   return (
@@ -160,15 +132,7 @@ const SignupForm = () => {
             </p>
           </div>
         </form>
-        {toasts.map(({ id, title, description, variant }) => (
-          <Toast key={id} className={getVariantStyles(variant)}>
-            <ToastTitle>{title}</ToastTitle>
-            <ToastDescription>{description}</ToastDescription>
-            <ToastClose />
-          </Toast>
-        ))}
       </div>
-      <ToastViewport />
     </div>
   );
 };

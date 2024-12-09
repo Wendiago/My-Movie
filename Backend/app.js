@@ -24,30 +24,6 @@ app.use(
   })
 );
 
-app.options("*", (req, res) => {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://final-project-smoky-theta.vercel.app"
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.sendStatus(204);
-});
-
-// app.use((req, res, next) => {
-//   const originalCookie = res.cookie.bind(res);
-//   res.cookie = (name, value, options = {}) => {
-//     const defaultOptions = {
-//       secure: process.env.NODE_ENV === "production",
-//       httpOnly: true,
-//       sameSite: "None",
-//     };
-//     const finalOptions = { ...defaultOptions, ...options };
-//     originalCookie(name, value, finalOptions);
-//   };
-//   next();
-// });
-
 app.options("*", cors());
 
 app.use(express.static(path.join(__dirname, "public")));
