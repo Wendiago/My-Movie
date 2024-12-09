@@ -5,6 +5,7 @@ import { paths } from "@/lib/routes";
 import { Popcorn } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import SearchBar from "@/components/ui/search-bar";
 
 export default function PrivatePage() {
   const router = useRouter();
@@ -32,12 +33,7 @@ export default function PrivatePage() {
         </Button>
       </nav>
       <section className="w-full flex-1 flex justify-center items-center font-semibold text-lg">
-        <Image
-          src="/maintanance.gif"
-          alt="maintanance"
-          width={800}
-          height={500}
-        ></Image>
+        <SearchBar />
       </section>
     </div>
   );
