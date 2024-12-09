@@ -17,6 +17,7 @@ export async function middleware(request: NextRequest) {
       headers: {
         cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
       },
+      credentials: "include",
     }
   );
 
