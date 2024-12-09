@@ -4,7 +4,9 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   console.log("middleware trigger");
   const accessToken = request.cookies.get("accessToken")?.value;
+  console.log("Access token: ", accessToken);
   const refreshToken = request.cookies.get("refreshToken")?.value;
+  console.log("refreshToken token: ", refreshToken);
 
   if (!accessToken || !refreshToken) {
     return NextResponse.redirect(new URL("/login", request.url));
