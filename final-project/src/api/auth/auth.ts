@@ -43,7 +43,7 @@ export const useLogin = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: () => void;
+  onError?: (error: Error) => void;
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -53,8 +53,8 @@ export const useLogin = ({
       queryClient.setQueryData(userQueryKey, data.user);
       onSuccess?.();
     },
-    onError: () => {
-      onError?.();
+    onError: (error: Error) => {
+      onError?.(error);
     },
   });
 
@@ -66,7 +66,7 @@ export const useRegister = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: () => void;
+  onError?: (error: Error) => void;
 }) => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -76,8 +76,8 @@ export const useRegister = ({
       queryClient.setQueryData(userQueryKey, data.user);
       onSuccess?.();
     },
-    onError: () => {
-      onError?.();
+    onError: (error: Error) => {
+      onError?.(error);
     },
   });
 };
@@ -87,7 +87,7 @@ export const useLogout = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: () => void;
+  onError?: (error: Error) => void;
 }) => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -97,8 +97,8 @@ export const useLogout = ({
       queryClient.removeQueries({ queryKey: userQueryKey });
       onSuccess?.();
     },
-    onError: () => {
-      onError?.();
+    onError: (error: Error) => {
+      onError?.(error);
     },
   });
 };

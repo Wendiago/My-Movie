@@ -1,6 +1,7 @@
 "use client";
 import { useLogout } from "@/api/auth/auth";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
 import { paths } from "@/lib/routes";
 import { Popcorn } from "lucide-react";
 import Image from "next/image";
@@ -10,10 +11,19 @@ export default function PrivatePage() {
   const router = useRouter();
   const logoutMutation = useLogout({
     onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Log out successfully",
+        description: "Redirected to login page",
+      });
       router.push(paths.auth.login.getHref());
     },
-    onError: () => {
-      //dosth
+    onError: (error: Error) => {
+      toast({
+        variant: "destructive",
+        title: "Log out failed",
+        description: error.message,
+      });
     },
   });
 

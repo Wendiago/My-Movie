@@ -1,4 +1,5 @@
 "use-client";
+import React from "react";
 import { TRegisterSchema, registerSchema } from "../_data/auth-schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +11,15 @@ import { paths } from "@/lib/routes";
 import { useRouter } from "next/navigation";
 import { useRegister } from "@/api/auth/auth";
 import LoginGoogleButton from "./google-login-button";
+import {
+  Toast,
+  ToastTitle,
+  ToastDescription,
+  ToastClose,
+  ToastViewport,
+} from "@/components/ui/toast";
+import { toast } from "@/hooks/use-toast";
+
 const SignupForm = () => {
   const {
     register,
@@ -18,13 +28,23 @@ const SignupForm = () => {
   } = useForm<TRegisterSchema>({ resolver: zodResolver(registerSchema) });
 
   const router = useRouter();
+
   const registerMutation = useRegister({
     onSuccess: () => {
       // Navigate to verify page
+      toast({
+        variant: "success",
+        title: "Register successfully",
+        description: "Redirected to verify page",
+      });
       router.push(paths.auth.verify.getHref());
     },
-    onError: () => {
-      console.log("Error register");
+    onError: (error: Error) => {
+      toast({
+        variant: "destructive",
+        title: "Register failed",
+        description: error.message,
+      });
     },
   });
 

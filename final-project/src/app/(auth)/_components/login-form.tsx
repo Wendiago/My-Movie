@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { TLoginSchema, loginSchema } from "../_data/auth-schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +11,8 @@ import { paths } from "@/lib/routes";
 import { useLogin } from "@/api/auth/auth";
 import { useRouter } from "next/navigation";
 import LoginGoogleButton from "./google-login-button";
+import { toast } from "@/hooks/use-toast";
+
 const LoginForm = () => {
   const {
     register,
@@ -21,10 +24,19 @@ const LoginForm = () => {
 
   const loginMutation = useLogin({
     onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Login successfully",
+        description: "Redirected to main page",
+      });
       router.push(paths.private.getHref());
     },
-    onError: () => {
-      //do sth
+    onError: (error: Error) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error.message,
+      });
     },
   });
 
