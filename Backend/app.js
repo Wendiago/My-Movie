@@ -8,6 +8,8 @@ const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controller/errorController");
 const authRouter = require("./routes/authRoutes");
 const userRouter = require("./routes/userRoutes");
+const movieRouter = require("./routes/movieRoutes");
+
 require("./config/googleStrategy");
 
 const app = express();
@@ -37,6 +39,7 @@ app.use(cookieParser());
 // Routes
 app.use("/", authRouter);
 app.use("/", userRouter);
+app.use("/", movieRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
