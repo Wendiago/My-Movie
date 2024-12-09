@@ -42,12 +42,16 @@ export async function middleware(request: NextRequest) {
     nextResponse.cookies.set("accessToken", String(newAccessToken), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      domain: "final-project-b2ai.onrender.com",
     });
   }
   if (newRefreshToken) {
     nextResponse.cookies.set("refreshToken", String(newRefreshToken), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      domain: "final-project-b2ai.onrender.com",
     });
   }
 
