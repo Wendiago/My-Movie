@@ -4,3 +4,10 @@ export type SubCarouselMovie = {
   status?: string;
   newEpisode?: string;
 };
+
+export type Movie = {
+  id: string;
+  title: string;
+  backdrop_path?: string;
+  release_date?: string;
+}

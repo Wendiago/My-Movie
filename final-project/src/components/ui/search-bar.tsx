@@ -1,16 +1,40 @@
 'use client';
 
+import { useState } from 'react';
 import Form from 'next/form';
-import { useFormStatus } from 'react-dom';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 
 export default function SearchBar() {
-  const status = useFormStatus;
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchClick = () => {
+    if (searchTerm.trim()) {
+      const form = document.getElementById('searchForm') as HTMLFormElement;
+      if (form) form.submit();
+    }
+  };
+
   return (
-    <Form action='/search' className='relative flex-1'>
-      <Search className='absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none select-none opacity-50 w-4 h-14' />
-      <Input placeholder='Search movies' name='keyword' className='pl-10' />
+    <Form 
+      id="searchForm"
+      action='/search'
+      className='relative flex-1 max-w-[400px]'
+      onSubmit={(e) => {
+        if (!searchTerm.trim()) e.preventDefault();
+      }}
+    >
+      <Input
+        placeholder="Search movies"
+        name="keyword"
+        className="pl-4"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <Search
+        onClick={handleSearchClick}
+        className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer opacity-50 w-4 h-4"
+      />
     </Form>
   );
 }

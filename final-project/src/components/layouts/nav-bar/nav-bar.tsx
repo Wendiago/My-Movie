@@ -3,6 +3,7 @@ import LogoutButton from "@/app/(auth)/_components/logout-button";
 import { Popcorn } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import SearchBar from "@/components/ui/search-bar";
 
 export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -27,6 +28,7 @@ export default function NavBar() {
           <Popcorn className="text-primary size-8" />
           <p className="font-bold text-primary">WENDIAGO MOVIE</p>
         </Link>
+        <SearchBar />
         <LogoutButton />
       </div>
     </nav>
