@@ -1,6 +1,29 @@
 const catchAsync = require("../utils/catchAsync");
 const customApi = require("../utils/customApi");
 
+const fetchGenres = async () => {
+  const data = await customApi('genre/movie/list');
+
+  return data.genres;
+}
+
+const mapGenresToMovies = async (movies) => {
+  const genres = await fetchGenres();
+
+  return movies.map((movie) => {
+    const genreNames = movie.genre_ids.map((id) => {
+      const genre = genres.find((g) => g.id === id);
+      return genre ? genre.name : 'Unknown';
+    });
+
+    return {
+      ...movie,
+      genres: genreNames,
+    };
+  });
+};
+
+
 const movieController = {
 
   getDetailMovie: catchAsync(async (req, res, next) => {
@@ -65,7 +88,13 @@ const movieController = {
         include_adult: false, 
       });
 
-      res.status(200).json(data);
+      const movies = await mapGenresToMovies(data.results);
+
+      res.status(200).json({
+        success: true,
+        message: "Search Movies fetched successfully",
+        data: movies
+      });
     } catch (error) {
       next(error); 
     }
