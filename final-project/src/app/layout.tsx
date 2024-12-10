@@ -4,8 +4,8 @@ import { AppProvider } from "./provider";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "Final web project",
-  description: "",
+  title: "Wendiago Movie",
+  description: "Final project for advanced web development",
 };
 
 export default function RootLayout({

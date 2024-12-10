@@ -8,6 +8,13 @@ const config: Config = {
     "src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     screens: {
       sm: "480px",
       md: "744px",
@@ -22,6 +29,7 @@ const config: Config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        textGrey: "hsl(var(--text-foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -74,10 +82,33 @@ const config: Config = {
             height: "0",
           },
         },
+        fireFlicker: {
+          "0%": {
+            textShadow:
+              "0 0 5px rgba(255, 0, 0, 0.8), 0 0 10px rgba(255, 69, 0, 0.8)",
+          },
+          "25%": {
+            textShadow:
+              "0 0 8px rgba(255, 140, 0, 0.8), 0 0 15px rgba(255, 69, 0, 0.8)",
+          },
+          "50%": {
+            textShadow:
+              "0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 140, 0, 0.8)",
+          },
+          "75%": {
+            textShadow:
+              "0 0 12px rgba(255, 105, 0, 0.8), 0 0 25px rgba(255, 69, 0, 0.8)",
+          },
+          "100%": {
+            textShadow:
+              "0 0 5px rgba(255, 0, 0, 0.8), 0 0 10px rgba(255, 69, 0, 0.8)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fire-flicker": "fireFlicker 1.5s infinite",
       },
     },
     darkMode: ["class"],
