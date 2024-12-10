@@ -6,7 +6,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import MovieDetail from "./movie-detail";
+import MovieOverview from "./movie-overview";
 import Autoplay from "embla-carousel-autoplay";
 import { useRef } from "react";
 import { cn } from "@/utils/cn";
@@ -31,7 +31,7 @@ export default function MainCarousel({ className }: { className?: string }) {
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-black/70"></div>
               <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/70"></div>
             </div>
-            <MovieDetail className="absolute top-[20%] left-[7%]" />
+            <MovieOverview className="absolute top-[20%] left-[7%]" />
           </CarouselItem>
         ))}
       </CarouselContent>

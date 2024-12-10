@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-foreground/95 py-6">
+    <footer className="w-full bg-black py-6">
       <div className="container lg:grid lg:grid-cols-4 md:flex md:justify-between">
         <div className="flex items-center gap-2">
           <Popcorn className="text-primary" />

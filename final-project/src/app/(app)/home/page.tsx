@@ -14,7 +14,7 @@ export default function Page() {
   return (
     <div className="relative flex flex-col min-h-screen">
       <MainCarousel />
-      <div className="pb-24 z-30 -mt-60 w-full flex flex-col justify-center items-center bg-gradient-to-b from-transparent to-black to-[5%] gap-8">
+      <div className="pb-24 z-30 -mt-60 w-full flex flex-col justify-center items-center bg-gradient-to-b from-transparent to-foreground to-[5%] gap-8">
         <SubCarousel carouselName="Popular in Wendiago Movie" data={data} />
 
         <Tabs defaultValue="Today">

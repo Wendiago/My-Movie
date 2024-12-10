@@ -5,7 +5,7 @@ import { cn } from "@/utils/cn";
 import { Play, Star } from "lucide-react";
 import React from "react";
 
-export default function MovieDetail({ className }: { className?: string }) {
+export default function MovieOverview({ className }: { className?: string }) {
   return (
     <div className={cn(className, "flex flex-col max-w-[40%]")}>
       <h1 className="md:text-[2rem] lg:text-[4rem] font-extrabold text-background">
