@@ -16,4 +16,10 @@ export const paths = {
   private: {
     getHref: () => "/home",
   },
+  search: {
+    getHref: (keyword: string) => `/search?keyword=${keyword}`,
+  },
+  details: {
+    getHref: (id: string) => `/details/${id}`,
+  }
 };
