@@ -14,6 +14,7 @@ export default async function page({
   const movieID = (await params).movieID;
   //console.log(movieID);
   let movieDetail: MovieDetails | null = null;
+  movieDetail = (await getMovieDetail(movieID)).data;
 
   const leftLayerStyle = {
     backgroundImage:
@@ -23,22 +24,6 @@ export default async function page({
     backgroundImage:
       "linear-gradient(179deg, rgba(17, 19, 25, 0) 1%, rgba(17, 19, 25, 0.05) 17%, rgba(17, 19, 25, 0.2) 31%, rgba(17, 19, 25, 0.39) 44%, rgba(17, 19, 25, 0.61) 56%, rgba(17, 19, 25, 0.8) 69%, rgba(17, 19, 25, 0.95) 83%, rgb(17, 19, 25) 99%)",
   };
-
-  try {
-    const response = await getMovieDetail(movieID);
-    //console.log(response);
-    if (response.success) {
-      movieDetail = response.data;
-      //console.log(movieDetail.production_countries);
-      //console.log(movieDetail.spoken_languages);
-    } else {
-      console.error(response.message);
-      movieDetail = null;
-    }
-  } catch (error) {
-    console.error("Error fetching movie detail:", error);
-    movieDetail = null;
-  }
 
   const validImageUrl = (url: string | null | undefined) => {
     if (!url) return false;

@@ -1,4 +1,3 @@
-import React from "react";
 import MainCarousel from "./_components/main-carousel";
 import SubCarousel from "./_components/sub-carousel";
 import { Movie } from "@/types/api";
@@ -12,32 +11,8 @@ export default async function Page() {
   let todayTrendingMovie: Movie[] | null = null;
   let weeklyTrendingMovies: Movie[] | null = null;
 
-  try {
-    const response = await getTodayTrendingMovies();
-    if (response.success) {
-      todayTrendingMovie = response.data;
-      //console.log("Today trending movies: ", todayTrendingMovie);
-    } else {
-      console.error(response.message);
-      todayTrendingMovie = null;
-    }
-  } catch (error) {
-    console.error("Error fetching today trending movies:", error);
-    todayTrendingMovie = null;
-  }
-
-  try {
-    const response = await getWeekTrendingMovies();
-    if (response.success) {
-      weeklyTrendingMovies = response.data;
-    } else {
-      console.error(response.message);
-      weeklyTrendingMovies = null;
-    }
-  } catch (error) {
-    console.error("Error fetching weekly trending movies:", error);
-    weeklyTrendingMovies = null;
-  }
+  todayTrendingMovie = (await getTodayTrendingMovies()).data;
+  weeklyTrendingMovies = (await getWeekTrendingMovies()).data;
 
   return (
     <div className="relative flex flex-col min-h-screen w-full">
