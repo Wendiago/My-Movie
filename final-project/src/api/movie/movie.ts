@@ -16,6 +16,7 @@ export const searchMovie = async ({
   const response = await customFetch.get("/api/v1/search", {
     params: { query, page },
   });
+  console.log('res', response);
 
   return response;
 };

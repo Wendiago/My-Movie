@@ -1,4 +1,3 @@
-import { Card, CardFooter } from "@/components/ui/card";
 import { paths } from "@/lib/routes";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -16,10 +15,9 @@ export default function MovieCard(movie: Movie) {
       className="group cursor-pointer flex flex-col items-center max-w-full w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1rem)] hover:shadow-md p-0 border-none rounded-sm"
     >
       <Image
-        src={
-          `${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}${movie.poster_path}` ||
-          "/placeholder.jpeg"
-        }
+      src={movie.poster_path 
+        ? `${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}${movie.poster_path}` 
+        : "/placeholder.jpeg"}
         alt={movie.title}
         width={500}
         height={300}

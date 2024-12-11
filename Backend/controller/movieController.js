@@ -97,6 +97,7 @@ const movieController = {
         success: true,
         message: "Search Movies fetched successfully",
         data: movies,
+        total_pages: data.total_pages || 1,
       });
     } catch (error) {
       next(error);

@@ -76,7 +76,7 @@ export default function SearchResults() {
         <>
           <div className="text-background my-8 font-bold text-2xl">
             Search result for:{" "}
-            <span className="text-primary brightness-150">
+            <span className="text-primary">
               &quot;{search}&quot;
             </span>
           </div>
