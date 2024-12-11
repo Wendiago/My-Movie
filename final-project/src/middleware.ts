@@ -8,9 +8,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  let sid = request.cookies.get("sid")?.value;
+  const sid = request.cookies.get("sid")?.value;
   if (!sid) {
-    let id = crypto.randomUUID();
+    const id = crypto.randomUUID();
     console.log("Session id: ", id);
     // @TODO Have to redirect here to ensure cookie is available to root layout
     let response = NextResponse.redirect(request.url);
