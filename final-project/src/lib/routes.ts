@@ -20,6 +20,6 @@ export const paths = {
     getHref: (keyword: string) => `/search?keyword=${keyword}`,
   },
   details: {
-    getHref: (id: string) => `/details/${id}`,
-  }
+    getHref: (id: string) => `/movie/${id}`,
+  },
 };
