@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
     const id = crypto.randomUUID();
     console.log("Session id: ", id);
     // @TODO Have to redirect here to ensure cookie is available to root layout
-    let response = NextResponse.redirect(request.url);
+    const response = NextResponse.redirect(request.url);
     response.cookies.set("sid", id);
     return response;
   }
