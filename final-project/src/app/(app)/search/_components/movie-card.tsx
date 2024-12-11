@@ -17,7 +17,7 @@ export default function MovieCard(movie: Movie) {
     >
       {movie.backdrop_path ? (
         <Image
-          src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+          src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}${movie.backdrop_path}`}
           alt={movie.title}
           width={500}
           height={300}

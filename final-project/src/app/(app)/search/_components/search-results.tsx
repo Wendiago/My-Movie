@@ -13,6 +13,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useSearchMovies } from "@/api/movie/movie";
+import { Movie } from "@/types/api";
 
 export default function SearchResults() {
   const router = useRouter();
@@ -76,7 +77,7 @@ export default function SearchResults() {
       ) : (
         <>
           <div className="flex flex-wrap gap-4 justify-center">
-            {data.map((movie) => (
+            {data?.data?.map((movie: Movie) => (
               <MovieCard key={movie.id} {...movie} />
             ))}
           </div>
@@ -91,7 +92,7 @@ export default function SearchResults() {
                       handlePageChange(
                         page > 1
                           ? (page - 1).toString()
-                          : data.total_pages.toString()
+                          : data?.total_pages.toString()
                       )
                     }
                   />
@@ -108,18 +109,18 @@ export default function SearchResults() {
                   </PaginationLink>
                 </PaginationItem>
               ))}
-              {visiblePages[visiblePages.length - 1] < data.total_pages && (
+              {visiblePages[visiblePages.length - 1] < data?.total_pages && (
                 <PaginationItem>
                   <PaginationEllipsis />
                 </PaginationItem>
               )}
-              {page !== data.total_pages && (
+              {page !== data?.total_pages && (
                 <PaginationItem>
                   <PaginationNext
                     href="#"
                     onClick={() =>
                       handlePageChange(
-                        page < data.total_pages ? (page + 1).toString() : "1"
+                        page < data?.total_pages ? (page + 1).toString() : "1"
                       )
                     }
                   />
