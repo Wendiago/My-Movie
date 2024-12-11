@@ -6,6 +6,7 @@ import MovieDetail from "./_components/movie-detail";
 // import { Separator } from "@/components/ui/separator";
 import { type MovieDetails } from "@/types/api";
 import { getMovieDetail } from "@/api/movie/movie";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function page({
   params,
@@ -41,6 +42,11 @@ export default async function page({
     movieDetail = null;
   }
 
+  const validImageUrl = (url: string | null | undefined) => {
+    if (!url) return false;
+    return true;
+  };
+
   if (!movieDetail) {
     return (
       <div className="w-full h-screen flex items-center justify-center bg-foreground">
@@ -53,13 +59,23 @@ export default async function page({
     <div className="lg:pl-16 w-full flex flex-col bg-foreground pb-60">
       <div className="flex w-full min-h-screen relative">
         <div className="overflow-hidden absolute top-0 right-0 w-[70.84%] h-full">
-          <Image
-            src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}${movieDetail.backdrop_path}`}
-            alt={movieDetail.title}
-            height={576}
-            width={1000}
-            className="object-cover w-full h-full"
-          />
+          {validImageUrl(movieDetail.backdrop_path) ? (
+            <Image
+              src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}${movieDetail.backdrop_path}`}
+              alt={movieDetail.title}
+              height={576}
+              width={1000}
+              className="object-cover w-full h-full"
+            />
+          ) : (
+            <Image
+              className="w-full h-full object-cover"
+              src="/placeholder.jpeg"
+              alt="placeholder"
+              height={576}
+              width={1000}
+            ></Image>
+          )}
           <div
             className="left-layer absolute h-full w-[28%] bottom-0"
             style={leftLayerStyle}
