@@ -40,7 +40,7 @@ export default async function Page() {
   }
 
   return (
-    <div className="relative flex flex-col min-h-screen">
+    <div className="relative flex flex-col min-h-screen w-full">
       <MainCarousel data={todayTrendingMovie} />
       <div className="pb-24 z-30 -mt-52 w-full flex flex-col justify-center items-center bg-gradient-to-b from-transparent via-foreground/70 via-[10%] to-foreground to-[15%] gap-8">
         <SubCarousel
@@ -50,7 +50,7 @@ export default async function Page() {
 
         <Tabs defaultValue="Today">
           <div className="flex items-center gap-3 ml-8 mb-6">
-            <p className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600 font-bold text-2xl animate-fire-flicker">
+            <p className="ml-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600 font-bold text-2xl animate-fire-flicker">
               TRENDING
             </p>
             <TabsList className="grid grid-cols-2 max-w-[30%] bg-foreground">

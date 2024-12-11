@@ -29,7 +29,7 @@ export default function MainCarousel({
     <Carousel
       opts={{ align: "start", loop: true }}
       plugins={[plugin.current]}
-      className={cn(className, "w-full max-w-screen relative")}
+      className={cn(className, "w-full relative")}
     >
       <CarouselPrevious className="h-12 w-12 absolute top-1/2 -translate-y-1/2 left-0 z-10 rounded-none bg-transparent border-none [&_svg]:size-12 hover:bg-transparent [&_svg]:text-white" />
       <CarouselContent>
@@ -37,7 +37,7 @@ export default function MainCarousel({
           ? // Render skeleton placeholders
             Array.from({ length: 3 }).map((_, index) => (
               <CarouselItem key={`skeleton-${index}`} className="relative">
-                <Skeleton className="w-full h-[850px]" />
+                <Skeleton className="w-screen h-[850px]" />
                 <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
                   <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-black/70"></div>
                   <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/70"></div>
@@ -52,7 +52,7 @@ export default function MainCarousel({
                   alt="main carousel item"
                   width={1440}
                   height={850}
-                  className="w-full h-[850px] object-cover cursor-pointer"
+                  className="w-screen h-[850px] object-cover cursor-pointer"
                   onClick={() =>
                     router.push(paths.details.getHref(movie.id.toString()))
                   }

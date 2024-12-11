@@ -22,21 +22,21 @@ export default function SubCarousel({ carouselName, data }: SubCarouselProps) {
   const router = useRouter();
   const isLoading = !data;
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 max-w-screen lg:px-8">
       {carouselName && (
         <div className="font-bold text-background ml-8 text-2xl">
           {carouselName}
         </div>
       )}
-      <Carousel opts={{ align: "start", loop: true }} className="container">
-        <CarouselPrevious className="bg-transparent hover:bg-transparent [&_svg]:text-background -left-4" />
-        <CarouselContent className="-ml-2">
+      <Carousel opts={{ align: "start", loop: true }} className="mx-auto">
+        <CarouselPrevious className="bg-transparent hover:bg-transparent [&_svg]:text-background left-6 z-10" />
+        <CarouselContent className="">
           {isLoading
             ? // Render skeleton placeholders
               Array.from({ length: 5 }).map((_, index) => (
                 <CarouselItem
                   key={`skeleton-${index}`}
-                  className="md:basis-1/3 lg:basis-1/5 pl-2"
+                  className="md:basis-1/3 lg:basis-1/5"
                 >
                   <Skeleton className="w-full h-[200px] rounded-lg" />
                 </CarouselItem>
@@ -54,7 +54,7 @@ export default function SubCarousel({ carouselName, data }: SubCarouselProps) {
                 </CarouselItem>
               ))}
         </CarouselContent>
-        <CarouselNext className="bg-transparent hover:bg-transparent [&_svg]:text-background -right-4" />
+        <CarouselNext className="bg-transparent hover:bg-transparent [&_svg]:text-background right-6 z-10" />
       </Carousel>
     </div>
   );

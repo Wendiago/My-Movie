@@ -27,7 +27,7 @@ export default function SearchBar() {
       <Input
         placeholder="Search movies"
         name="keyword"
-        className="pl-4 bg-background/50 backdrop-blur-md text-foreground border-none placeholder:text-foreground"
+        className="pl-4 bg-background/80 backdrop-blur-md text-foreground border-none placeholder:text-foreground"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
