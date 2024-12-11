@@ -8,26 +8,15 @@ import {
   getWeekTrendingMovies,
 } from "@/api/movie/movie";
 
-const getTodayTrendingMovie = async () => {
-  const response = await getTodayTrendingMovies();
-  return response;
-};
-
-const getWeeklyTrendingMovie = async () => {
-  const response = await getWeekTrendingMovies();
-  return response;
-};
-
 export default async function Page() {
   let todayTrendingMovie: Movie[] | null = null;
   let weeklyTrendingMovies: Movie[] | null = null;
 
   try {
-    const response = await getTodayTrendingMovie();
-    console.log(response);
+    const response = await getTodayTrendingMovies();
     if (response.success) {
-      todayTrendingMovie = response.data.results;
-      console.log(todayTrendingMovie);
+      todayTrendingMovie = response.data;
+      //console.log("Today trending movies: ", todayTrendingMovie);
     } else {
       console.error(response.message);
       todayTrendingMovie = null;
@@ -38,9 +27,9 @@ export default async function Page() {
   }
 
   try {
-    const response = await getWeeklyTrendingMovie();
+    const response = await getWeekTrendingMovies();
     if (response.success) {
-      weeklyTrendingMovies = response.data.results;
+      weeklyTrendingMovies = response.data;
     } else {
       console.error(response.message);
       weeklyTrendingMovies = null;

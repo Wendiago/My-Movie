@@ -34,9 +34,9 @@ export default function MovieOverview({
         </p>
       </div>
       <div className="flex items-center gap-2 mb-4">
-        {Array.from({ length: 4 }).map((_, index) => (
+        {data.genres.map((genre, index) => (
           <Badge variant="outline" key={index}>
-            Horror
+            {genre}
           </Badge>
         ))}
       </div>

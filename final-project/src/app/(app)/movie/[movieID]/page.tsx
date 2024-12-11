@@ -31,7 +31,7 @@ export default async function page({
     if (response.success) {
       movieDetail = response.data;
       //console.log(movieDetail.production_countries);
-      console.log(movieDetail.spoken_languages);
+      //console.log(movieDetail.spoken_languages);
     } else {
       console.error(response.message);
       movieDetail = null;
