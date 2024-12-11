@@ -6,8 +6,6 @@ import MovieDetail from "./_components/movie-detail";
 // import { Separator } from "@/components/ui/separator";
 import { type MovieDetails } from "@/types/api";
 import { getMovieDetail } from "@/api/movie/movie";
-import { Skeleton } from "@/components/ui/skeleton";
-
 export default async function page({
   params,
 }: {
