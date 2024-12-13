@@ -1,4 +1,5 @@
 import { customFetch } from "@/lib/api-client";
+import { GetTrendingMoviesResponse } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 
 // Search movie
@@ -16,7 +17,7 @@ export const searchMovie = async ({
   const response = await customFetch.get("/api/v1/search", {
     params: { query, page },
   });
-  console.log('res', response);
+  console.log("res", response);
 
   return response;
 };
@@ -41,11 +42,11 @@ export const useSearchMovies = ({
 };
 
 // Get today trending movie
-export const getTodayTrendingMovies = async (): Promise<any> => {
-  const response = await customFetch.get("/api/v1/trending/movie/day", {});
-
-  return response;
-};
+export const getTodayTrendingMovies =
+  async (): Promise<GetTrendingMoviesResponse> => {
+    const response = await customFetch.get("/api/v1/trending/movie/day", {});
+    return response as Promise<GetTrendingMoviesResponse>;
+  };
 
 export const useTodayTrendingMovies = () => {
   return useQuery({

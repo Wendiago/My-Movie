@@ -53,3 +53,9 @@ export type MovieDetails = {
   vote_average: number;
   vote_count: number;
 };
+
+export type GetTrendingMoviesResponse = {
+  success: boolean;
+  message: string;
+  data: Movie[];
+};
