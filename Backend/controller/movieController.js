@@ -24,6 +24,48 @@ const mapGenresToMovies = async (movies) => {
 };
 
 const movieController = {
+  getGenres: catchAsync(async (req, res, next) => {
+    try {
+      const genres = await fetchGenres();
+
+      return res.status(200).json({
+        success: true,
+        message: "Genres fetched successfully",
+        data: genres,
+      });
+    } catch (error) {
+      console.error("Error fetching genres:", error);
+      next(error);
+    }
+  }),
+
+  getMoviesByGenre: catchAsync(async (req, res, next) => {
+    const { genreId } = req.params;
+  
+    if (!genreId) {
+      return res
+        .status(400)
+        .json({ message: "Genre ID is required." });
+    }
+  
+    try {
+      const data = await customApi("discover/movie", {
+        with_genres: genreId,
+      });
+  
+      const movies = await mapGenresToMovies(data.results);
+  
+      return res.status(200).json({
+        success: true,
+        message: `Movies with genre ID ${genreId} fetched successfully`,
+        data: movies,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }),
+  
+
   getDetailMovie: catchAsync(async (req, res, next) => {
     try {
       const { idMovie } = req.params;

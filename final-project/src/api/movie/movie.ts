@@ -79,3 +79,34 @@ export const useMovieDetail = (movieID: string) => {
     queryFn: () => getMovieDetail(movieID),
   });
 };
+
+// Get genres
+export const getGenres = async (): Promise<any> => {
+  const response = await customFetch.get("/api/v1/genres");
+  return response;
+};
+
+export const useGenres = () => {
+  return useQuery({
+    queryKey: ["getGenres"],
+    queryFn: () => getGenres(),
+  });
+};
+
+// Get movies by genre
+export const getMoviesByGenre = async (genreId: string): Promise<any> => {
+  if (!genreId) {
+    throw new Error("Genre ID is required.");
+  }
+
+  const response = await customFetch.get(`/api/v1/movies/genre/${genreId}`);
+  return response;
+};
+
+export const useMoviesByGenre = (genreId: string) => {
+  return useQuery({
+    queryKey: ["getMoviesByGenre", genreId],
+    queryFn: () => getMoviesByGenre(genreId),
+    enabled: !!genreId,
+  });
+};
