@@ -9,6 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "
 
 export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [selectValue, setSelectValue] = useState("movie");
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -30,18 +32,21 @@ export default function NavBar() {
           <Popcorn className="text-primary size-8" />
           <p className="font-bold text-primary">WENDIAGO MOVIE</p>
         </Link>
-        <div className="flex flex-row min-w-[400px]">
-          <Select>
-            <SelectTrigger className="w-[60px]">
-              <SelectValue placeholder="S" />
+        <div className="flex flex-row min-w-[400px] gap-1">
+          <SearchBar searchType={selectValue}/>
+          <Select
+            value={selectValue}
+            onValueChange={(value) => setSelectValue(value)}
+          >
+            <SelectTrigger className={`w-[120px] bg-background/80 text-foreground border-none pl-4 h-[40px] backdrop-blur-md `}>
+              <SelectValue placeholder="Select query" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
+              <SelectItem value="movie">By title</SelectItem>
+              <SelectItem value="cast">By cast</SelectItem>
+              <SelectItem value="natural-query">By query</SelectItem>
             </SelectContent>
           </Select>
-          <SearchBar searchType={"natural-query"}/>
         </div>
         <GenreFilter />
         <LogoutButton />
