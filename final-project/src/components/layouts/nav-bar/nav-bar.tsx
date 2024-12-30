@@ -4,9 +4,13 @@ import { Popcorn } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import SearchBar from "@/components/ui/search-bar";
+import GenreFilter from "./_components/genre-filter";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 
 export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [selectValue, setSelectValue] = useState("movie");
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -28,7 +32,23 @@ export default function NavBar() {
           <Popcorn className="text-primary size-8" />
           <p className="font-bold text-primary">WENDIAGO MOVIE</p>
         </Link>
-        <SearchBar />
+        <div className="flex flex-row min-w-[400px] gap-1">
+          <SearchBar searchType={selectValue}/>
+          <Select
+            value={selectValue}
+            onValueChange={(value) => setSelectValue(value)}
+          >
+            <SelectTrigger className={`w-[120px] bg-background/80 text-foreground border-none pl-4 h-[40px] backdrop-blur-md `}>
+              <SelectValue placeholder="Select query" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="movie">By title</SelectItem>
+              <SelectItem value="cast">By cast</SelectItem>
+              <SelectItem value="natural-query">By query</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <GenreFilter />
         <LogoutButton />
       </div>
     </nav>

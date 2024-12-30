@@ -5,9 +5,10 @@ import Form from "next/form";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
-export default function SearchBar() {
+export default function SearchBar({ searchType } : { searchType: string }) {
   const [searchTerm, setSearchTerm] = useState("");
 
+  console.log("searchType: ",searchType);
   const handleSearchClick = () => {
     if (searchTerm.trim()) {
       const form = document.getElementById("searchForm") as HTMLFormElement;
