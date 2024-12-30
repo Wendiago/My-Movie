@@ -1,98 +1,41 @@
 const catchAsync = require("../utils/catchAsync");
-const customApi = require("../utils/customApi");
-
-const fetchGenres = async () => {
-  const data = await customApi("genre/movie/list");
-
-  return data.genres;
-};
-
-const mapGenresToMovies = async (movies) => {
-  const genres = await fetchGenres();
-
-  return movies.map((movie) => {
-    const genreNames = movie.genre_ids.map((id) => {
-      const genre = genres.find((g) => g.id === id);
-      return genre ? genre.name : "Unknown";
-    });
-
-    return {
-      ...movie,
-      genres: genreNames,
-    };
-  });
-};
+const Genre = require("../models/movies_genres");
+const Movie = require("../models/movies");
+const MovieTrendingDay = require("../models/movies_trending_day");
+const MovieTrendingWeek = require("../models/movies_trending_week");
+const CustomApi = require("../utils/customApi");
 
 const movieController = {
-  getGenres: catchAsync(async (req, res, next) => {
+  getDetailMovieById: catchAsync(async (req, res, next) => {
     try {
-      const genres = await fetchGenres();
+        const { idMovie } = req.params;
+        const data = await Movie.findOne({ tmdb_id: idMovie})
+                .select("tmdb_id credits backdrop_path genres overview poster_path release_date runtime title vote_average vote_count");
 
-      return res.status(200).json({
-        success: true,
-        message: "Genres fetched successfully",
-        data: genres,
-      });
+        const reviews = await CustomApi(`movie/${idMovie}/reviews`);
+        const videos = await CustomApi(`movie/${idMovie}/videos`);
+        const recommendations = await CustomApi(`movie/${idMovie}/recommendations`);
+        return res.status(200).json({
+            success: true,
+            message: "Detail movie fetched successfully",
+            data: data,
+            reviews: reviews.results,
+            videos: videos.results,
+            recommendations: recommendations.results
+        });
     } catch (error) {
-      console.error("Error fetching genres:", error);
-      next(error);
+        console.error("Error fetching detail movie:", error);
+        next(error);
     }
-  }),
-
-  getMoviesByGenre: catchAsync(async (req, res, next) => {
-    const { genreId } = req.params;
-  
-    if (!genreId) {
-      return res
-        .status(400)
-        .json({ message: "Genre ID is required." });
-    }
-  
-    try {
-      const data = await customApi("discover/movie", {
-        with_genres: genreId,
-      });
-  
-      const movies = await mapGenresToMovies(data.results);
-  
-      return res.status(200).json({
-        success: true,
-        message: `Movies with genre ID ${genreId} fetched successfully`,
-        data: movies,
-      });
-    } catch (error) {
-      next(error);
-    }
-  }),
-  
-
-  getDetailMovie: catchAsync(async (req, res, next) => {
-    try {
-      const { idMovie } = req.params;
-      const data = await customApi(`movie/${idMovie}`);
-
-      return res.status(200).json({
-        success: true,
-        message: "Detail movie fetched successfully",
-        data: data,
-      });
-    } catch (error) {
-      console.error("Error fetching detail movie:", error);
-      next(error);
-    }
-  }),
+}),
 
   getTrendingMoviesDay: catchAsync(async (req, res, next) => {
     try {
-      const data = await customApi("trending/movie/day");
-
-      const movies = await mapGenresToMovies(data.results);
-
-      //console.log(movies);
+      const data = await MovieTrendingDay.find();
       return res.status(200).json({
-        success: true,
-        message: "Trending movies day fetched successfully",
-        data: movies,
+          success: true,
+          message: "Trending movies day fetched successfully",
+          data: data
       });
     } catch (error) {
       console.error("Error fetching trending movies:", error);
@@ -102,7 +45,7 @@ const movieController = {
 
   getTrendingMoviesWeek: catchAsync(async (req, res, next) => {
     try {
-      const data = await customApi("trending/movie/week");
+      const data = await MovieTrendingWeek.find();
 
       const movies = await mapGenresToMovies(data.results);
 
@@ -117,32 +60,20 @@ const movieController = {
     }
   }),
 
-  searchMovie: catchAsync(async (req, res, next) => {
-    const { query, page } = req.query;
-
-    if (!query) {
-      return res
-        .status(400)
-        .json({ message: "Query parameter 'query' is required." });
-    }
-
+  getAllGenres: catchAsync(async (req, res, next) => {
     try {
-      const data = await customApi("search/movie", {
-        query,
-        page: page || 1,
-        include_adult: false,
-      });
+        const genres = await Genre.find();
+        console.log("genres", genres);
 
-      const movies = await mapGenresToMovies(data.results);
-
-      return res.status(200).json({
-        success: true,
-        message: "Search Movies fetched successfully",
-        data: movies,
-        total_pages: data.total_pages || 1,
-      });
+        res.status(200).json({
+          success: true,
+          message: "Get All genres successfully",
+          data: genres
+        });
+      
     } catch (error) {
-      next(error);
+        console.error('Error fetching genres:', error);
+        throw error;
     }
   }),
 };

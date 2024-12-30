@@ -1,52 +1,39 @@
-import React from "react";
+export const dynamic = "force-dynamic";
 import MainCarousel from "./_components/main-carousel";
 import SubCarousel from "./_components/sub-carousel";
-import { Movie } from "@/types/api";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   getTodayTrendingMovies,
   getWeekTrendingMovies,
 } from "@/api/movie/movie";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function Page() {
-  let todayTrendingMovie: Movie[] | null = null;
-  let weeklyTrendingMovies: Movie[] | null = null;
-
-  try {
-    const response = await getTodayTrendingMovies();
-    if (response.success) {
-      todayTrendingMovie = response.data;
-      //console.log("Today trending movies: ", todayTrendingMovie);
-    } else {
-      console.error(response.message);
-      todayTrendingMovie = null;
-    }
-  } catch (error) {
-    console.error("Error fetching today trending movies:", error);
-    todayTrendingMovie = null;
-  }
-
-  try {
-    const response = await getWeekTrendingMovies();
-    if (response.success) {
-      weeklyTrendingMovies = response.data;
-    } else {
-      console.error(response.message);
-      weeklyTrendingMovies = null;
-    }
-  } catch (error) {
-    console.error("Error fetching weekly trending movies:", error);
-    weeklyTrendingMovies = null;
-  }
+  const todayTrendingMovie = getTodayTrendingMovies();
+  const weeklyTrendingMovies = getWeekTrendingMovies();
 
   return (
     <div className="relative flex flex-col min-h-screen w-full">
-      <MainCarousel data={todayTrendingMovie} />
+      <Suspense
+        fallback={
+          <Skeleton className="w-full min-h-screen flex justify-center items-center"></Skeleton>
+        }
+      >
+        <MainCarousel data={todayTrendingMovie} />
+      </Suspense>
+
       <div className="pb-24 z-30 -mt-52 w-full flex flex-col justify-center items-center bg-gradient-to-b from-transparent via-foreground/70 via-[10%] to-foreground to-[15%] gap-8">
-        <SubCarousel
-          carouselName="Popular in Wendiago Movie"
-          data={todayTrendingMovie}
-        />
+        <Suspense
+          fallback={
+            <Skeleton className="w-full flex justify-center items-center"></Skeleton>
+          }
+        >
+          <SubCarousel
+            carouselName="Popular in Wendiago Movie"
+            data={todayTrendingMovie}
+          />
+        </Suspense>
 
         <Tabs defaultValue="Today">
           <div className="flex items-center gap-3 ml-8 mb-6">
@@ -70,10 +57,22 @@ export default async function Page() {
           </div>
 
           <TabsContent value="Today">
-            <SubCarousel data={todayTrendingMovie} />
+            <Suspense
+              fallback={
+                <Skeleton className="w-full flex justify-center items-center"></Skeleton>
+              }
+            >
+              <SubCarousel data={todayTrendingMovie} />
+            </Suspense>
           </TabsContent>
           <TabsContent value="This week">
-            <SubCarousel data={weeklyTrendingMovies} />
+            <Suspense
+              fallback={
+                <Skeleton className="w-full flex justify-center items-center"></Skeleton>
+              }
+            >
+              <SubCarousel data={weeklyTrendingMovies} />
+            </Suspense>
           </TabsContent>
         </Tabs>
       </div>

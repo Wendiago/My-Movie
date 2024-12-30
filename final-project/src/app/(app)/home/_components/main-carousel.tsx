@@ -8,9 +8,9 @@ import {
 } from "@/components/ui/carousel";
 import MovieOverview from "./movie-overview";
 import Autoplay from "embla-carousel-autoplay";
-import { useRef } from "react";
+import { use, useRef } from "react";
 import { cn } from "@/utils/cn";
-import { Movie } from "@/types/api";
+import { GetTrendingMoviesResponse } from "@/types/api";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
@@ -20,11 +20,12 @@ export default function MainCarousel({
   data,
 }: {
   className?: string;
-  data: Movie[] | null;
+  data: Promise<GetTrendingMoviesResponse> | null;
 }) {
   const router = useRouter();
   const plugin = useRef(Autoplay({ delay: 6000, stopOnInteraction: true }));
   const isLoading = !data;
+  const movies = use(data).data;
   return (
     <Carousel
       opts={{ align: "start", loop: true }}
@@ -45,7 +46,7 @@ export default function MainCarousel({
               </CarouselItem>
             ))
           : // Render actual movie data
-            data.map((movie, index) => (
+            movies.map((movie, index) => (
               <CarouselItem key={index} className="relative">
                 <Image
                   src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}${movie.backdrop_path}`}

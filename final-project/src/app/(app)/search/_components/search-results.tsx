@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, { useCallback } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import MovieCard from "./movie-card";
 import {
   Pagination,
@@ -18,9 +18,20 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function SearchResults() {
   const router = useRouter();
+  const pathName = usePathname();
   const searchParams = useSearchParams();
   const search = searchParams.get("keyword") || "";
   const page = parseInt(searchParams.get("page") || "1", 10);
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   const { data, isLoading, isError, error } = useSearchMovies({
     query: search,
@@ -29,9 +40,10 @@ export default function SearchResults() {
   console.log("data", data);
 
   const handlePageChange = (newPage: string) => {
-    const query = new URLSearchParams(searchParams);
-    query.set("page", newPage);
-    router.push(`?${query.toString()}`);
+    router.push(pathName + "?" + createQueryString("page", newPage));
+    // const query = new URLSearchParams(searchParams);
+    // query.set("page", newPage);
+    // router.push(`?${query.toString()}`);
   };
 
   const getVisiblePages = (currentPage: number, total?: number) => {
@@ -76,9 +88,7 @@ export default function SearchResults() {
         <>
           <div className="text-background my-8 font-bold text-2xl">
             Search result for:{" "}
-            <span className="text-primary">
-              &quot;{search}&quot;
-            </span>
+            <span className="text-primary">&quot;{search}&quot;</span>
           </div>
           <div className="flex flex-wrap gap-4 justify-center">
             {data?.data?.map((movie: Movie) => (

@@ -8,19 +8,21 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import SubCarouselItem from "./sub-carousel-item";
-import { Movie } from "@/types/api";
+import { GetTrendingMoviesResponse } from "@/types/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import { paths } from "@/lib/routes";
+import { use } from "react";
 
 type SubCarouselProps = {
   carouselName?: string;
-  data: Movie[] | null;
+  data: Promise<GetTrendingMoviesResponse>;
 };
 
 export default function SubCarousel({ carouselName, data }: SubCarouselProps) {
   const router = useRouter();
   const isLoading = !data;
+  const movies = use(data).data;
   return (
     <div className="flex flex-col gap-3 max-w-screen lg:px-8">
       {carouselName && (
@@ -42,7 +44,7 @@ export default function SubCarousel({ carouselName, data }: SubCarouselProps) {
                 </CarouselItem>
               ))
             : // Render actual data items
-              data.map((movie, index) => (
+              movies.map((movie, index) => (
                 <CarouselItem
                   key={index}
                   className="md:basis-1/3 lg:basis-1/5 pl-2 cursor-pointer"

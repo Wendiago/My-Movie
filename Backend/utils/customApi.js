@@ -3,7 +3,7 @@ const customApi = async (endpoint, params = {}) => {
   const baseUrl = `${process.env.TMDB_API_URL}/${endpoint}`;
   const query = new URLSearchParams({
     ...params, 
-    language: params.language || 'vi-VN',
+    language: params.language || 'en-US',
   });
 
   const url = `${baseUrl}?${query}`;
