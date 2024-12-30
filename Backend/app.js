@@ -9,6 +9,10 @@ const globalErrorHandler = require("./controller/errorController");
 const authRouter = require("./routes/authRoutes");
 const userRouter = require("./routes/userRoutes");
 const movieRouter = require("./routes/movieRoutes");
+const searchRouter = require("./routes/searchRoutes");
+const castRouter = require("./routes/castRoutes");
+const favoriteListRouter = require("./routes/favoriteListRoutes");
+const recommendRouter = require("./routes/recommendRoutes");
 
 require("./config/googleStrategy");
 
@@ -41,6 +45,10 @@ app.use(cookieParser());
 app.use("/", authRouter);
 app.use("/", userRouter);
 app.use("/", movieRouter);
+app.use("/", searchRouter);
+app.use("/", castRouter);
+app.use("/", favoriteListRouter);
+app.use("/", recommendRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
