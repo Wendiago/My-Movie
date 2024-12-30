@@ -34,6 +34,7 @@ const searchController = {
         const data = await Movie.find(query)
             .skip(offset)
             .limit(parseInt(limit))
+            .select("title original_title genres vote_average release_date poster_path overview tmdb_id")  
             .exec();
 
         // Đếm tổng số phim theo query
@@ -86,6 +87,7 @@ const searchController = {
         const data = await Movie.find(query)
             .skip(offset)
             .limit(parseInt(limit))
+            .select("title original_title genres vote_average release_date poster_path overview tmdb_id")
             .exec();
 
         // Đếm tổng số phim theo query

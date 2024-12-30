@@ -17,6 +17,7 @@ const movieSchema = new mongoose.Schema({
         name: { type: String },
     }],
     homepage: { type: String }, // Trang web chính thức của phim
+    id: { type: Number }, // ID phim
     imdb_id: { type: String }, // ID phim trên IMDB
     origin_country: [{ type: String }], // Các quốc gia gốc
     original_language: { type: String }, // Ngôn ngữ gốc

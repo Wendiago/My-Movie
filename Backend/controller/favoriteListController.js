@@ -142,43 +142,107 @@ const favoriteListController = {
         }
     }),
 
+    // getAllFavoriteList: catchAsync(async (req, res, next) => {
+    //     const { refreshToken } = req.cookies;
+    
+    //     // 1. Kiểm tra refresh token
+    //     if (!refreshToken) {
+    //         return next(new AppError("You are not logged in.", 401));
+    //     }
+    
+    //     try {
+    //         // Lấy thông tin phiên từ token
+    //         const session = await Session.findOne({ token: refreshToken });
+    
+    //         if (!session) {
+    //             return next(new AppError("You are not logged in.", 401));
+    //         }
+            
+
+    //         const userId = session.userId;
+    
+    //         const {page = 1, limit = 10} = req.query;
+    //         const offset = (page - 1) * limit;
+
+    //         // 2. Tìm danh sách yêu thích của người dùng
+    //         const favorite_list = await favoriteList
+    //             .findOne({ idUser: userId })
+    //             .populate('favoriteList.idMovie')
+    //             .skip(offset)
+    //             .limit(limit);
+    
+    //         if (!favorite_list) {
+    //             return res.status(404).json({
+    //                 success: false,
+    //                 message: "Favorite list not found!",
+    //             });
+    //         }
+    
+    //         const totalMovies = favorite_list.favoriteList.length;
+    //         res.status(200).json({
+    //             success: true,
+    //             message: "Get favorite list successfully!",
+    //             data: favorite_list,
+    //             totalMovies: totalMovies,
+    //             page: parseInt(page),
+    //             totalPage: Math.ceil(favorite_list.favoriteList.length / limit),
+    //         });
+    //     } catch (error) {
+    //         res.status(500).json({ message: error.message });
+    //     }
+    // })
+
     getAllFavoriteList: catchAsync(async (req, res, next) => {
         const { refreshToken } = req.cookies;
     
-        // 1. Kiểm tra refresh token
+        // 1. Validate refresh token
         if (!refreshToken) {
             return next(new AppError("You are not logged in.", 401));
         }
     
         try {
-            // Lấy thông tin phiên từ token
             const session = await Session.findOne({ token: refreshToken });
-    
             if (!session) {
                 return next(new AppError("You are not logged in.", 401));
             }
     
             const userId = session.userId;
     
-            // 2. Tìm danh sách yêu thích của người dùng
-            const favorite_list = await favoriteList
-                .findOne({ idUser: userId })
-                .populate('favoriteList.idMovie');
+            // 2. Validate and parse query parameters
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+
+            const offset = (page - 1) * limit;
     
-            if (!favorite_list) {
+            // 3. Fetch favorite list and total count
+            const favoriteListData = await favoriteList
+                .findOne({ idUser: userId })
+                .populate({
+                    path: 'favoriteList.idMovie',
+                    options: { skip: offset, limit: limit },
+                });
+    
+            if (!favoriteListData) {
                 return res.status(404).json({
                     success: false,
                     message: "Favorite list not found!",
                 });
             }
     
+            const totalMovies = favoriteListData.favoriteList.length;
+            const totalPages = Math.ceil(totalMovies / limit);
+    
+            // 4. Respond with data
             res.status(200).json({
                 success: true,
                 message: "Get favorite list successfully!",
-                data: favorite_list,
+                data: favoriteListData,
+                totalMovies,
+                page,
+                totalPages,
             });
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            return next(new AppError(error.message, 500));
         }
     })
 };
