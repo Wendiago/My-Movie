@@ -2,6 +2,22 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  const sid = request.cookies.get("sid")?.value;
+  if (!sid) {
+    const id = crypto.randomUUID();
+    console.log("Session id: ", id);
+    // @TODO Have to redirect here to ensure cookie is available to root layout
+    const response = NextResponse.redirect(request.url);
+    response.cookies.set("sid", id);
+    return response;
+  }
+
   //console.log("Request: ", request);
   console.log("middleware trigger");
   const accessToken = request.cookies.get("accessToken")?.value;
@@ -58,6 +74,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/",
     "/((?!signup|verify|login|assets|api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\..*|$).*)",
   ],
 };

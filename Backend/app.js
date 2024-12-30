@@ -23,6 +23,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://final-project-smoky-theta.vercel.app",
+      process.env.API_URL,
     ],
     methods: ["GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],

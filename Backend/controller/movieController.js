@@ -39,24 +39,24 @@ const movieController = {
       });
     } catch (error) {
       console.error("Error fetching trending movies:", error);
-      next(error); 
-        
+      next(error);
     }
   }),
 
   getTrendingMoviesWeek: catchAsync(async (req, res, next) => {
     try {
-        const data = await MovieTrendingWeek.find();
+      const data = await MovieTrendingWeek.find();
 
-        return res.status(200).json({
-            success: true,
-            message: "Trending movies week fetched successfully",
-            data: data
-        });
+      const movies = await mapGenresToMovies(data.results);
+
+      return res.status(200).json({
+        success: true,
+        message: "Trending movies week fetched successfully",
+        data: movies,
+      });
     } catch (error) {
       console.error("Error fetching trending movies:", error);
       next(error);
-        
     }
   }),
 

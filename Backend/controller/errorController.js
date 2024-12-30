@@ -3,7 +3,7 @@ const verifyRefreshToken = require("../utils/verifyRefreshToken");
 const { generateAccessToken } = require("../utils/generateTokens");
 
 const handleTokenExpiredError = async (req, res, next) => {
-  console.log("TokenExpiredError 💥");
+  //console.log("TokenExpiredError 💥");
 
   try {
     const { payload, newRefreshToken } = await verifyRefreshToken(
