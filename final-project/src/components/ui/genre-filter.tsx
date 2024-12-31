@@ -27,26 +27,28 @@ export default function GenreFilter() {
     [searchParams]
   );
 
-  const handleGenreSelect = async (genreId: string | null) => {
-    console.log(genreId);
-    router.push(pathName + "?" + createQueryString("genres", genreId));
-  };
+  const handleGenreSelect = useCallback(
+    (genre: string | null) => {
+      console.log(genre);
+      router.push(pathName + "?" + createQueryString("genres", genre));
+    },
+    [createQueryString, pathName, router]
+  );
 
   return (
     <Select
       value={selectValue}
-      onValueChange={(value) => setSelectValue(value)}
+      onValueChange={(value) => {
+        setSelectValue(value);
+        handleGenreSelect(value);
+      }}
     >
       <SelectTrigger className={`w-[120px] bg-background/80 text-foreground border-none pl-4 h-[40px] backdrop-blur-md `}>
         <SelectValue placeholder="Genre" />
       </SelectTrigger>
       <SelectContent>
         {genres?.data?.map((genre: Genre) => (
-          <SelectItem
-            key={genre.id}
-            value={genre.id}
-            onClick={() => handleGenreSelect(genre.id)}
-          >
+          <SelectItem key={genre.id} value={genre.name}>
             {genre.name}
           </SelectItem>
         ))}

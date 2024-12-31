@@ -89,14 +89,16 @@ export default function SearchResults() {
         </div>
       ) : (
         <>
-          <div className="text-background my-8 font-bold text-2xl">
-            Search result for:{" "}
-            <span className="text-primary">&quot;{search}&quot;</span>
+          <div className="flex flex-row my-8 gap-8">
+            <div className="text-background font-bold text-2xl">
+              Search result for:{" "}
+              <span className="text-primary">&quot;{search}&quot;</span>
+            </div>
             <GenreFilter />
           </div>
           <div className="flex flex-wrap gap-4 justify-center">
             {data?.data?.map((movie: Movie) => (
-              <MovieCard key={movie.id} {...movie} />
+              <MovieCard key={movie.tmdb_id} {...movie} />
             ))}
           </div>
 
