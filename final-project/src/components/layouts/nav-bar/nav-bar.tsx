@@ -4,12 +4,11 @@ import { Popcorn } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import SearchBar from "@/components/ui/search-bar";
-import GenreFilter from "./_components/genre-filter";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [selectValue, setSelectValue] = useState("movie");
+  const [selectValue, setSelectValue] = useState("name");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,13 +41,12 @@ export default function NavBar() {
               <SelectValue placeholder="Select query" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="movie">By title</SelectItem>
+              <SelectItem value="name">By title</SelectItem>
               <SelectItem value="cast">By cast</SelectItem>
               <SelectItem value="natural-query">By query</SelectItem>
             </SelectContent>
           </Select>
         </div>
-        <GenreFilter />
         <LogoutButton />
       </div>
     </nav>

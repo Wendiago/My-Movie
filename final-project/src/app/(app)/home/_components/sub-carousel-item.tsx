@@ -15,7 +15,7 @@ export default function SubCarouselItem({ data }: { data: Movie }) {
             className="w-full h-72 rounded-md object-cover object-center"
           ></Image>
           <Badge className="absolute top-0 right-0 rounded-none rounded-tr-md ">
-            {data.vote_average}
+            {data?.vote_average}
           </Badge>
         </div>
         <p className="text-background py-4 text-start">{data.title}</p>

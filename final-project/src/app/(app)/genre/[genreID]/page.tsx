@@ -1,5 +1,4 @@
 import MovieList from "./_components/movie-list";
-import { getMoviesByGenre } from "@/api/movie/movie";
 import { Movie } from "@/types/api";
 
 export default async function GenrePage({
@@ -11,15 +10,15 @@ export default async function GenrePage({
   let movieList: Movie[];
 
   try {
-    const response = await getMoviesByGenre(genreID);
+    // const response = await getMoviesByGenre(genreID);
 
-    if (response.success) {
-      movieList = response.data;
-      console.log(movieList);
-    } else {
-      console.error(response.message);
-      movieList = [];
-    }
+    // if (response.success) {
+    //   movieList = response.data;
+    //   console.log(movieList);
+    // } else {
+    //   console.error(response.message);
+    //   movieList = [];
+    // }
   } catch (error) {
     console.error("Error fetching movie detail:", error);
     movieList = [];

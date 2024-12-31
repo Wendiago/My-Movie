@@ -11,7 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function Page() {
   const todayTrendingMovie = getTodayTrendingMovies();
-  const weeklyTrendingMovies = getWeekTrendingMovies();
+  //const weeklyTrendingMovies = getWeekTrendingMovies();
 
   return (
     <div className="relative flex flex-col min-h-screen w-full">
@@ -71,7 +71,7 @@ export default async function Page() {
                 <Skeleton className="w-full flex justify-center items-center"></Skeleton>
               }
             >
-              <SubCarousel data={weeklyTrendingMovies} />
+              {/*<SubCarousel data={weeklyTrendingMovies} />*/}
             </Suspense>
           </TabsContent>
         </Tabs>

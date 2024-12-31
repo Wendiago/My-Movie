@@ -34,7 +34,7 @@ export default function MovieOverview({
         </p>
       </div>
       <div className="flex items-center gap-2 mb-4">
-        {data.genres.map((genre, index) => (
+        {data?.genres?.map((genre, index) => (
           <Badge variant="outline" key={index}>
             {genre}
           </Badge>

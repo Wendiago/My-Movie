@@ -12,15 +12,17 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useSearchMovies } from "@/api/movie/movie";
+import { useSearchMovies } from "@/api/search/search";
 import { Movie } from "@/types/api";
 import { Skeleton } from "@/components/ui/skeleton";
+import GenreFilter from "@/components/ui/genre-filter";
 
 export default function SearchResults() {
   const router = useRouter();
   const pathName = usePathname();
   const searchParams = useSearchParams();
   const search = searchParams.get("keyword") || "";
+  const type = searchParams.get("type") || "name";
   const page = parseInt(searchParams.get("page") || "1", 10);
 
   const createQueryString = useCallback(
@@ -35,6 +37,7 @@ export default function SearchResults() {
 
   const { data, isLoading, isError, error } = useSearchMovies({
     query: search,
+    searchType: type,
     page,
   });
   console.log("data", data);
@@ -59,7 +62,7 @@ export default function SearchResults() {
     );
   };
 
-  const visiblePages = getVisiblePages(page, data?.total_pages);
+  const visiblePages = getVisiblePages(page, data?.totalPage);
 
   if (isError) {
     return (
@@ -89,6 +92,7 @@ export default function SearchResults() {
           <div className="text-background my-8 font-bold text-2xl">
             Search result for:{" "}
             <span className="text-primary">&quot;{search}&quot;</span>
+            <GenreFilter />
           </div>
           <div className="flex flex-wrap gap-4 justify-center">
             {data?.data?.map((movie: Movie) => (
@@ -106,7 +110,7 @@ export default function SearchResults() {
                       handlePageChange(
                         page > 1
                           ? (page - 1).toString()
-                          : data?.total_pages.toString()
+                          : data?.totalPage.toString()
                       )
                     }
                   />
@@ -127,18 +131,18 @@ export default function SearchResults() {
                   </PaginationLink>
                 </PaginationItem>
               ))}
-              {visiblePages[visiblePages.length - 1] < data?.total_pages && (
+              {visiblePages[visiblePages.length - 1] < data?.totalPage && (
                 <PaginationItem className="bg-foreground text-background">
                   <PaginationEllipsis />
                 </PaginationItem>
               )}
-              {page !== data?.total_pages && (
+              {page !== data?.totalPage && (
                 <PaginationItem className="bg-foreground text-background">
                   <PaginationNext
                     href="#"
                     onClick={() =>
                       handlePageChange(
-                        page < data?.total_pages ? (page + 1).toString() : "1"
+                        page < data?.totalPage ? (page + 1).toString() : "1"
                       )
                     }
                   />

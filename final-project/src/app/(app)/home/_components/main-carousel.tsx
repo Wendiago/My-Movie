@@ -46,7 +46,7 @@ export default function MainCarousel({
               </CarouselItem>
             ))
           : // Render actual movie data
-            movies.map((movie, index) => (
+            movies?.map((movie, index) => (
               <CarouselItem key={index} className="relative">
                 <Image
                   src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}${movie.backdrop_path}`}

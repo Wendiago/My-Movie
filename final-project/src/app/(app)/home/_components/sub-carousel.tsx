@@ -44,7 +44,7 @@ export default function SubCarousel({ carouselName, data }: SubCarouselProps) {
                 </CarouselItem>
               ))
             : // Render actual data items
-              movies.map((movie, index) => (
+              movies?.map((movie, index) => (
                 <CarouselItem
                   key={index}
                   className="md:basis-1/3 lg:basis-1/5 pl-2 cursor-pointer"

@@ -22,25 +22,6 @@ export const searchMovie = async ({
   return response;
 };
 
-const searchMovieKey = (query: string, page: number) => [
-  "searchMovie",
-  { query, page },
-];
-
-export const useSearchMovies = ({
-  query,
-  page = 1,
-}: {
-  query: string;
-  page?: number;
-}) => {
-  return useQuery({
-    queryKey: searchMovieKey(query, page),
-    queryFn: () => searchMovie({ query, page }),
-    enabled: !!query,
-  });
-};
-
 // Get today trending movie
 export const getTodayTrendingMovies =
   async (): Promise<GetTrendingMoviesResponse> => {
@@ -78,36 +59,5 @@ export const useMovieDetail = (movieID: string) => {
   return useQuery({
     queryKey: ["getMovieDetail"],
     queryFn: () => getMovieDetail(movieID),
-  });
-};
-
-// Get genres
-export const getGenres = async (): Promise<any> => {
-  const response = await customFetch.get("/api/v1/genres");
-  return response;
-};
-
-export const useGenres = () => {
-  return useQuery({
-    queryKey: ["getGenres"],
-    queryFn: () => getGenres(),
-  });
-};
-
-// Get movies by genre
-export const getMoviesByGenre = async (genreId: string): Promise<any> => {
-  if (!genreId) {
-    throw new Error("Genre ID is required.");
-  }
-
-  const response = await customFetch.get(`/api/v1/movies/genre/${genreId}`);
-  return response;
-};
-
-export const useMoviesByGenre = (genreId: string) => {
-  return useQuery({
-    queryKey: ["getMoviesByGenre", genreId],
-    queryFn: () => getMoviesByGenre(genreId),
-    enabled: !!genreId,
   });
 };
