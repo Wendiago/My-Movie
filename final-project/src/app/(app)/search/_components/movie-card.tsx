@@ -9,9 +9,9 @@ export default function MovieCard(movie: Movie) {
   return (
     <div
       onClick={() => {
-        router.push(paths.details.getHref(movie.id.toString()));
+        router.push(paths.details.getHref(movie.tmdb_id.toString()));
       }}
-      key={movie.id}
+      key={movie.tmdb_id}
       className="group cursor-pointer flex flex-col items-center max-w-full w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1rem)] hover:shadow-md p-0 border-none rounded-sm"
     >
       <Image

@@ -17,7 +17,7 @@ export default function TrendingCarouselItem({ data }: { data: Movie }) {
             blurDataURL="./placeholder.jpeg"
           ></Image>
           <Badge className="absolute top-0 right-0 rounded-none rounded-tr-md ">
-            {data.vote_average}
+            {data?.vote_average}
           </Badge>
         </div>
         <p className="text-background py-4 text-start">{data.title}</p>
