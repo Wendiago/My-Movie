@@ -23,6 +23,7 @@ export default function SearchResults() {
   const searchParams = useSearchParams();
   const search = searchParams.get("keyword") || "";
   const type = searchParams.get("type") || "name";
+  const genres = searchParams.get("genres") || "";
   const page = parseInt(searchParams.get("page") || "1", 10);
 
   const createQueryString = useCallback(
@@ -38,6 +39,7 @@ export default function SearchResults() {
   const { data, isLoading, isError, error } = useSearchMovies({
     query: search,
     searchType: type,
+    genres: genres,
     page,
   });
   console.log("data", data);

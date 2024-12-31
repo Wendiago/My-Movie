@@ -15,7 +15,7 @@ export default function GenreFilter() {
   const pathName = usePathname();
   const searchParams = useSearchParams();
   const { data: genres } = useGenres();
-  const [selectValue, setSelectValue] = useState("");
+  const [selectValue, setSelectValue] = useState(searchParams.get("genres") || "");
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -29,7 +29,6 @@ export default function GenreFilter() {
 
   const handleGenreSelect = useCallback(
     (genre: string | null) => {
-      console.log(genre);
       router.push(pathName + "?" + createQueryString("genres", genre));
     },
     [createQueryString, pathName, router]
