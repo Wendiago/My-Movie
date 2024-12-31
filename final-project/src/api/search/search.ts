@@ -7,15 +7,15 @@ export const searchMovie = async ({
   searchType = "name",
   genres,
   rating,
-  release_date,
+  release_year,
   page = 1,
   limit = 20,
 }: {
   query: string;
   searchType?: string;
   genres?: string;
-  rating?: number;
-  release_date?: string;
+  rating?: string;
+  release_year?: string;
   page?: number;
   limit?: number;
 }): Promise<any> => {
@@ -24,7 +24,7 @@ export const searchMovie = async ({
   }
 
   const response = await customFetch.get(`/api/v1/search/movie/${searchType}`, {
-    params: { search: query, genres, rating, release_date, page, limit },
+    params: { search: query, genres, rating, release_year, page, limit },
   });
 
   return response;
@@ -35,18 +35,18 @@ const searchMovieKey = ({
   searchType,
   genres,
   rating,
-  release_date,
+  release_year,
   page,
 }: {
   query: string;
   searchType?: string;
   genres?: string;
   rating?: string;
-  release_date?: string;
+  release_year?: string;
   page?: number;
 }) => [
   "searchMovie",
-  { query, searchType, genres, rating, release_date, page },
+  { query, searchType, genres, rating, release_year, page },
 ];
 
 export const useSearchMovies = ({
@@ -54,7 +54,7 @@ export const useSearchMovies = ({
   searchType = "name",
   genres,
   rating,
-  release_date,
+  release_year,
   page = 1,
   limit = 20,
 }: {
@@ -62,7 +62,7 @@ export const useSearchMovies = ({
   searchType?: string;
   genres?: string;
   rating?: string;
-  release_date?: string;
+  release_year?: string;
   page?: number;
   limit?: number;
 }) => {
@@ -72,11 +72,11 @@ export const useSearchMovies = ({
       searchType,
       genres,
       rating,
-      release_date,
+      release_year,
       page,
     }),
     queryFn: () =>
-      searchMovie({ query, searchType, genres, rating, release_date, page, limit }),
+      searchMovie({ query, searchType, genres, rating, release_year, page, limit }),
     enabled: !!query,
   });
 };

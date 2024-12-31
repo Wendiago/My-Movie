@@ -8,7 +8,7 @@ export default function ReleaseDateFilter() {
   const router = useRouter();
   const pathName = usePathname();
   const searchParams = useSearchParams();
-  const [selectValue, setSelectValue] = useState(searchParams.get("release_date") || "");
+  const [selectValue, setSelectValue] = useState(searchParams.get("release_year") || "");
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -22,7 +22,7 @@ export default function ReleaseDateFilter() {
 
   const handleYearSelect = useCallback(
     (year: string | null) => {
-      router.push(pathName + "?" + createQueryString("release_date", year));
+      router.push(pathName + "?" + createQueryString("release_year", year));
     },
     [createQueryString, pathName, router]
   );
