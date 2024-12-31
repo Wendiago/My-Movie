@@ -16,6 +16,8 @@ import { useSearchMovies } from "@/api/search/search";
 import { Movie } from "@/types/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import GenreFilter from "@/components/ui/genre-filter";
+import RatingFilter from "@/components/ui/rating-filter";
+import ReleaseDateFilter from "@/components/ui/release-date-filter";
 
 export default function SearchResults() {
   const router = useRouter();
@@ -24,6 +26,8 @@ export default function SearchResults() {
   const search = searchParams.get("keyword") || "";
   const type = searchParams.get("type") || "name";
   const genres = searchParams.get("genres") || "";
+  const rating = searchParams.get("rating") || "";
+  const release_date = searchParams.get("release_date") || "";
   const page = parseInt(searchParams.get("page") || "1", 10);
 
   const createQueryString = useCallback(
@@ -40,15 +44,14 @@ export default function SearchResults() {
     query: search,
     searchType: type,
     genres: genres,
+    rating: rating,
+    release_date: release_date,
     page,
   });
   console.log("data", data);
 
   const handlePageChange = (newPage: string) => {
     router.push(pathName + "?" + createQueryString("page", newPage));
-    // const query = new URLSearchParams(searchParams);
-    // query.set("page", newPage);
-    // router.push(`?${query.toString()}`);
   };
 
   const getVisiblePages = (currentPage: number, total?: number) => {
@@ -91,12 +94,16 @@ export default function SearchResults() {
         </div>
       ) : (
         <>
-          <div className="flex flex-row my-8 gap-8">
+          <div className="flex flex-row my-8 gap-16">
             <div className="text-background font-bold text-2xl">
               Search result for:{" "}
               <span className="text-primary">&quot;{search}&quot;</span>
             </div>
-            <GenreFilter />
+            <div className="flex flex-row gap-1">
+              <GenreFilter />
+              <RatingFilter />
+              <ReleaseDateFilter />
+            </div>
           </div>
           <div className="flex flex-wrap gap-4 justify-center">
             {data?.data?.map((movie: Movie) => (

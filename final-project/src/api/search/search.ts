@@ -41,7 +41,7 @@ const searchMovieKey = ({
   query: string;
   searchType?: string;
   genres?: string;
-  rating?: number;
+  rating?: string;
   release_date?: string;
   page?: number;
 }) => [
@@ -61,7 +61,7 @@ export const useSearchMovies = ({
   query: string;
   searchType?: string;
   genres?: string;
-  rating?: number;
+  rating?: string;
   release_date?: string;
   page?: number;
   limit?: number;
