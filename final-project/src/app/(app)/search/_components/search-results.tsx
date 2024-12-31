@@ -27,7 +27,7 @@ export default function SearchResults() {
   const type = searchParams.get("type") || "name";
   const genres = searchParams.get("genres") || "";
   const rating = searchParams.get("rating") || "";
-  const release_date = searchParams.get("release_date") || "";
+  const release_year = searchParams.get("release_year") || "";
   const page = parseInt(searchParams.get("page") || "1", 10);
 
   const createQueryString = useCallback(
@@ -45,7 +45,7 @@ export default function SearchResults() {
     searchType: type,
     genres: genres,
     rating: rating,
-    release_date: release_date,
+    release_year: release_year,
     page,
   });
   console.log("data", data);
