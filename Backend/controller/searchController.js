@@ -4,9 +4,10 @@ const Movie = require("../models/movies");
 const searchController = {
   searchMovieByName: catchAsync(async (req, res, next) => {
     try {
-        const { genres, rating, release_date, page = 1, limit = 10 } = req.query;
+        const { genres, rating, release_year, page = 1, limit = 10 } = req.query;
         const keyWordSearch = req.query.search;
 
+        console.log("keyWordSearch", release_year);
         const offset = (page - 1) * limit;
 
         const query = {};
@@ -19,8 +20,8 @@ const searchController = {
             query.vote_average = { $gte: parseFloat(rating) };
         }
 
-        if (release_date) {
-            query.release_date = release_date;
+        if (release_year) {
+            query.release_date = { $regex: `^${release_year}` };
         }
 
         if (keyWordSearch) {
@@ -57,7 +58,7 @@ const searchController = {
 
   searchMovieByCast: catchAsync(async (req, res, next) => {
     try {
-        const { genres, rating, release_date, page = 1, limit = 10 } = req.query;
+        const { genres, rating, release_year, page = 1, limit = 10 } = req.query;
         const keyWordSearch = req.query.search;
 
         const offset = (page - 1) * limit;
@@ -72,8 +73,8 @@ const searchController = {
             query.vote_average = { $gte: parseFloat(rating) };
         }
 
-        if (release_date) {
-            query.release_date = release_date;
+        if (release_year) {
+            query.release_date = { $regex: `^${release_year}` };
         }
 
         if (keyWordSearch) {
