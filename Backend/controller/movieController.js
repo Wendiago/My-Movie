@@ -30,34 +30,37 @@ const mapGenresToMovies = async (movies) => {
 const movieController = {
   getDetailMovieById: catchAsync(async (req, res, next) => {
     try {
-        const { idMovie } = req.params;
-        const data = await Movie.findOne({ tmdb_id: idMovie})
-                .select("tmdb_id credits backdrop_path genres overview poster_path release_date runtime title vote_average vote_count");
+      const { idMovie } = req.params;
+      const data = await Movie.findOne({ tmdb_id: idMovie }).select(
+        "tmdb_id credits backdrop_path genres overview poster_path release_date runtime title vote_average vote_count"
+      );
 
-        const reviews = await CustomApi(`movie/${idMovie}/reviews`);
-        const videos = await CustomApi(`movie/${idMovie}/videos`);
-        const recommendations = await CustomApi(`movie/${idMovie}/recommendations`);
-        return res.status(200).json({
-            success: true,
-            message: "Detail movie fetched successfully",
-            data: data,
-            reviews: reviews.results,
-            videos: videos.results,
-            recommendations: recommendations.results
-        });
+      const reviews = await CustomApi(`movie/${idMovie}/reviews`);
+      const videos = await CustomApi(`movie/${idMovie}/videos`);
+      const recommendations = await CustomApi(
+        `movie/${idMovie}/recommendations`
+      );
+      return res.status(200).json({
+        success: true,
+        message: "Detail movie fetched successfully",
+        data: data,
+        reviews: reviews.results,
+        videos: videos.results,
+        recommendations: recommendations.results,
+      });
     } catch (error) {
-        console.error("Error fetching detail movie:", error);
-        next(error);
+      console.error("Error fetching detail movie:", error);
+      next(error);
     }
-}),
+  }),
 
   getTrendingMoviesDay: catchAsync(async (req, res, next) => {
     try {
-      const data = await MovieTrendingDay.find();
+      const data = await MovieTrendingDay.find().limit(15);
       return res.status(200).json({
-          success: true,
-          message: "Trending movies day fetched successfully",
-          data: data
+        success: true,
+        message: "Trending movies day fetched successfully",
+        data: data,
       });
     } catch (error) {
       console.error("Error fetching trending movies:", error);
@@ -67,14 +70,14 @@ const movieController = {
 
   getTrendingMoviesWeek: catchAsync(async (req, res, next) => {
     try {
-      const data = await MovieTrendingWeek.find();
+      const data = await MovieTrendingWeek.find().limit(15);
 
-      const movies = await mapGenresToMovies(data.results);
+      //const movies = await mapGenresToMovies(data.results);
 
       return res.status(200).json({
         success: true,
         message: "Trending movies week fetched successfully",
-        data: movies,
+        data: data,
       });
     } catch (error) {
       console.error("Error fetching trending movies:", error);
@@ -84,18 +87,17 @@ const movieController = {
 
   getAllGenres: catchAsync(async (req, res, next) => {
     try {
-        const genres = await Genre.find();
-        console.log("genres", genres);
+      const genres = await Genre.find();
+      console.log("genres", genres);
 
-        res.status(200).json({
-          success: true,
-          message: "Get All genres successfully",
-          data: genres
-        });
-      
+      res.status(200).json({
+        success: true,
+        message: "Get All genres successfully",
+        data: genres,
+      });
     } catch (error) {
-        console.error('Error fetching genres:', error);
-        throw error;
+      console.error("Error fetching genres:", error);
+      throw error;
     }
   }),
 };
