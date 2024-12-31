@@ -70,6 +70,8 @@ async function fetchApi<T>(
     params
   );
 
+  console.log("Api called: ", fullUrl);
+
   const response = await fetch(fullUrl, {
     ...otherOptions,
     method,
@@ -88,7 +90,7 @@ async function fetchApi<T>(
   if (!response.ok) {
     const message = (await response.json()).message || response.statusText;
     if (typeof window !== "undefined") {
-      //throw notification box
+      //dosth
     }
     throw new Error(message);
   }

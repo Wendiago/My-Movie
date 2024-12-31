@@ -1,5 +1,10 @@
 import { customFetch } from "@/lib/api-client";
-import { GetTrendingMoviesResponse } from "@/types/api";
+import {
+  GetAllGenresResponse,
+  GetMovieDetailResponse,
+  GetTrendingMoviesResponse,
+} from "@/types/api";
+
 import { useQuery } from "@tanstack/react-query";
 
 // Search movie
@@ -44,8 +49,11 @@ export const useSearchMovies = ({
 // Get today trending movie
 export const getTodayTrendingMovies =
   async (): Promise<GetTrendingMoviesResponse> => {
-    const response = await customFetch.get("/api/v1/trending/movie/day", {});
-    return response as Promise<GetTrendingMoviesResponse>;
+    const response = customFetch.get<GetTrendingMoviesResponse>(
+      "/api/v1/trending/movie/day",
+      { cache: "force-cache" }
+    );
+    return response;
   };
 
 export const useTodayTrendingMovies = () => {
@@ -56,8 +64,20 @@ export const useTodayTrendingMovies = () => {
 };
 
 // Get this week trending movie
-export const getWeekTrendingMovies = async (): Promise<any> => {
-  const response = await customFetch.get("/api/v1/trending/movie/week", {});
+export const getWeekTrendingMovies =
+  async (): Promise<GetTrendingMoviesResponse> => {
+    const response = customFetch.get<GetTrendingMoviesResponse>(
+      "/api/v1/trending/movie/week",
+      { cache: "force-cache" }
+    );
+    return response;
+  };
+
+//Get all genres
+export const getAllGenres = async (): Promise<GetAllGenresResponse> => {
+  const response = customFetch.get<GetAllGenresResponse>("/api/v1/genres", {
+    cache: "force-cache",
+  });
   return response;
 };
 
@@ -69,8 +89,13 @@ export const useWeekTrendingMovies = () => {
 };
 
 //Get movie detail
-export const getMovieDetail = async (movieID: string): Promise<any> => {
-  const response = await customFetch.get(`/api/v1/detail/movie/${movieID}`);
+export const getMovieDetail = async (
+  movieID: string
+): Promise<GetMovieDetailResponse> => {
+  const response = customFetch.get<GetMovieDetailResponse>(
+    `/api/v1/detail/movie/${movieID}`,
+    { cache: "force-cache" }
+  );
   return response;
 };
 
