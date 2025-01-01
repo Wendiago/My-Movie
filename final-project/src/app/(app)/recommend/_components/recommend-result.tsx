@@ -90,8 +90,8 @@ export default function RecommendResults() {
         </div>
       ) : (
         <>
-          <div className="flex flex-row my-8 gap-16">
-            <div className="text-background font-bold text-2xl pl-2">
+          <div className="flex justify-between my-8 pl-2 pr-2 gap-16">
+            <div className="text-background font-bold text-2xl">
               <span className="text-primary">Recommendations</span>
             </div>
             <div className="flex flex-row gap-1">
