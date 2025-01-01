@@ -22,7 +22,7 @@ const recommendController = {
                 return next(new AppError("You are not logged in.", 401));
             }
 
-            const { genres, rating, release_date, page = 1, limit = 10 } = req.query;
+            const { genres, rating, release_year, page = 1, limit = 10 } = req.query;
 
             const offset = (page - 1) * limit;
 
@@ -39,8 +39,8 @@ const recommendController = {
                 query.vote_average = { $gte: parseFloat(rating) }; // lọc theo rating
             }
 
-            if (release_date) {
-                query.release_date = { $gte: release_date }; // lọc theo ngày phát hành (ví dụ, >= ngày được cung cấp)
+            if (release_year) {
+                query.release_date = { $regex: `^${release_year}` };
             }
 
             if (!favorite_list) {
