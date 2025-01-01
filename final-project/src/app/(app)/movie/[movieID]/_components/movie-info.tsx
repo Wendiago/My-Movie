@@ -1,4 +1,5 @@
-"use-client";
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -7,6 +8,7 @@ import { ChevronRight, Play, Star } from "lucide-react";
 import Image from "next/image";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { use } from "react";
+import { useRouter } from "next/navigation";
 
 export default function MovieInfo({
   data,
@@ -18,6 +20,7 @@ export default function MovieInfo({
     ?.slice()
     .sort((a, b) => a.order - b.order)
     .slice(0, 10);
+  const router = useRouter();
   const leftLayerStyle = {
     backgroundImage:
       "linear-gradient(270deg, rgba(17, 19, 25, 0) 0%, rgba(17, 19, 25, 0.05) 16%, rgba(17, 19, 25, 0.2) 30%, rgba(17, 19, 25, 0.39) 43%, rgba(17, 19, 25, 0.61) 55%, rgba(17, 19, 25, 0.8) 68%, rgba(17, 19, 25, 0.95) 82%, rgb(17, 19, 25) 98%)",
@@ -27,31 +30,17 @@ export default function MovieInfo({
       "linear-gradient(179deg, rgba(17, 19, 25, 0) 1%, rgba(17, 19, 25, 0.05) 17%, rgba(17, 19, 25, 0.2) 31%, rgba(17, 19, 25, 0.39) 44%, rgba(17, 19, 25, 0.61) 56%, rgba(17, 19, 25, 0.8) 69%, rgba(17, 19, 25, 0.95) 83%, rgb(17, 19, 25) 99%)",
   };
 
-  const validImageUrl = (url: string | null | undefined) => {
-    if (!url) return false;
-    return true;
-  };
-  return (
+  return movieDetail ? (
     <>
       <div className="flex w-full min-h-screen relative">
         <div className="overflow-hidden absolute top-0 right-0 w-[70.84%] h-full">
-          {validImageUrl(movieDetail.backdrop_path) ? (
-            <Image
-              src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${movieDetail.backdrop_path}`}
-              alt={movieDetail.title}
-              height={576}
-              width={1000}
-              className="object-cover w-full h-full"
-            />
-          ) : (
-            <Image
-              className="w-full h-full object-cover"
-              src="/placeholder.jpeg"
-              alt="placeholder"
-              height={576}
-              width={1000}
-            ></Image>
-          )}
+          <Image
+            src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${movieDetail.backdrop_path}`}
+            alt={movieDetail.title}
+            height={576}
+            width={1000}
+            className="object-cover w-full h-full"
+          />
           <div
             className="left-layer absolute h-full w-[28%] bottom-0"
             style={leftLayerStyle}
@@ -128,31 +117,39 @@ export default function MovieInfo({
         <p className="text-background font-semibold text-xl mb-3">
           Top Billed Cast
         </p>
-        <ScrollArea className="w-full whitespace-nowrap ">
-          <div className="flex gap-4 w-max pr-8 pb-6">
-            {partialCast.map((cast, index) => (
-              <div key={index} className="rounded-md">
-                <Image
-                  src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w185${cast.profile_path}`}
-                  alt={cast.name}
-                  width="138"
-                  height="175"
-                  className="rounded-t-md w-[200px] h-[237px]"
-                ></Image>
-                <div className="flex-col gap-1 text-background justify-center items-center p-3">
-                  <p className="text-center font-bold">{cast.name}</p>
-                  <p className="text-center">{cast.character}</p>
+        <div className="w-full pr-16">
+          <ScrollArea className="w-full">
+            <div className="flex gap-4 w-max pr-8 pb-8">
+              {partialCast.map((cast, index) => (
+                <div
+                  key={index}
+                  className="rounded-md cursor-pointer w-[145px]"
+                  onClick={() => router.push(`/person/${cast.id}`)}
+                >
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w185${cast.profile_path}`}
+                    alt={cast.name}
+                    width="145"
+                    height="182"
+                    className="rounded-t-md w-full h-auto"
+                  ></Image>
+                  <div className="flex-col gap-1 text-background justify-center items-center p-3 w-full h-[6rem]">
+                    <p className="w-full font-bold leading-6">{cast.name}</p>
+                    <p className="w-full leading-6 text-sm">{cast.character}</p>
+                  </div>
                 </div>
+              ))}
+              <div className="flex text-background items-center justify-center font-bold cursor-pointer">
+                View full
+                <ChevronRight />
               </div>
-            ))}
-            <div className="flex text-background items-center justify-center font-bold cursor-pointer">
-              View full
-              <ChevronRight />
             </div>
-          </div>
-          <ScrollBar orientation="horizontal"></ScrollBar>
-        </ScrollArea>
+            <ScrollBar orientation="horizontal"></ScrollBar>
+          </ScrollArea>
+        </div>
       </div>
     </>
+  ) : (
+    <div>Somethingwrong</div>
   );
 }

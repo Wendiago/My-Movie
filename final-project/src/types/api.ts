@@ -184,3 +184,9 @@ export type GetMovieDetailResponse = {
   videos: any;
   recommendations: any;
 };
+
+export type GetCastByIDResponse = {
+  success: boolean;
+  message: string;
+  data: People;
+};

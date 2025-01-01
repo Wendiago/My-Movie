@@ -23,6 +23,9 @@ export default function MovieOverview({
       <h1 className="md:text-[2rem] lg:text-[4rem] font-extrabold text-background line-clamp-2">
         {data.title}
       </h1>
+      <div className="text-background pb-4">
+        <Badge variant="outline">{data.media_type}</Badge>
+      </div>
       <div className="flex items-center gap-2 h-4 mb-4">
         <div className="flex items-center gap-1">
           <Star className="text-yellow-500 fill-yellow-500" />
