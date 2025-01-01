@@ -31,6 +31,9 @@ export default function NavBar() {
           <Popcorn className="text-primary size-8" />
           <p className="font-bold text-primary">WENDIAGO MOVIE</p>
         </Link>
+        <Link href="/recommend" className="flex gap-1 text-2xl">
+          <p className="font-bold text-primary">For You</p>
+        </Link>
         <div className="flex flex-row min-w-[400px] gap-1">
           <SearchBar searchType={selectValue}/>
           <Select
