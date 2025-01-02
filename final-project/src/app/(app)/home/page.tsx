@@ -17,7 +17,7 @@ export default async function Page() {
     <div className="relative flex flex-col min-h-screen w-full">
       <Suspense
         fallback={
-          <Skeleton className="w-full min-h-screen flex justify-center items-center bg-background"></Skeleton>
+          <Skeleton className="w-full min-h-screen flex justify-center items-center"></Skeleton>
         }
       >
         <MainCarousel data={todayTrendingMovies} />
@@ -29,7 +29,7 @@ export default async function Page() {
             <p className="ml-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600 font-bold text-2xl animate-fire-flicker">
               TRENDING
             </p>
-            <TabsList className="grid grid-cols-2 max-w-[30%] bg-foreground">
+            <TabsList className="grid grid-cols-2 max-w-[30%] bg-transparent">
               <TabsTrigger
                 value="Today"
                 className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"

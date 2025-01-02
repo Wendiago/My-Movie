@@ -78,7 +78,7 @@ export default function SearchResults() {
   }
 
   return (
-    <div className="container min-h-screen mx-auto px-4 max-w-screen-lg">
+    <div className="px-16 min-h-screen mx-auto w-full">
       {isLoading ? (
         <div className="flex flex-wrap gap-4 justify-center mt-16">
           {Array.from({ length: 20 }).map((_, index) => (

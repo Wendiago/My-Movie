@@ -16,6 +16,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import CustomImage from "@/components/ui/customImage";
 
 const TooltipArrow = TooltipPrimitive.Arrow;
 export default function MovieInfo({
@@ -172,13 +173,13 @@ export default function MovieInfo({
                   className="rounded-md cursor-pointer w-[145px]"
                   onClick={() => router.push(`/person/${cast.id}`)}
                 >
-                  <Image
+                  <CustomImage
                     src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w185${cast.profile_path}`}
                     alt={cast.name}
                     width="145"
-                    height="182"
-                    className="rounded-t-md w-full h-auto"
-                  ></Image>
+                    height="217"
+                    className="rounded-t-md w-full h-[217px]"
+                  />
                   <div className="flex-col gap-1 text-background justify-center items-center p-3 w-full h-[6rem]">
                     <p className="w-full font-bold leading-6">{cast.name}</p>
                     <p className="w-full leading-6 text-sm">{cast.character}</p>

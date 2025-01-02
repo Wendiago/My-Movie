@@ -38,12 +38,13 @@ export default function RecommendResults() {
     [searchParams]
   );
 
-  const { data, isLoading, isError, error } = useRecommendationBasedFavoriteList({
-    genres: genres,
-    rating: rating,
-    release_year: release_year,
-    page,
-  });
+  const { data, isLoading, isError, error } =
+    useRecommendationBasedFavoriteList({
+      genres: genres,
+      rating: rating,
+      release_year: release_year,
+      page,
+    });
   console.log("data", data);
 
   const handlePageChange = (newPage: string) => {
@@ -74,7 +75,7 @@ export default function RecommendResults() {
   }
 
   return (
-    <div className="container min-h-screen mx-auto px-4 max-w-screen-lg">
+    <div className="min-h-screen mx-auto px-16 w-full">
       {isLoading ? (
         <div className="flex flex-wrap gap-4 justify-center mt-16">
           {Array.from({ length: 20 }).map((_, index) => (

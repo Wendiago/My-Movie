@@ -104,11 +104,26 @@ const config: Config = {
               "0 0 5px rgba(255, 0, 0, 0.8), 0 0 10px rgba(255, 69, 0, 0.8)",
           },
         },
+        glow: {
+          "0%": {
+            textShadow:
+              "0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.5)",
+          },
+          "50%": {
+            textShadow:
+              "0 0 20px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.7)",
+          },
+          "100%": {
+            textShadow:
+              "0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.5)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fire-flicker": "fireFlicker 1.5s infinite",
+        glowing: "glow 1.5s ease-in-out infinite",
       },
     },
     darkMode: ["class"],
