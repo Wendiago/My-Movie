@@ -1,15 +1,23 @@
 "use client";
 
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { GetMovieDetailResponse, Movie } from "@/types/api";
-import { ChevronRight, Play, Star } from "lucide-react";
+import { GetMovieDetailResponse } from "@/types/api";
+import { Bookmark, ChevronRight, Heart, List, Star } from "lucide-react";
 import Image from "next/image";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { use } from "react";
 import { useRouter } from "next/navigation";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
+const TooltipArrow = TooltipPrimitive.Arrow;
 export default function MovieInfo({
   data,
 }: {
@@ -32,7 +40,7 @@ export default function MovieInfo({
 
   return movieDetail ? (
     <>
-      <div className="flex w-full min-h-screen relative">
+      <div className="flex w-full relative">
         <div className="overflow-hidden absolute top-0 right-0 w-[70.84%] h-full">
           <Image
             src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${movieDetail.backdrop_path}`}
@@ -87,8 +95,8 @@ export default function MovieInfo({
                 {movieDetail.runtime} {""}min
               </p>
               <p className="text-background">
-                <span className="text-textGrey">Budget: {""}</span>$
-                {movieDetail.budget}
+                <span className="text-textGrey">Budget: {""}</span>
+                {movieDetail.budget ? `$${movieDetail.budget}` : "-"}
               </p>
               <p className="text-background">
                 <span className="text-textGrey">
@@ -96,17 +104,55 @@ export default function MovieInfo({
                 </span>
                 {movieDetail.production_companies?.map(
                   (productionCompany) => productionCompany.name + ", "
-                )}
+                ) || "-"}
               </p>
               {/* add to prevent overflow max-h-[63px] line-clamp-2 */}
               <p className="text-background">
                 <span className="text-textGrey">Overview: {""}</span>
                 {movieDetail.overview}
               </p>
-              <div>
-                <Button className="flex justify-center items-center gap-2 ">
-                  <Play /> Play trailer
-                </Button>
+              <div className="flex gap-6">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button className="flex justify-center items-center rounded-full w-12 h-12">
+                        <List />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Add to your playlist</p>
+                      <TooltipArrow className="fill-primary"></TooltipArrow>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button className="flex justify-center items-center rounded-full w-12 h-12">
+                        <Heart />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Add to your favourite</p>
+                      <TooltipArrow className="fill-primary"></TooltipArrow>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button className="flex justify-center items-center rounded-full w-12 h-12">
+                        <Bookmark />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Add to your watchlist</p>
+                      <TooltipArrow className="fill-primary"></TooltipArrow>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
           </div>
@@ -139,7 +185,12 @@ export default function MovieInfo({
                   </div>
                 </div>
               ))}
-              <div className="flex text-background items-center justify-center font-bold cursor-pointer">
+              <div
+                className="flex text-background items-center justify-center font-bold cursor-pointer"
+                onClick={() =>
+                  router.push(`/movie/${movieDetail.tmdb_id}/cast`)
+                }
+              >
                 View full
                 <ChevronRight />
               </div>
@@ -150,6 +201,8 @@ export default function MovieInfo({
       </div>
     </>
   ) : (
-    <div>Somethingwrong</div>
+    <div className="text-background flex justify-center items-center flex-1">
+      Something is wrong. Please go back
+    </div>
   );
 }
