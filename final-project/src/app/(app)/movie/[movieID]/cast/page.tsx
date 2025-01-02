@@ -1,16 +1,16 @@
 import { Suspense } from "react";
+import CastInfo from "../_components/cast-info";
 import { getMovieDetail } from "@/api/movie/movie";
-import MovieInfo from "./_components/movie-info";
+
 export default async function page({
   params,
 }: {
   params: Promise<{ movieID: string }>;
 }) {
   const movieID = (await params).movieID;
-  const movieDetailResponse = getMovieDetail(movieID);
-
+  const movieInfo = getMovieDetail(movieID);
   return (
-    <div className="pl-16 w-full flex flex-col bg-foreground pb-60">
+    <div className="w-full bg-foreground mt-[72px] flex flex-col flex-1">
       <Suspense
         fallback={
           <div className="w-full h-screen flex items-center justify-center bg-foreground">
@@ -18,7 +18,7 @@ export default async function page({
           </div>
         }
       >
-        <MovieInfo data={movieDetailResponse} />
+        <CastInfo data={movieInfo} />
       </Suspense>
     </div>
   );

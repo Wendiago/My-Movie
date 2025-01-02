@@ -8,7 +8,7 @@ export default function TrendingCarouselItem({ data }: { data: Movie }) {
       <div className="flex flex-col justify-center items-center bg-transparent rounded-md">
         <div className="rounded-md relative">
           <Image
-            src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}${data.poster_path}`}
+            src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${data.poster_path}`}
             alt="sub-carousel"
             width={250}
             height={288}

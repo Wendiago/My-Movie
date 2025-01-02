@@ -110,8 +110,8 @@ export type People = {
   adult: boolean; // Indicates if the person is marked as an adult
   also_known_as?: string[]; // List of alternate names
   biography?: string; // Biography text
-  birthday?: Date; // Birthdate
-  deathday?: Date | null; // Death date (if applicable)
+  birthday?: string; // Birthdate
+  deathday?: string | null; // Death date (if applicable)
   gender: number; // Gender (0: Unknown, 1: Female, 2: Male)
   homepage?: string; // Homepage URL
   id: number; // Person's ID
@@ -126,7 +126,7 @@ export type People = {
       adult?: boolean; // Whether the cast member is marked as adult
       backdrop_path?: string | null; // Backdrop image path
       genre_ids?: number[]; // List of genre IDs
-      id?: number; // Movie ID
+      id?: number; //cast id
       original_language?: string; // Original language of the movie
       original_title?: string; // Original title of the movie
       overview?: string; // Overview of the movie
@@ -183,4 +183,10 @@ export type GetMovieDetailResponse = {
   reviews: any;
   videos: any;
   recommendations: any;
+};
+
+export type GetCastByIDResponse = {
+  success: boolean;
+  message: string;
+  data: People;
 };
