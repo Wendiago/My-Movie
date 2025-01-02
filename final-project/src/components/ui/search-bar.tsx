@@ -5,9 +5,9 @@ import Form from "next/form";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
-export default function SearchBar() {
+export default function SearchBar({ searchType } : { searchType: string }) {
   const [searchTerm, setSearchTerm] = useState("");
-
+  
   const handleSearchClick = () => {
     if (searchTerm.trim()) {
       const form = document.getElementById("searchForm") as HTMLFormElement;
@@ -31,6 +31,7 @@ export default function SearchBar() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+      <Input type="hidden" name="type" value={searchType} />
       <Search
         onClick={handleSearchClick}
         className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer opacity-50 w-4 h-4 text-foreground"

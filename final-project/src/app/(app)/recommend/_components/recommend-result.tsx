@@ -12,19 +12,17 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useSearchMovies } from "@/api/search/search";
+import { useRecommendationBasedFavoriteList } from "@/api/recommend/recommend";
 import { Movie } from "@/types/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import GenreFilter from "@/components/ui/genre-filter";
 import RatingFilter from "@/components/ui/rating-filter";
 import ReleaseDateFilter from "@/components/ui/release-date-filter";
 
-export default function SearchResults() {
+export default function RecommendResults() {
   const router = useRouter();
   const pathName = usePathname();
   const searchParams = useSearchParams();
-  const search = searchParams.get("keyword") || "";
-  const type = searchParams.get("type") || "name";
   const genres = searchParams.get("genres") || "";
   const rating = searchParams.get("rating") || "";
   const release_year = searchParams.get("release_year") || "";
@@ -40,9 +38,7 @@ export default function SearchResults() {
     [searchParams]
   );
 
-  const { data, isLoading, isError, error } = useSearchMovies({
-    query: search,
-    searchType: type,
+  const { data, isLoading, isError, error } = useRecommendationBasedFavoriteList({
     genres: genres,
     rating: rating,
     release_year: release_year,
@@ -90,14 +86,13 @@ export default function SearchResults() {
         </div>
       ) : data?.length === 0 ? (
         <div className="text-center py-4">
-          No results found for &quot;{search}&quot;.
+          No results found for Recommendations.
         </div>
       ) : (
         <>
           <div className="flex justify-between my-8 pl-2 pr-2 gap-16">
             <div className="text-background font-bold text-2xl">
-              Search result for:{" "}
-              <span className="text-primary">&quot;{search}&quot;</span>
+              <span className="text-primary">Recommendations</span>
             </div>
             <div className="flex flex-row gap-1">
               <GenreFilter />

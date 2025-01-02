@@ -1,12 +1,12 @@
 import { Suspense } from "react";
-import SearchResults from "./_components/search-results";
+import RecommendResults from "./_components/recommend-result";
 
-export default function SearchPage() {
+export default function RecommendPage() {
   return (
     <div className="relative flex flex-col min-h-screen">
       <div className="bg-foreground pt-[72px]">
         <Suspense fallback={<div>Loading...</div>}>
-          <SearchResults />
+          <RecommendResults />
         </Suspense>
       </div>
     </div>

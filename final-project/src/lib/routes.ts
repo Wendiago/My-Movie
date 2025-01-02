@@ -22,4 +22,7 @@ export const paths = {
   details: {
     getHref: (id: string) => `/movie/${id}`,
   },
+  genre: {
+    getHref: (id: string) => `/genre/${id}`,
+  },
 };

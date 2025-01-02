@@ -27,25 +27,6 @@ export const searchMovie = async ({
   return response;
 };
 
-const searchMovieKey = (query: string, page: number) => [
-  "searchMovie",
-  { query, page },
-];
-
-export const useSearchMovies = ({
-  query,
-  page = 1,
-}: {
-  query: string;
-  page?: number;
-}) => {
-  return useQuery({
-    queryKey: searchMovieKey(query, page),
-    queryFn: () => searchMovie({ query, page }),
-    enabled: !!query,
-  });
-};
-
 // Get today trending movie
 export const getTodayTrendingMovies =
   async (): Promise<GetTrendingMoviesResponse> => {
