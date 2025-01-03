@@ -146,6 +146,20 @@ export type People = {
   };
 };
 
+export type User = {
+  _id: string;
+  name?: string;
+  email: string;
+  photo: string;
+  isVerified: boolean;
+};
+
+export type GetUserResponse = {
+  success: boolean;
+  message: string;
+  data: User;
+};
+
 export type GetAllGenresResponse = {
   success: boolean;
   message: string;

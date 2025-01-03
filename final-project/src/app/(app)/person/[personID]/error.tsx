@@ -15,8 +15,10 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="flex h-full flex-col items-center justify-center bg-foreground">
-      <h2 className="text-center text-background">{error.message}</h2>
+    <main className="flex-1 mt-[72px] flex flex-col items-center justify-center">
+      <h2 className="text-center">
+        Something is wrong. Please try again or go back
+      </h2>
       <button
         className="mt-4 rounded-md bg-destructive px-4 py-2 text-sm text-destructive-foreground transition-colors hover:bg-destructive/80"
         onClick={() => reset()}

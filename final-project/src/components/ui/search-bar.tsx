@@ -5,9 +5,9 @@ import Form from "next/form";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
-export default function SearchBar({ searchType } : { searchType: string }) {
+export default function SearchBar({ searchType }: { searchType: string }) {
   const [searchTerm, setSearchTerm] = useState("");
-  
+
   const handleSearchClick = () => {
     if (searchTerm.trim()) {
       const form = document.getElementById("searchForm") as HTMLFormElement;
@@ -25,9 +25,9 @@ export default function SearchBar({ searchType } : { searchType: string }) {
       }}
     >
       <Input
-        placeholder="Search movies"
+        placeholder="Search anything..."
         name="keyword"
-        className="pl-4 bg-background/80 backdrop-blur-md text-foreground border-none placeholder:text-foreground"
+        className="pl-4 bg-transparent border-foreground/50 backdrop-blur-md border text-foreground placeholder:text-foreground"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />

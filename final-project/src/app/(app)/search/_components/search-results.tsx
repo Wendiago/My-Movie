@@ -71,7 +71,7 @@ export default function SearchResults() {
 
   if (isError) {
     return (
-      <div className="text-center text-red-500 py-4">
+      <div className="text-center text-destructive py-4">
         {error.message || "Something went wrong"}
       </div>
     );
@@ -95,7 +95,7 @@ export default function SearchResults() {
       ) : (
         <>
           <div className="flex justify-between my-8 pl-2 pr-2 gap-16">
-            <div className="text-background font-bold text-2xl">
+            <div className="font-bold text-2xl">
               Search result for:{" "}
               <span className="text-primary">&quot;{search}&quot;</span>
             </div>
@@ -112,9 +112,9 @@ export default function SearchResults() {
           </div>
 
           <Pagination className="mt-6 mb-6">
-            <PaginationContent className="bg-foreground rounded-md">
+            <PaginationContent className="rounded-md">
               {page !== 1 && (
-                <PaginationItem className="bg-foreground text-background">
+                <PaginationItem>
                   <PaginationPrevious
                     href="#"
                     onClick={() =>
@@ -128,27 +128,23 @@ export default function SearchResults() {
                 </PaginationItem>
               )}
               {visiblePages.map((pageNumber) => (
-                <PaginationItem
-                  key={pageNumber}
-                  className="bg-foreground text-background"
-                >
+                <PaginationItem key={pageNumber}>
                   <PaginationLink
                     href="#"
                     onClick={() => handlePageChange(pageNumber.toString())}
                     isActive={pageNumber === page}
-                    className="bg-foreground text-background"
                   >
                     {pageNumber}
                   </PaginationLink>
                 </PaginationItem>
               ))}
               {visiblePages[visiblePages.length - 1] < data?.totalPage && (
-                <PaginationItem className="bg-foreground text-background">
+                <PaginationItem>
                   <PaginationEllipsis />
                 </PaginationItem>
               )}
               {page !== data?.totalPage && (
-                <PaginationItem className="bg-foreground text-background">
+                <PaginationItem>
                   <PaginationNext
                     href="#"
                     onClick={() =>

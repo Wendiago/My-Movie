@@ -1,6 +1,6 @@
 "use client";
 
-import CustomImage from "@/components/ui/customImage";
+import CustomImage from "@/components/ui/custom-image";
 import { useRouter } from "next/navigation";
 
 type Cast = {

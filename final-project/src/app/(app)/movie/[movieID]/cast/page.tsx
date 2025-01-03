@@ -10,11 +10,11 @@ export default async function page({
   const movieID = (await params).movieID;
   const movieInfo = getMovieDetail(movieID);
   return (
-    <div className="w-full bg-foreground mt-[72px] flex flex-col flex-1">
+    <div className="w-full mt-[72px] flex flex-col flex-1">
       <Suspense
         fallback={
-          <div className="w-full h-screen flex items-center justify-center bg-foreground">
-            <p className="text-background text-xl">Loading</p>
+          <div className="w-full h-screen flex items-center justify-center">
+            <p className="text-xl">Loading</p>
           </div>
         }
       >

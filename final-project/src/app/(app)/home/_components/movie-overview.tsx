@@ -20,11 +20,13 @@ export default function MovieOverview({
         "flex flex-col max-w-[40%] absolute top-[20%] left-[7%]"
       )}
     >
-      <h1 className="md:text-[2rem] lg:text-[4rem] font-extrabold text-background line-clamp-2">
+      <h1 className="md:text-[2rem] lg:text-[4rem] font-extrabold text-foreground line-clamp-2">
         {data.title}
       </h1>
-      <div className="text-background pb-4">
-        <Badge variant="outline">{data.media_type}</Badge>
+      <div className="pb-4">
+        <Badge variant="outline" className="text-foreground">
+          {data.media_type}
+        </Badge>
       </div>
       <div className="flex items-center gap-2 h-4 mb-4">
         <div className="flex items-center gap-1">
@@ -34,7 +36,7 @@ export default function MovieOverview({
           </p>
         </div>
         <Separator orientation="vertical" />
-        <p className="text-background">{data.release_date}</p>
+        <p className="text-foreground">{data.release_date}</p>
         {data.adult && (
           <>
             <Separator orientation="vertical" />
@@ -43,7 +45,7 @@ export default function MovieOverview({
           </>
         )}
       </div>
-      <p className="text-background line-clamp-2">{data.overview}</p>
+      <p className="text-foreground line-clamp-2">{data.overview}</p>
 
       <div className="mt-6">
         <Button size="icon" className="rounded-full h-16 w-16 [&_svg]:size-8">

@@ -1,7 +1,7 @@
 import { paths } from "@/lib/routes";
 import { useRouter } from "next/navigation";
 import { Movie } from "@/types/api";
-import CustomImage from "@/components/ui/customImage";
+import CustomImage from "@/components/ui/custom-image";
 
 export default function MovieCard(movie: Movie) {
   const router = useRouter();
@@ -21,11 +21,11 @@ export default function MovieCard(movie: Movie) {
         height={300}
         className="w-full lg:h-[400px] md:h-[350px] object-cover rounded-sm"
       ></CustomImage>
-      <div className="flex flex-col justify-start items-center bg-foreground py-2">
-        <h3 className="text-lg font-medium text-background text-center group-hover:text-primary">
+      <div className="flex flex-col justify-start items-center py-2">
+        <h3 className="text-lg font-medium text-center group-hover:text-primary">
           {movie.title}
         </h3>
-        <p className="text-sm text-gray-500 brightness-150">
+        <p className="text-sm text-textGrey brightness-150">
           {movie.release_date || "N/A"}
         </p>
       </div>
