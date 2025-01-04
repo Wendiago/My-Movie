@@ -5,28 +5,6 @@ const MovieTrendingDay = require("../models/movies_trending_day");
 const MovieTrendingWeek = require("../models/movies_trending_week");
 const CustomApi = require("../utils/customApi");
 
-const fetchGenres = async () => {
-  const data = await CustomApi("genre/movie/list");
-
-  return data.genres;
-};
-
-const mapGenresToMovies = async (movies) => {
-  const genres = await fetchGenres();
-
-  return movies.map((movie) => {
-    const genreNames = movie.genre_ids.map((id) => {
-      const genre = genres.find((g) => g.id === id);
-      return genre ? genre.name : "Unknown";
-    });
-
-    return {
-      ...movie,
-      genres: genreNames,
-    };
-  });
-};
-
 const movieController = {
   getDetailMovieById: catchAsync(async (req, res, next) => {
     try {
