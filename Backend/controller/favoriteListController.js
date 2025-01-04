@@ -46,7 +46,6 @@ const favoriteListController = {
                 return res.status(201).json({
                     success: true,
                     message: "Added to favorite list successfully!",
-                    data: newList,
                 });
             }
     
@@ -135,62 +134,11 @@ const favoriteListController = {
             res.status(200).json({
                 success: true,
                 message: "Movie removed from favorite list successfully!",
-                data: updatedList,
             });
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
     }),
-
-    // getAllFavoriteList: catchAsync(async (req, res, next) => {
-    //     const { refreshToken } = req.cookies;
-    
-    //     // 1. Kiểm tra refresh token
-    //     if (!refreshToken) {
-    //         return next(new AppError("You are not logged in.", 401));
-    //     }
-    
-    //     try {
-    //         // Lấy thông tin phiên từ token
-    //         const session = await Session.findOne({ token: refreshToken });
-    
-    //         if (!session) {
-    //             return next(new AppError("You are not logged in.", 401));
-    //         }
-            
-
-    //         const userId = session.userId;
-    
-    //         const {page = 1, limit = 10} = req.query;
-    //         const offset = (page - 1) * limit;
-
-    //         // 2. Tìm danh sách yêu thích của người dùng
-    //         const favorite_list = await favoriteList
-    //             .findOne({ idUser: userId })
-    //             .populate('favoriteList.idMovie')
-    //             .skip(offset)
-    //             .limit(limit);
-    
-    //         if (!favorite_list) {
-    //             return res.status(404).json({
-    //                 success: false,
-    //                 message: "Favorite list not found!",
-    //             });
-    //         }
-    
-    //         const totalMovies = favorite_list.favoriteList.length;
-    //         res.status(200).json({
-    //             success: true,
-    //             message: "Get favorite list successfully!",
-    //             data: favorite_list,
-    //             totalMovies: totalMovies,
-    //             page: parseInt(page),
-    //             totalPage: Math.ceil(favorite_list.favoriteList.length / limit),
-    //         });
-    //     } catch (error) {
-    //         res.status(500).json({ message: error.message });
-    //     }
-    // })
 
     getAllFavoriteList: catchAsync(async (req, res, next) => {
         const { refreshToken } = req.cookies;
@@ -220,7 +168,9 @@ const favoriteListController = {
                 .populate({
                     path: 'favoriteList.idMovie',
                     options: { skip: offset, limit: limit },
-                });
+                    select: "tmdb_id backdrop_path genres overview poster_path release_date runtime title vote_average vote_count",
+                })
+
     
             if (!favoriteListData) {
                 return res.status(404).json({

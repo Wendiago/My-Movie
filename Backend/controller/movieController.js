@@ -31,7 +31,7 @@ const movieController = {
 
   getTrendingMoviesDay: catchAsync(async (req, res, next) => {
     try {
-      const data = await MovieTrendingDay.find();
+      const data = await MovieTrendingDay.find().limit(20);
       return res.status(200).json({
           success: true,
           message: "Trending movies day fetched successfully",
@@ -45,7 +45,7 @@ const movieController = {
 
   getTrendingMoviesWeek: catchAsync(async (req, res, next) => {
     try {
-      const data = await MovieTrendingWeek.find();
+      const data = await MovieTrendingWeek.find().limit(20);
 
       const movies = await mapGenresToMovies(data.results);
 
