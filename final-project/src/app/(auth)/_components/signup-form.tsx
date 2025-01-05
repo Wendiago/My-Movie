@@ -47,7 +47,7 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
+    <div className="flex justify-center items-center min-h-screen">
       <div className="bg-card p-10 rounded-lg shadow-lg max-w-md">
         <h2 className="text-2xl font-semibold mb-6 text-center text-primary">
           Account Sign up
@@ -97,7 +97,7 @@ const SignupForm = () => {
               <p className="text-destructive my-1">{`${errors.confirmPassword.message}`}</p>
             )}
           </div>
-          <div className="inline-flex items-center mb-6">
+          {/*<div className="inline-flex items-center mb-6">
             <Input
               type="checkbox"
               name="remember-me"
@@ -106,7 +106,7 @@ const SignupForm = () => {
             <label htmlFor="remember-me" className="text-card-foreground">
               Remember me?
             </label>
-          </div>
+          </div>*/}
           <Button className="w-full" size="lg" type="submit">
             Sign up
           </Button>

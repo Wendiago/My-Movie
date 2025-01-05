@@ -11,12 +11,12 @@ function LoginGoogleButton() {
 
   return (
     <Button
-      variant="outline"
+      variant="secondary"
       className="flex justify-center items-center gap-3 flex-1"
       onClick={handleGoogleLogin}
     >
       <Image src="/google.svg" alt={"Google"} width={24} height={24} />
-      <p>Log in with Google</p>
+      <p className="hover:text-primary">Log in with Google</p>
     </Button>
   );
 }
