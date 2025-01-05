@@ -247,3 +247,14 @@ export type GetCastByIDResponse = {
   message: string;
   data: People;
 };
+
+export type MovieTrailer = {
+  key: string,
+  tmdb_id: Movie
+};
+
+export type GetMovieTrailersResponse = {
+  success: boolean;
+  message: string;
+  data: MovieTrailer[];
+};

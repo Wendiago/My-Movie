@@ -75,7 +75,7 @@ const recommendController = {
                 return genres;
             }, []);
 
-            // Tìm các bộ phim có ít nhất 2 thể loại trùng với các phim yêu thích và áp dụng các filter
+            // Tìm các bộ phim có ít nhất 3 thể loại trùng với các phim yêu thích và áp dụng các filter
             const recommendedMovies = await Movie.find({
                 _id: { $nin: favoriteIdMovies }, // Loại bỏ phim trong danh sách yêu thích
                 'genres.id': { $in: favoriteGenres.map((genre) => genre.id) },
@@ -145,8 +145,6 @@ const recommendController = {
                 const latestTrailerListIdTMDB = latestTrailerList
                 .map((movie) => movie.tmdb_id)
                 .filter((tmdb_id) => tmdb_id !== 1367622);
-    
-            console.log("latestTrailerListIdTMDB", latestTrailerListIdTMDB);
 
             latestTrailerListIdTMDB.forEach(async (movieId) => {
                 const data = await customApi(`movie/${movieId}/videos`);
@@ -174,6 +172,7 @@ const recommendController = {
             });
         }
     }),
+    
     getLatestTrailerList: catchAsync(async (req, res, next) => {
         try {
             const latestTrailerList = await LatestTrailerList.find()
@@ -182,7 +181,7 @@ const recommendController = {
                     model: 'movies', 
                     localField: 'tmdb_id', 
                     foreignField: 'tmdb_id', 
-                    select: 'title release_date genres backdrop_path original_title',
+                    select: 'title release_date genres backdrop_path original_title poster_path',
                 });
     
                 const List = latestTrailerList

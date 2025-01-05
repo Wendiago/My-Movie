@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const movieTrendingWeekSchema = new mongoose.Schema({
-    tmdb_id: { type: Number, required: true }, 
+    tmdb_id: { type: Number, required: true, unique: true }, 
     adult: { type: Boolean, required: true }, 
     backdrop_path: { type: String }, 
     categories: { type: [String], default: [] },

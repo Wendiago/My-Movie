@@ -8,8 +8,8 @@ const favoriteListSchema = new mongoose.Schema({
   },
   favoriteList: [
     {
-      idMovie: {
-        type: mongoose.Schema.Types.ObjectId,
+      tmdb_id: {
+        type: Number,
         ref: "movies",
         required: true,
       },
@@ -18,9 +18,9 @@ const favoriteListSchema = new mongoose.Schema({
 });
 
 const favoriteList = mongoose.model(
-  "favorite_list",
+  "favorite_list_test",
   favoriteListSchema,
-  "favorite_list"
+  "favorite_list_test"
 );
 
 module.exports = favoriteList;

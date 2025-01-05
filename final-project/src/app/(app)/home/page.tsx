@@ -4,15 +4,20 @@ import {
   getTodayTrendingMovies,
   getWeekTrendingMovies,
 } from "@/api/movie/movie";
+import { getLatestTrailerList } from "@/api/recommend/recommend";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import TrendingCarousel from "./_components/trending-carousel";
 import TrendingCarouselSkeleton from "./_components/trending-carousel-skeleton";
 import MainCarousel from "./_components/main-carousel";
+import TrailerCarousel from "./_components/trailer-carousel";
+import TrailerCarouselSkeleton from "./_components/trailer-carousel-skeleten";
 
 export default async function Page() {
   const weeklyTrendingMovies = getWeekTrendingMovies();
   const todayTrendingMovies = getTodayTrendingMovies();
+  const latestTrailerList = getLatestTrailerList();
+
   return (
     <div className="relative flex flex-col min-h-screen w-full">
       <Suspense
@@ -54,6 +59,12 @@ export default async function Page() {
             </Suspense>
           </TabsContent>
         </Tabs>
+        <Suspense fallback={<TrailerCarouselSkeleton />}>
+          <TrailerCarousel
+            carouselName="Latest Trailers"
+            data={latestTrailerList}
+          />
+        </Suspense>
         <Suspense fallback={<TrendingCarouselSkeleton />}>
           <TrendingCarousel
             carouselName="Popular in Wendiago Movie"

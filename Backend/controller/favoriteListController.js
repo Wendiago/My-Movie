@@ -1,4 +1,6 @@
 const favoriteList = require("../models/favorite_list");
+const ratingList = require("../models/rating_list");
+const watchingList = require("../models/watching_list");
 const AppError = require("../utils/appError");
 const Session = require("../models/sessionModel");
 const catchAsync = require("../utils/catchAsync");
@@ -38,7 +40,7 @@ const favoriteListController = {
       if (!favorite_list) {
         const newList = new favoriteList({
           idUser: userId,
-          favoriteList: [{ idMovie }],
+          favoriteList: [{ tmdb_id: idMovie }],
         });
 
         await newList.save();
@@ -49,9 +51,9 @@ const favoriteListController = {
         });
       }
 
-      // 5. Kiểm tra nếu phim đã có trong danh sách
+      //Kiểm tra nếu phim đã có trong danh sách
       const movieExists = favorite_list.favoriteList.some(
-        (item) => item.idMovie.toString() === idMovie
+        (item) => item.tmdb_id === idMovie
       );
 
       if (movieExists) {
@@ -62,13 +64,12 @@ const favoriteListController = {
       }
 
       // 6. Thêm phim vào danh sách
-      favorite_list.favoriteList.push({ idMovie });
+      favorite_list.favoriteList.push({ tmdb_id: idMovie });
       const updatedList = await favorite_list.save();
 
       return res.status(200).json({
         success: true,
         message: "Added to favorite list successfully!",
-        data: updatedList,
       });
     } catch (error) {
       // Xử lý lỗi
@@ -96,7 +97,7 @@ const favoriteListController = {
       }
 
       const userId = session.userId;
-      const { idMovie } = req.params; // Lấy idMovie từ request body
+      const { idMovie } = req.params;
 
       if (!idMovie) {
         return res.status(400).json({
@@ -117,7 +118,7 @@ const favoriteListController = {
 
       // 3. Lọc bỏ phim cần xóa
       const updatedMovies = favorite_list.favoriteList.filter(
-        (item) => item.idMovie.toString() !== idMovie
+        (item) => item.tmdb_id !== idMovie
       );
 
       if (updatedMovies.length === favorite_list.favoriteList.length) {
@@ -140,55 +141,6 @@ const favoriteListController = {
     }
   }),
 
-  // getAllFavoriteList: catchAsync(async (req, res, next) => {
-  //     const { refreshToken } = req.cookies;
-
-  //     // 1. Kiểm tra refresh token
-  //     if (!refreshToken) {
-  //         return next(new AppError("You are not logged in.", 401));
-  //     }
-
-  //     try {
-  //         // Lấy thông tin phiên từ token
-  //         const session = await Session.findOne({ token: refreshToken });
-
-  //         if (!session) {
-  //             return next(new AppError("You are not logged in.", 401));
-  //         }
-
-  //         const userId = session.userId;
-
-  //         const {page = 1, limit = 10} = req.query;
-  //         const offset = (page - 1) * limit;
-
-  //         // 2. Tìm danh sách yêu thích của người dùng
-  //         const favorite_list = await favoriteList
-  //             .findOne({ idUser: userId })
-  //             .populate('favoriteList.idMovie')
-  //             .skip(offset)
-  //             .limit(limit);
-
-  //         if (!favorite_list) {
-  //             return res.status(404).json({
-  //                 success: false,
-  //                 message: "Favorite list not found!",
-  //             });
-  //         }
-
-  //         const totalMovies = favorite_list.favoriteList.length;
-  //         res.status(200).json({
-  //             success: true,
-  //             message: "Get favorite list successfully!",
-  //             data: favorite_list,
-  //             totalMovies: totalMovies,
-  //             page: parseInt(page),
-  //             totalPage: Math.ceil(favorite_list.favoriteList.length / limit),
-  //         });
-  //     } catch (error) {
-  //         res.status(500).json({ message: error.message });
-  //     }
-  // })
-
   getAllFavoriteList: catchAsync(async (req, res, next) => {
     const { refreshToken } = req.cookies;
 
@@ -206,8 +158,8 @@ const favoriteListController = {
       const userId = session.userId;
 
       // 2. Validate and parse query parameters
-      const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 10;
+      const page = parseInt(req.query.page, 10) || 1;
+      const limit = parseInt(req.query.limit, 10) || 10;
 
       const offset = (page - 1) * limit;
 
@@ -215,13 +167,22 @@ const favoriteListController = {
       const favoriteListData = await favoriteList
         .findOne({ idUser: userId })
         .populate({
-          path: "favoriteList.idMovie",
-          options: { skip: offset, limit: limit },
+          path: "favoriteList.tmdb_id",
+          model: "movies",
+          localField: "favoriteList.tmdb_id",
+          foreignField: "tmdb_id",
           select:
-            "_id tmdb_id backdrop_path overview poster_path release_date runtime title vote_average popularity",
+            "tmdb_id backdrop_path genres overview poster_path release_date runtime title vote_average popularity",
         });
 
       if (!favoriteListData) {
+        return res.status(404).json({
+          success: false,
+          message: "Favorite list is empty!",
+        });
+      }
+
+      if (favoriteListData.favoriteList.length === 0) {
         return res.status(200).json({
           success: true,
           message: "Favorite list is empty",
@@ -229,6 +190,28 @@ const favoriteListController = {
         });
       }
 
+      //Fetch rating and watching lists
+      const ratingListData = await ratingList.findOne({ idUser: userId });
+      const watchingListData = await watchingList.findOne({ idUser: userId });
+
+      const ratingMovieIds = ratingListData
+        ? new Map(
+            ratingListData.ratingList.map((item) => [item.tmdb_id, item.rating])
+          )
+        : new Map();
+
+      const watchingMovieIds = watchingListData
+        ? new Set(watchingListData.watchingList.map((item) => item.tmdb_id))
+        : new Set();
+
+      //Attach additional status to movies
+      const moviesWithStatus = favoriteListData.favoriteList.map((movie) => ({
+        ...movie.tmdb_id._doc,
+        isWatching: watchingMovieIds.has(movie.tmdb_id.tmdb_id), // Kiểm tra trong danh sách đang xem
+        rating: ratingMovieIds.get(movie.tmdb_id.tmdb_id) || null, // Lấy rating nếu có
+      }));
+
+      const paginatedMovies = moviesWithStatus.slice(offset, offset + limit);
       const totalMovies = favoriteListData.favoriteList.length;
       const totalPages = Math.ceil(totalMovies / limit);
 
@@ -236,7 +219,7 @@ const favoriteListController = {
       res.status(200).json({
         success: true,
         message: "Get favorite list successfully!",
-        data: favoriteListData,
+        data: paginatedMovies,
         totalMovies,
         page,
         totalPages,

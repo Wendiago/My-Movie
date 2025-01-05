@@ -1,4 +1,6 @@
 import { customFetch } from "@/lib/api-client";
+import { GetMovieTrailersResponse } from "@/types/api";
+
 import { useQuery } from "@tanstack/react-query";
 
 // Get recommendation based on favorite list
@@ -68,10 +70,13 @@ export const useSetLatestTrailerList = () => {
 };
 
 // Get latest trailer list
-export const getLatestTrailerList = async (): Promise<any> => {
-  const response = await customFetch.get("/api/v1/recommend/movie/upcoming");
-  return response;
-};
+export const getLatestTrailerList = 
+  async (): Promise<GetMovieTrailersResponse> => {
+    const response = await customFetch.get<GetMovieTrailersResponse>(
+      "/api/v1/recommend/movie/upcoming"
+    );
+    return response;
+  };
 
 export const useLatestTrailerList = () => {
   return useQuery({
