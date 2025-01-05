@@ -9,7 +9,9 @@ import { TLoginSchema, TRegisterSchema } from "@/app/(auth)/_data/auth-schema";
 import { GetUserResponse } from "@/types/api";
 
 export const getUser = async (): Promise<GetUserResponse> => {
-  return customFetch.get<GetUserResponse>("/authenticate");
+  return customFetch.get<GetUserResponse>("/authenticate", {
+    cache: "force-cache",
+  });
 };
 
 export const logout = (): Promise<any> => {

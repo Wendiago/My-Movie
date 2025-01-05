@@ -39,13 +39,13 @@ export default function PersonInfo({
   return person ? (
     <div className="w-full grid grid-cols-[300px_1fr]">
       <div className="flex flex-col">
-        <Image
+        <CustomImage
           src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w300${person.profile_path}`}
           alt={person.name}
           width="300"
           height="450"
           className="w-full h-auto rounded-md"
-        ></Image>
+        ></CustomImage>
         <section className="flex flex-col mt-6">
           <h3 className="font-semibold text-xl mb-3">Personal Info</h3>
           <div className="flex flex-col mb-5">

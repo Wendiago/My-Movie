@@ -1,4 +1,5 @@
 export type Movie = {
+  _id: string;
   tmdb_id: number; // ID from TMDB
   adult: boolean; // Adult content flag
   backdrop_path?: string; // Backdrop image path
@@ -152,6 +153,48 @@ export type User = {
   email: string;
   photo: string;
   isVerified: boolean;
+};
+
+export type FavoriteList = {
+  _id: string;
+  idUser: string;
+  favoriteList: {
+    idMovie: Pick<
+      Movie,
+      | "_id"
+      | "tmdb_id"
+      | "title"
+      | "backdrop_path"
+      | "poster_path"
+      | "overview"
+      | "genres"
+      | "release_date"
+      | "runtime"
+      | "vote_average"
+      | "vote_count"
+      | "popularity"
+    >;
+    _id: string;
+  }[];
+};
+
+export type GetFavoriteListResponse = {
+  success: string;
+  message: string;
+  data: FavoriteList | null;
+  page?: number;
+  totalPages?: number;
+  totalMovies?: number;
+};
+
+export type AddToFavoriteListResponse = {
+  success: string;
+  message: string;
+};
+
+export type RemoveFromFavoriteListResponse = {
+  success: string;
+  message: string;
 };
 
 export type GetUserResponse = {

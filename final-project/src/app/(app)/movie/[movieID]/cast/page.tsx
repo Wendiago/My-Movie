@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import CastInfo from "../_components/cast-info";
 import { getMovieDetail } from "@/api/movie/movie";
+import CastInfoSkeleton from "../_components/cast-info-skeleton";
 
 export default async function page({
   params,
@@ -11,13 +12,7 @@ export default async function page({
   const movieInfo = getMovieDetail(movieID);
   return (
     <div className="w-full mt-[72px] flex flex-col flex-1">
-      <Suspense
-        fallback={
-          <div className="w-full h-screen flex items-center justify-center">
-            <p className="text-xl">Loading</p>
-          </div>
-        }
-      >
+      <Suspense fallback={<CastInfoSkeleton />}>
         <CastInfo data={movieInfo} />
       </Suspense>
     </div>

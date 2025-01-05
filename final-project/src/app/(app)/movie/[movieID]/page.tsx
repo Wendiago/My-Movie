@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { getMovieDetail } from "@/api/movie/movie";
 import MovieInfo from "./_components/movie-info";
 import { ErrorBoundary } from "react-error-boundary";
+import MovieInfoSkeleton from "./_components/movie-info-skeleton";
 export default async function page({
   params,
 }: {
@@ -19,13 +20,7 @@ export default async function page({
           </div>
         }
       >
-        <Suspense
-          fallback={
-            <div className="w-full h-screen flex items-center justify-center">
-              <p className="text-xl">Loading</p>
-            </div>
-          }
-        >
+        <Suspense fallback={<MovieInfoSkeleton />}>
           <MovieInfo data={movieDetailResponse} />
         </Suspense>
       </ErrorBoundary>

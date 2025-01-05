@@ -17,6 +17,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import CustomImage from "@/components/ui/custom-image";
+import { useAddToFavoriteList } from "@/api/user/user";
+import { toast } from "@/hooks/use-toast";
+import { Spinner } from "@/components/ui/spinner";
 
 const TooltipArrow = TooltipPrimitive.Arrow;
 export default function MovieInfo({
@@ -37,6 +40,26 @@ export default function MovieInfo({
   const bottomLayerStyle = {
     backgroundImage:
       "linear-gradient(179deg, rgba(17, 19, 25, 0) 1%, rgba(17, 19, 25, 0.05) 17%, rgba(17, 19, 25, 0.2) 31%, rgba(17, 19, 25, 0.39) 44%, rgba(17, 19, 25, 0.61) 56%, rgba(17, 19, 25, 0.8) 69%, rgba(17, 19, 25, 0.95) 83%, rgb(17, 19, 25) 99%)",
+  };
+
+  const addToFavoriteMutation = useAddToFavoriteList({
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Added to favorite",
+      });
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Fail to add to favorite",
+        description: error.message,
+      });
+    },
+  });
+
+  const handleAddToFavorite = (idMovie: string) => {
+    addToFavoriteMutation.mutate(idMovie);
   };
 
   return movieDetail ? (
@@ -134,12 +157,20 @@ export default function MovieInfo({
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button className="flex justify-center items-center rounded-full w-12 h-12">
-                        <Heart />
+                      <Button
+                        className="flex justify-center items-center rounded-full w-12 h-12"
+                        onClick={() => handleAddToFavorite(movieDetail._id)}
+                        disabled={addToFavoriteMutation.isPending}
+                      >
+                        {addToFavoriteMutation.isPending ? (
+                          <Spinner />
+                        ) : (
+                          <Heart />
+                        )}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Add to your favourite</p>
+                      <p>Mark as favorite</p>
                       <TooltipArrow className="fill-primary"></TooltipArrow>
                     </TooltipContent>
                   </Tooltip>

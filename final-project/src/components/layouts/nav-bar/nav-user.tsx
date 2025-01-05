@@ -64,41 +64,29 @@ export default function NavUser() {
             {" "}
             <DropdownMenuLabel>
               <div className="font-bold">{data.data.name}</div>
-              <Link
-                href={`/user/${data.data._id}/profile`}
-                className="text-textGrey text-sm"
-              >
+              <Link href={`/user/profile`} className="text-textGrey text-sm">
                 View profile
               </Link>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Link href={`/user/${data.data._id}/lists`} className="flex-1">
+                <Link href={`/user/lists`} className="flex-1">
                   Lists
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link
-                  href={`/user/${data.data._id}/favourites`}
-                  className="flex-1"
-                >
+                <Link href={`/user/favourites`} className="flex-1">
                   Favourites
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link
-                  href={`/user/${data.data._id}/ratings`}
-                  className="flex-1"
-                >
+                <Link href={`/user/ratings`} className="flex-1">
                   Ratings
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link
-                  href={`/user/${data.data._id}/watchlists`}
-                  className="flex-1"
-                >
+                <Link href={`/user/watchlists`} className="flex-1">
                   Watchlists
                 </Link>
               </DropdownMenuItem>
