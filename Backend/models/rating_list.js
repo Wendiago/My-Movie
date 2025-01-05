@@ -1,23 +1,27 @@
 const mongoose = require('mongoose');
 
-const favoriteListSchema = new mongoose.Schema({
+const ratingListSchema = new mongoose.Schema({
     idUser: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User',
         required: true 
     },
-    favoriteList: [
+    ratingList: [
         {
             tmdb_id: { 
                 type: Number, 
                 ref: 'movies', 
                 required: true 
             },
+            rating: {
+                type: Number,
+                required: true
+            }
         },
     ]
 });
 
 
-const favoriteList = mongoose.model('favorite_list_test', favoriteListSchema, 'favorite_list_test');
+const ratingList = mongoose.model('rating_list', ratingListSchema, 'rating_list');
 
-module.exports = favoriteList;
+module.exports = ratingList;
