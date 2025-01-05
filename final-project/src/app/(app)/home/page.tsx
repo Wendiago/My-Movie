@@ -11,7 +11,7 @@ import TrendingCarousel from "./_components/trending-carousel";
 import TrendingCarouselSkeleton from "./_components/trending-carousel-skeleton";
 import MainCarousel from "./_components/main-carousel";
 import TrailerCarousel from "./_components/trailer-carousel";
-import TrailerCarouselSkeleton from "./_components/trailer-carousel-skeleten";
+import TrailerCarouselSkeleton from "./_components/trailer-carousel-skeleton";
 
 export default async function Page() {
   const weeklyTrendingMovies = getWeekTrendingMovies();
@@ -28,12 +28,10 @@ export default async function Page() {
         <MainCarousel data={todayTrendingMovies} />
       </Suspense>
 
-      <div className="pb-24 z-30 -mt-52 w-full flex flex-col justify-center items-center bg-gradient-to-b from-transparent via-foreground/70 via-[10%] to-foreground to-[15%] gap-8">
+      <div className="pb-24 z-30 -mt-52 w-full flex flex-col justify-center items-center bg-gradient-to-b from-transparent via-background/70 via-[10%] to-background to-[15%] gap-8">
         <Tabs defaultValue="Today" className="w-full">
           <div className="flex items-center gap-3 ml-8 mb-6">
-            <p className="ml-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600 font-bold text-2xl animate-fire-flicker">
-              TRENDING
-            </p>
+            <p className="ml-8 font-bold text-2xl">TRENDING</p>
             <TabsList className="grid grid-cols-2 max-w-[30%] bg-transparent">
               <TabsTrigger
                 value="Today"

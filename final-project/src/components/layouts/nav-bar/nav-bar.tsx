@@ -1,5 +1,5 @@
 "use client";
-import LogoutButton from "@/app/(auth)/_components/logout-button";
+
 import { Popcorn } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import NavUser from "./nav-user";
 
 export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -30,19 +31,27 @@ export default function NavBar() {
   return (
     <nav
       className={`px-16 fixed top-0 z-50 flex justify-between items-center py-4 w-full transition-all duration-1000 ease-in-out ${
-        isScrolled ? "bg-foreground" : "bg-transparent"
+        isScrolled ? "bg-background" : "bg-transparent"
       }`}
     >
       <div className="w-full flex justify-between items-center">
         <div className="flex items-center lg:gap-8 md:gap-4">
           <Link href="/home" className="flex items-center">
-            <div className="flex items-center gap-1 text-2xl">
+            <div className="flex items-center gap-3 text-2xl">
               <Popcorn className="text-primary size-8" />
               <p className="font-bold text-primary">WENDIAGO MOVIE</p>
             </div>
           </Link>
           <Link href="/recommend" className="flex gap-1">
-            <p className="font-bold inline-block animate-glowing">For You</p>
+            <p
+              className="font-bold inline-block animate-glowing"
+              style={{
+                filter:
+                  "drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px #fff) drop-shadow(0 0 30px #fff)",
+              }}
+            >
+              For You
+            </p>
           </Link>
         </div>
 
@@ -53,7 +62,7 @@ export default function NavBar() {
             onValueChange={(value) => setSelectValue(value)}
           >
             <SelectTrigger
-              className={`w-[120px] bg-background/80 text-foreground border-none pl-4 h-[40px] backdrop-blur-md `}
+              className={`w-[120px] bg-transparent border-foreground/50 backdrop-blur-md border text-foreground pl-4 h-[40px] `}
             >
               <SelectValue placeholder="Select query" />
             </SelectTrigger>
@@ -64,7 +73,7 @@ export default function NavBar() {
             </SelectContent>
           </Select>
         </div>
-        <LogoutButton />
+        <NavUser />
       </div>
     </nav>
   );

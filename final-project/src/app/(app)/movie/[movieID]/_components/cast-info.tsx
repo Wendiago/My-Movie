@@ -1,6 +1,6 @@
 "use client";
 
-import CustomImage from "@/components/ui/customImage";
+import CustomImage from "@/components/ui/custom-image";
 import { GetMovieDetailResponse } from "@/types/api";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -49,7 +49,7 @@ export default function CastInfo({
       </div>
       <div className="w-full px-16 py-8 grid grid-cols-2">
         <div className="flex flex-col">
-          <h3 className="text-background font-bold text-xl mb-5">
+          <h3 className="text-foreground font-bold text-xl mb-5">
             Cast{" "}
             <span className="text-textGrey font-medium">
               {movieDetail.credits.cast.length}
@@ -62,7 +62,7 @@ export default function CastInfo({
           </div>
         </div>
         <div className="flex flex-col">
-          <h3 className="text-background font-bold text-xl mb-5">
+          <h3 className="text-foreground font-bold text-xl mb-5">
             Crew{" "}
             <span className="text-textGrey font-medium">
               {movieDetail.credits.crew.length}

@@ -16,7 +16,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import CustomImage from "@/components/ui/customImage";
+import CustomImage from "@/components/ui/custom-image";
+import { useAddToFavoriteList } from "@/api/user/favorite-list";
+import { toast } from "@/hooks/use-toast";
+import { Spinner } from "@/components/ui/spinner";
 
 const TooltipArrow = TooltipPrimitive.Arrow;
 export default function MovieInfo({
@@ -37,6 +40,26 @@ export default function MovieInfo({
   const bottomLayerStyle = {
     backgroundImage:
       "linear-gradient(179deg, rgba(17, 19, 25, 0) 1%, rgba(17, 19, 25, 0.05) 17%, rgba(17, 19, 25, 0.2) 31%, rgba(17, 19, 25, 0.39) 44%, rgba(17, 19, 25, 0.61) 56%, rgba(17, 19, 25, 0.8) 69%, rgba(17, 19, 25, 0.95) 83%, rgb(17, 19, 25) 99%)",
+  };
+
+  const addToFavoriteMutation = useAddToFavoriteList({
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Added to favorite",
+      });
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Fail to add to favorite",
+        description: error.message,
+      });
+    },
+  });
+
+  const handleAddToFavorite = (idMovie: number) => {
+    addToFavoriteMutation.mutate(idMovie);
   };
 
   return movieDetail ? (
@@ -61,7 +84,7 @@ export default function MovieInfo({
         </div>
         <div className="w-full mt-[10%] z-30 flex flex-col gap-3">
           <div className="flex flex-col w-[500px] mb-8">
-            <h1 className="text-[2rem] font-semibold line-clamp-1 text-background mb-3">
+            <h1 className="text-[2rem] font-semibold text-foreground mb-3">
               {movieDetail.title}
             </h1>
             <div className="flex items-center gap-2 h-4 mb-4">
@@ -72,7 +95,7 @@ export default function MovieInfo({
                 </p>
               </div>
               <Separator orientation="vertical" />
-              <p className="text-background">{movieDetail.release_date}</p>
+              <p className="text-foreground">{movieDetail.release_date}</p>
               {movieDetail.adult && (
                 <>
                   <Separator orientation="vertical" />
@@ -81,25 +104,29 @@ export default function MovieInfo({
                 </>
               )}
 
-              <p className="text-background">{movieDetail.original_language}</p>
+              <p className="text-foreground">{movieDetail.original_language}</p>
             </div>
             <div className="flex items-center gap-2 mb-4">
               {movieDetail.genres?.map((genre, index) => (
-                <Badge variant="outline" key={index}>
+                <Badge
+                  variant="outline"
+                  key={index}
+                  className="text-foreground"
+                >
                   {genre.name}
                 </Badge>
               ))}
             </div>
             <div className="flex flex-col gap-3">
-              <p className="text-background">
+              <p className="text-foreground">
                 <span className="text-textGrey">Duration: {""}</span>
                 {movieDetail.runtime} {""}min
               </p>
-              <p className="text-background">
+              <p className="text-foreground">
                 <span className="text-textGrey">Budget: {""}</span>
                 {movieDetail.budget ? `$${movieDetail.budget}` : "-"}
               </p>
-              <p className="text-background">
+              <p className="text-foreground">
                 <span className="text-textGrey">
                   Production Companies: {""}
                 </span>
@@ -108,7 +135,7 @@ export default function MovieInfo({
                 ) || "-"}
               </p>
               {/* add to prevent overflow max-h-[63px] line-clamp-2 */}
-              <p className="text-background">
+              <p className="text-foreground">
                 <span className="text-textGrey">Overview: {""}</span>
                 {movieDetail.overview}
               </p>
@@ -130,12 +157,20 @@ export default function MovieInfo({
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button className="flex justify-center items-center rounded-full w-12 h-12">
-                        <Heart />
+                      <Button
+                        className="flex justify-center items-center rounded-full w-12 h-12"
+                        onClick={() => handleAddToFavorite(movieDetail.tmdb_id)}
+                        disabled={addToFavoriteMutation.isPending}
+                      >
+                        {addToFavoriteMutation.isPending ? (
+                          <Spinner />
+                        ) : (
+                          <Heart />
+                        )}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Add to your favourite</p>
+                      <p>Mark as favorite</p>
                       <TooltipArrow className="fill-primary"></TooltipArrow>
                     </TooltipContent>
                   </Tooltip>
@@ -161,7 +196,7 @@ export default function MovieInfo({
       </div>
 
       <div className="w-full">
-        <p className="text-background font-semibold text-xl mb-3">
+        <p className="text-foreground font-semibold text-xl mb-3">
           Top Billed Cast
         </p>
         <div className="w-full pr-16">
@@ -180,14 +215,14 @@ export default function MovieInfo({
                     height="217"
                     className="rounded-t-md w-full h-[217px]"
                   />
-                  <div className="flex-col gap-1 text-background justify-center items-center p-3 w-full h-[6rem]">
+                  <div className="flex-col gap-1 text-foreground justify-center items-center p-3 w-full h-[6rem]">
                     <p className="w-full font-bold leading-6">{cast.name}</p>
                     <p className="w-full leading-6 text-sm">{cast.character}</p>
                   </div>
                 </div>
               ))}
               <div
-                className="flex text-background items-center justify-center font-bold cursor-pointer"
+                className="flex text-foreground items-center justify-center font-bold cursor-pointer"
                 onClick={() =>
                   router.push(`/movie/${movieDetail.tmdb_id}/cast`)
                 }
@@ -202,8 +237,8 @@ export default function MovieInfo({
       </div>
     </>
   ) : (
-    <div className="text-background flex justify-center items-center flex-1">
-      Something is wrong. Please go back
+    <div className="flex justify-center items-center flex-1">
+      No movie found
     </div>
   );
 }

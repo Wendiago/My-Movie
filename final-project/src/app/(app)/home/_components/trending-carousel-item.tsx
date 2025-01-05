@@ -1,25 +1,30 @@
-import { Badge } from "@/components/ui/badge";
-import CustomImage from "@/components/ui/customImage";
+import CustomImage from "@/components/ui/custom-image";
+import { RatingCircle } from "@/components/ui/rating-circle";
 import { Movie } from "@/types/api";
-import Image from "next/image";
 
 export default function TrendingCarouselItem({ data }: { data: Movie }) {
   return (
     <div className="p-1 relative group">
-      <div className="flex flex-col justify-center items-center bg-transparent rounded-md">
+      <div className="flex flex-col justify-center items-center bg-transparent rounded-md overflow-hidden">
         <div className="rounded-md relative">
           <CustomImage
             src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${data.poster_path}`}
             alt={data.title}
             width="250"
             height="288"
-            className="w-full h-72 rounded-md object-cover object-center"
+            className="w-full h-72 rounded-md object-cover object-center hover:scale-110 transition-transform duration-300 ease-in-out"
           />
-          <Badge className="absolute top-0 right-0 rounded-none rounded-tr-md ">
-            {data.vote_average.toPrecision(2)}
-          </Badge>
+          <RatingCircle
+            className="absolute top-0 right-0"
+            size={40}
+            bgClassName="fill-background"
+            textClassName="text-[12px] font-semibold text-foreground"
+            progress={Number.parseFloat(
+              (data.vote_average * 10).toPrecision(1)
+            )}
+          />
         </div>
-        <p className="text-background py-4 text-start">{data.title}</p>
+        <p className="text-foreground py-4 text-start">{data.title}</p>
       </div>
     </div>
   );

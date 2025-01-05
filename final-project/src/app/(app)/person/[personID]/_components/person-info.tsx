@@ -1,6 +1,6 @@
 "use client";
 
-import CustomImage from "@/components/ui/customImage";
+import CustomImage from "@/components/ui/custom-image";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { GetCastByIDResponse } from "@/types/api";
 import { calculateAge, formatDate } from "@/utils/utils";
@@ -28,37 +28,40 @@ export default function PersonInfo({
     }
   }, []);
 
-  const { formattedDate, age } = calculateAge(person.birthday);
-  const birthDateString = `${formattedDate} (${age} years old)`;
+  let birthDateString: string;
+  if (person && person.birthday) {
+    const { formattedDate, age } = calculateAge(person.birthday);
+    birthDateString = `${formattedDate} (${age} years old)`;
+  } else {
+    birthDateString = "-";
+  }
 
-  return (
+  return person ? (
     <div className="w-full grid grid-cols-[300px_1fr]">
       <div className="flex flex-col">
-        <Image
+        <CustomImage
           src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w300${person.profile_path}`}
           alt={person.name}
           width="300"
           height="450"
           className="w-full h-auto rounded-md"
-        ></Image>
+        ></CustomImage>
         <section className="flex flex-col mt-6">
-          <h3 className="font-semibold text-background text-xl mb-3">
-            Personal Info
-          </h3>
+          <h3 className="font-semibold text-xl mb-3">Personal Info</h3>
           <div className="flex flex-col mb-5">
-            <h5 className="text-background font-bold">Known For</h5>
+            <h5 className="font-bold">Known For</h5>
             <p className="text-background">{person.known_for_department}</p>
           </div>
           <div className="flex flex-col mb-5">
-            <h5 className="text-background font-bold">Known Credits</h5>
+            <h5 className="font-bold">Known Credits</h5>
             <p className="text-background">
               {person.movie_credits.cast.length +
                 person.movie_credits.crew.length}
             </p>
           </div>
           <div className="flex flex-col mb-5">
-            <h5 className="text-background font-bold">Gender</h5>
-            <p className="text-background">
+            <h5 className="font-bold">Gender</h5>
+            <p>
               {person.gender == 0
                 ? "Unknown"
                 : person.gender == 1
@@ -67,39 +70,33 @@ export default function PersonInfo({
             </p>
           </div>
           <div className="flex flex-col mb-5">
-            <h5 className="text-background font-bold">Birthday</h5>
-            <p className="text-background">{birthDateString}</p>
+            <h5 className="font-bold">Birthday</h5>
+            <p>{birthDateString}</p>
           </div>
           <div className="flex flex-col mb-5">
-            <h5 className="text-background font-bold">Deathday</h5>
-            <p className="text-background">
-              {person.deathday ? formatDate(person.deathday) : "-"}
-            </p>
+            <h5 className="font-bold">Deathday</h5>
+            <p>{person.deathday ? formatDate(person.deathday) : "-"}</p>
           </div>
           <div className="flex flex-col mb-5">
-            <h5 className="text-background font-bold">Place Of Birth</h5>
-            <p className="text-background">{person.place_of_birth}</p>
+            <h5 className="font-bold">Place Of Birth</h5>
+            <p>{person.place_of_birth}</p>
           </div>
           <div className="flex flex-col mb-5">
-            <h5 className="text-background font-bold">Also Known As</h5>
+            <h5 className="font-bold">Also Known As</h5>
             <div className="flex flex-col gap-2">
               {person.also_known_as.map((name, index) => (
-                <p key={index} className="text-background">
-                  {name}
-                </p>
+                <p key={index}>{name}</p>
               ))}
             </div>
           </div>
         </section>
       </div>
       <div className="px-8 min-w-0">
-        <h1 className="font-bold text-4xl text-background">{person.name}</h1>
+        <h1 className="font-bold text-4xl">{person.name}</h1>
 
         {/* Bio section */}
         <section className="mt-8">
-          <h3 className="font-semibold text-background text-xl mb-3">
-            Biography
-          </h3>
+          <h3 className="font-semibold text-xl mb-3">Biography</h3>
           <div
             className={`${isBioExpanded ? "" : "line-clamp-6 h-[192px]"}transition-all relative`}
             ref={bioRef}
@@ -107,14 +104,14 @@ export default function PersonInfo({
             {person.biography.split("\n\n").map((paragraph, index, array) => (
               <p
                 key={index}
-                className={`text-background ${index < array.length - 1 ? "mb-6" : ""}`}
+                className={`${index < array.length - 1 ? "mb-6" : ""}`}
               >
                 {paragraph}
               </p>
             ))}
             {isBioOverflowing && (
               <p
-                className="text-primary font-semibold flex justify-end items-center cursor-pointer w-[30%] right-0 absolute bottom-0 bg-gradient-to-r from-foreground/40 via-foreground/80 to-foreground"
+                className="text-primary font-semibold flex justify-end items-center cursor-pointer w-[30%] right-0 absolute bottom-0 bg-gradient-to-r from-background/40 via-background/80 to-background"
                 onClick={() => {
                   setBioExpanded(true);
                   setBioOverflowing(false);
@@ -128,9 +125,7 @@ export default function PersonInfo({
         </section>
         {/* Known for section */}
         <section className="mt-8">
-          <h3 className="font-semibold text-background text-xl mb-3">
-            Known For
-          </h3>
+          <h3 className="font-semibold text-xl mb-3">Known For</h3>
           <div className="w-full pr-16">
             <ScrollArea className="w-full">
               <div className="flex gap-4 max-w pr-8 pb-8">
@@ -148,7 +143,7 @@ export default function PersonInfo({
                           height="195"
                           className="rounded-t-md w-full h-[195px]"
                         />
-                        <div className="flex-1 mx-auto text-center text-background m-3 w-full font-light line-clamp-3 text-ellipsis">
+                        <div className="flex-1 mx-auto text-center m-3 w-full font-light line-clamp-3 text-ellipsis">
                           {movie.title}
                         </div>
                       </div>
@@ -170,7 +165,7 @@ export default function PersonInfo({
                           height="195"
                           className="rounded-t-md w-full h-[195px]"
                         />
-                        <div className="flex-1 mx-auto text-center text-background m-3 w-full font-light line-clamp-3 text-ellipsis">
+                        <div className="flex-1 mx-auto text-center m-3 w-full font-light line-clamp-3 text-ellipsis">
                           {movie.title}
                         </div>
                       </div>
@@ -188,6 +183,10 @@ export default function PersonInfo({
           </div>
         </section>
       </div>
+    </div>
+  ) : (
+    <div className="flex flex-1 justify-center items-center">
+      No data for this person
     </div>
   );
 }

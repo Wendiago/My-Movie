@@ -28,12 +28,12 @@ export default function TrendingCarousel({
   return (
     <div className="flex flex-col gap-3 max-w-screen lg:px-8">
       {carouselName && (
-        <div className="font-bold text-background ml-8 text-2xl">
+        <div className="font-bold text-foreground ml-8 text-2xl">
           {carouselName}
         </div>
       )}
       <Carousel opts={{ align: "start", loop: true }} className="mx-auto">
-        <CarouselPrevious className="bg-transparent hover:bg-transparent [&_svg]:text-background left-6 z-10" />
+        <CarouselPrevious className="bg-foreground [&_svg]:text-background hover:bg-foreground/80 left-6 z-10 border-none" />
         <CarouselContent className="">
           {trendingMovies.map((movie, index) => (
             <CarouselItem
@@ -47,7 +47,7 @@ export default function TrendingCarousel({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselNext className="bg-transparent hover:bg-transparent [&_svg]:text-background right-6 z-10" />
+        <CarouselNext className="bg-foreground [&_svg]:text-background hover:bg-foreground/80 right-6 z-10 border-none" />
       </Carousel>
     </div>
   );
