@@ -17,7 +17,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import CustomImage from "@/components/ui/custom-image";
-import { useAddToFavoriteList } from "@/api/user/user";
+import { useAddToFavoriteList } from "@/api/user/favorite-list";
 import { toast } from "@/hooks/use-toast";
 import { Spinner } from "@/components/ui/spinner";
 
@@ -58,7 +58,7 @@ export default function MovieInfo({
     },
   });
 
-  const handleAddToFavorite = (idMovie: string) => {
+  const handleAddToFavorite = (idMovie: number) => {
     addToFavoriteMutation.mutate(idMovie);
   };
 
@@ -159,7 +159,7 @@ export default function MovieInfo({
                     <TooltipTrigger asChild>
                       <Button
                         className="flex justify-center items-center rounded-full w-12 h-12"
-                        onClick={() => handleAddToFavorite(movieDetail._id)}
+                        onClick={() => handleAddToFavorite(movieDetail.tmdb_id)}
                         disabled={addToFavoriteMutation.isPending}
                       >
                         {addToFavoriteMutation.isPending ? (

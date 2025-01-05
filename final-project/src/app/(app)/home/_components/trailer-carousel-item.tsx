@@ -1,7 +1,6 @@
 import { Badge } from "@/components/ui/badge";
-import CustomImage from "@/components/ui/customImage";
+import CustomImage from "@/components/ui/custom-image";
 import { Movie } from "@/types/api";
-import Image from "next/image";
 import { CirclePlay } from "lucide-react";
 
 export default function TrailerCarouselItem({ data }: { data: Movie }) {

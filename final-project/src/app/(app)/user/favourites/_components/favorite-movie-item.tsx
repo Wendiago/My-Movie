@@ -1,5 +1,5 @@
 "use client";
-import { useRemoveFromFavoriteList } from "@/api/user/user";
+import { useRemoveFromFavoriteList } from "@/api/user/favorite-list";
 import { Button } from "@/components/ui/button";
 import CustomImage from "@/components/ui/custom-image";
 import { RatingCircle } from "@/components/ui/rating-circle";
@@ -24,7 +24,10 @@ type FavoriteMovieItemProps = Pick<
   | "vote_average"
   | "vote_count"
   | "popularity"
->;
+> & {
+  isWatching: boolean;
+  rating: number;
+};
 export default function FavoriteMovieItem({
   data,
 }: {
@@ -47,7 +50,7 @@ export default function FavoriteMovieItem({
     },
   });
 
-  const handleRemoveFromFavorite = (idMovie: string) => {
+  const handleRemoveFromFavorite = (idMovie: number) => {
     removeFromFavoriteListMutation.mutate(idMovie);
   };
 
@@ -107,7 +110,7 @@ export default function FavoriteMovieItem({
               size="icon"
               variant="outline"
               className="text-textGrey border-foreground/50 rounded-full w-7 h-7"
-              onClick={() => handleRemoveFromFavorite(data._id)}
+              onClick={() => handleRemoveFromFavorite(data.tmdb_id)}
               disabled={removeFromFavoriteListMutation.isPending}
             >
               {removeFromFavoriteListMutation.isPending ? <Spinner /> : <X />}

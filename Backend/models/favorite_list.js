@@ -18,9 +18,9 @@ const favoriteListSchema = new mongoose.Schema({
 });
 
 const favoriteList = mongoose.model(
-  "favorite_list_test",
+  "favorite_list",
   favoriteListSchema,
-  "favorite_list_test"
+  "favorite_list"
 );
 
 module.exports = favoriteList;

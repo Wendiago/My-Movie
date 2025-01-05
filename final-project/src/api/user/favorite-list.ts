@@ -11,7 +11,7 @@ const getFavoriteList = async (): Promise<GetFavoriteListResponse> => {
 };
 
 const addToFavoriteList = async (
-  movieID: string
+  movieID: number
 ): Promise<AddToFavoriteListResponse> => {
   return customFetch.post<AddToFavoriteListResponse>("/api/v1/favorites", {
     idMovie: movieID,
@@ -19,7 +19,7 @@ const addToFavoriteList = async (
 };
 
 const removeFromFavoriteList = async (
-  movieID: string
+  movieID: number
 ): Promise<RemoveFromFavoriteListResponse> => {
   return customFetch.delete<RemoveFromFavoriteListResponse>(
     `/api/v1/favorites/${movieID}`

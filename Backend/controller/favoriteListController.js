@@ -65,7 +65,6 @@ const favoriteListController = {
 
       // 6. Thêm phim vào danh sách
       favorite_list.favoriteList.push({ tmdb_id: idMovie });
-      const updatedList = await favorite_list.save();
 
       return res.status(200).json({
         success: true,
@@ -118,7 +117,7 @@ const favoriteListController = {
 
       // 3. Lọc bỏ phim cần xóa
       const updatedMovies = favorite_list.favoriteList.filter(
-        (item) => item.tmdb_id !== idMovie
+        (item) => item.tmdb_id !== Number(idMovie)
       );
 
       if (updatedMovies.length === favorite_list.favoriteList.length) {
@@ -130,7 +129,6 @@ const favoriteListController = {
 
       // 4. Cập nhật danh sách yêu thích
       favorite_list.favoriteList = updatedMovies;
-      const updatedList = await favorite_list.save();
 
       res.status(200).json({
         success: true,
@@ -176,13 +174,6 @@ const favoriteListController = {
         });
 
       if (!favoriteListData) {
-        return res.status(404).json({
-          success: false,
-          message: "Favorite list is empty!",
-        });
-      }
-
-      if (favoriteListData.favoriteList.length === 0) {
         return res.status(200).json({
           success: true,
           message: "Favorite list is empty",

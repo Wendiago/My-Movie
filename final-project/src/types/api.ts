@@ -155,28 +155,23 @@ export type User = {
   isVerified: boolean;
 };
 
-export type FavoriteList = {
-  _id: string;
-  idUser: string;
-  favoriteList: {
-    idMovie: Pick<
-      Movie,
-      | "_id"
-      | "tmdb_id"
-      | "title"
-      | "backdrop_path"
-      | "poster_path"
-      | "overview"
-      | "genres"
-      | "release_date"
-      | "runtime"
-      | "vote_average"
-      | "vote_count"
-      | "popularity"
-    >;
-    _id: string;
-  }[];
-};
+export type FavoriteList = (Pick<
+  Movie,
+  | "_id"
+  | "tmdb_id"
+  | "title"
+  | "backdrop_path"
+  | "poster_path"
+  | "overview"
+  | "genres"
+  | "release_date"
+  | "runtime"
+  | "vote_average"
+  | "popularity"
+> & {
+  isWatching: boolean;
+  rating: number;
+})[];
 
 export type GetFavoriteListResponse = {
   success: string;
@@ -249,8 +244,8 @@ export type GetCastByIDResponse = {
 };
 
 export type MovieTrailer = {
-  key: string,
-  tmdb_id: Movie
+  key: string;
+  tmdb_id: Movie;
 };
 
 export type GetMovieTrailersResponse = {
