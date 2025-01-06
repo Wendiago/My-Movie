@@ -36,6 +36,8 @@
     --text-grey: 240 1.78% 66.86%;
 
     --progress-bar-bg: 0 0 40%;
+
+    --favorite: 320 84% 61%;
   }
 
   :root {
@@ -71,6 +73,8 @@
     --text-grey: 240 1.78% 66.86%;
     
     --progress-bar-bg: 0 0 40%;
+
+    --favorite: 320 84% 61%;
   }
 
   * {

@@ -5,12 +5,16 @@ import {
   RemoveFromFavoriteListResponse,
 } from "@/types/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  addToFavoriteListServerAction,
+  removeFromFavoriteListServerAction,
+} from "./favorite-list-actions";
 
-const getFavoriteList = async (): Promise<GetFavoriteListResponse> => {
+export const getFavoriteList = async (): Promise<GetFavoriteListResponse> => {
   return customFetch.get<GetFavoriteListResponse>("/api/v1/favorites");
 };
 
-const addToFavoriteList = async (
+export const addToFavoriteList = async (
   movieID: number
 ): Promise<AddToFavoriteListResponse> => {
   return customFetch.post<AddToFavoriteListResponse>("/api/v1/favorites", {
@@ -18,7 +22,7 @@ const addToFavoriteList = async (
   });
 };
 
-const removeFromFavoriteList = async (
+export const removeFromFavoriteList = async (
   movieID: number
 ): Promise<RemoveFromFavoriteListResponse> => {
   return customFetch.delete<RemoveFromFavoriteListResponse>(
@@ -45,7 +49,12 @@ export const useAddToFavoriteList = ({
     mutationKey: ["add-to-favoriteList"],
     mutationFn: addToFavoriteList,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["get-favoriteList"] });
+      queryClient.invalidateQueries({
+        queryKey: ["get-ratingList"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["get-favoriteList"],
+      });
       onSuccess?.();
     },
     onError: (error: Error) => {
@@ -67,6 +76,57 @@ export const useRemoveFromFavoriteList = ({
   const mutation = useMutation({
     mutationKey: ["remove-from-favoriteList"],
     mutationFn: removeFromFavoriteList,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["get-ratingList"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["get-favoriteList"],
+      });
+      onSuccess?.();
+    },
+    onError: (error: Error) => {
+      onError?.(error);
+    },
+  });
+
+  return mutation;
+};
+
+export const useAddToFavoriteListServer = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: () => void;
+  onError?: (error: Error) => void;
+}) => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationKey: ["add-to-favoriteList"],
+    mutationFn: addToFavoriteListServerAction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["get-favoriteList"] });
+      onSuccess?.();
+    },
+    onError: (error: Error) => {
+      onError?.(error);
+    },
+  });
+
+  return mutation;
+};
+
+export const useRemoveFromFavoriteListServer = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: () => void;
+  onError?: (error: Error) => void;
+}) => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationKey: ["remove-from-favoriteList"],
+    mutationFn: removeFromFavoriteListServerAction,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["get-favoriteList"] });
       onSuccess?.();

@@ -7,15 +7,17 @@ import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/hooks/use-toast";
 import { Movie } from "@/types/api";
 import { formatDate } from "@/utils/utils";
-import { List, Star, X } from "lucide-react";
+import { Heart, List, Star, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import StarRating from "../../_components/star-rating";
-import { useAddToRatingList } from "@/api/user/rating-list";
+import {
+  useAddToRatingList,
+  useRemoveFromRatingList,
+} from "@/api/user/rating-list";
 
-type FavoriteMovieItemProps = Pick<
+type RatingMovieItemProps = Pick<
   Movie,
-  | "_id"
   | "tmdb_id"
   | "title"
   | "backdrop_path"
@@ -30,11 +32,12 @@ type FavoriteMovieItemProps = Pick<
 > & {
   isWatching?: boolean;
   rating?: number;
+  isFavorite?: boolean;
 };
-export default function FavoriteMovieItem({
+export default function RatingMovieItem({
   data,
 }: {
-  data: FavoriteMovieItemProps;
+  data: RatingMovieItemProps;
 }) {
   const [isStarRatingOpen, setStarRatingOpen] = useState(false);
   const starRatingRef = useRef<HTMLDivElement>(null);
@@ -87,6 +90,22 @@ export default function FavoriteMovieItem({
     },
   });
 
+  const removeRatingMovieMutation = useRemoveFromRatingList({
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Removed movie successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Fail to remove",
+        description: error.message,
+      });
+    },
+  });
+
   const handleRemoveFromFavorite = (idMovie: number) => {
     removeFromFavoriteListMutation.mutate(idMovie);
   };
@@ -98,6 +117,10 @@ export default function FavoriteMovieItem({
   const handleOnMovieRate = (rating: number) => {
     setStarRatingOpen(false);
     rateMovieMutation.mutate({ movieID: data.tmdb_id, rating: rating });
+  };
+
+  const handleRemoveFromRating = (idMovie: number) => {
+    removeRatingMovieMutation.mutate(idMovie);
   };
 
   return (
@@ -161,6 +184,23 @@ export default function FavoriteMovieItem({
               variant="outline"
               className="text-textGrey border-foreground/50 rounded-full w-7 h-7"
             >
+              {data.isFavorite ? (
+                <Heart
+                  fill="hsl(var(--favorite))"
+                  color="hsl(var(--favorite))"
+                />
+              ) : (
+                <Heart />
+              )}
+            </Button>
+            <div className="text-textGrey">Favorite</div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              size="icon"
+              variant="outline"
+              className="text-textGrey border-foreground/50 rounded-full w-7 h-7"
+            >
               <List />
             </Button>
             <div className="text-textGrey">Add to list</div>
@@ -170,7 +210,7 @@ export default function FavoriteMovieItem({
               size="icon"
               variant="outline"
               className="text-textGrey border-foreground/50 rounded-full w-7 h-7"
-              onClick={() => handleRemoveFromFavorite(data.tmdb_id)}
+              onClick={() => handleRemoveFromRating(data.tmdb_id)}
               disabled={removeFromFavoriteListMutation.isPending}
             >
               {removeFromFavoriteListMutation.isPending ? <Spinner /> : <X />}

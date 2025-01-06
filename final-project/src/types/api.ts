@@ -11,6 +11,7 @@ export type Movie = {
   }; // Collection details
   budget?: number; // Production budget
   categories?: string[]; // Categories (e.g., popular, now_playing)
+  media_type?: string;
   genres?: {
     id?: number;
     name?: string;
@@ -78,6 +79,61 @@ export type Movie = {
       job?: string; // Job role, e.g., Director
     }[];
   };
+  //User data
+  isFavorite?: boolean;
+  rating?: number | null;
+  isWatching?: boolean;
+};
+
+export type MovieReview = {
+  author: string;
+  author_details?: {
+    name?: string;
+    username?: string;
+    avatar_path?: string;
+    rating?: number;
+  };
+  content?: string;
+  created_at?: string;
+  updated_at?: string;
+  id: string;
+  url?: string;
+};
+
+export type MovieVideo = {
+  iso_639_1?: string;
+  iso_3166_1?: string;
+  name?: string;
+  key: string;
+  site?: string;
+  size?: number;
+  type?: string;
+  official?: boolean;
+  published_at?: string;
+  id: string;
+};
+
+export type MovieRecommendation = {
+  backdrop_path?: string; // URL to the backdrop image
+  id: number; // Unique identifier for the movie
+  title: string; // Title of the movie
+  original_title?: string; // Original title of the movie
+  overview?: string; // Summary of the movie's plot
+  poster_path?: string; // URL to the poster image
+  media_type?: string; // Type of media (e.g., "movie")
+  adult?: boolean; // Indicates if the movie is for adults
+  original_language?: string; // Language code of the movie's original language
+  genre_ids?: number[]; // Array of genre IDs
+  popularity?: number; // Popularity score
+  release_date?: string; // Release date of the movie in ISO format
+  video?: boolean; // Indicates if the movie is a video
+  vote_average?: number; // Average vote score
+  vote_count?: number; // Number of votes
+};
+
+export type MovieTrailer = {
+  key: string;
+  tmdb_id: Movie;
 };
 
 export type Genre = {
@@ -85,6 +141,42 @@ export type Genre = {
   id: number; // Genre ID
   name: string; // Name of the genre
 };
+
+export type UserRatingMovie = Pick<
+  Movie,
+  | "tmdb_id"
+  | "backdrop_path"
+  | "genres"
+  | "overview"
+  | "poster_path"
+  | "original_title"
+  | "release_date"
+  | "runtime"
+  | "title"
+  | "vote_average"
+  | "vote_count"
+  | "rating"
+  | "isFavorite"
+  | "isWatching"
+>;
+
+export type UserWatchingMovie = Pick<
+  Movie,
+  | "tmdb_id"
+  | "backdrop_path"
+  | "genres"
+  | "overview"
+  | "poster_path"
+  | "original_title"
+  | "release_date"
+  | "runtime"
+  | "title"
+  | "vote_average"
+  | "vote_count"
+  | "rating"
+  | "isFavorite"
+  | "rating"
+>;
 
 export type TrendingMovies = {
   tmdb_id: number; // ID from TMDB
@@ -155,7 +247,7 @@ export type User = {
   isVerified: boolean;
 };
 
-export type FavoriteList = (Pick<
+export type FavoriteList = Pick<
   Movie,
   | "_id"
   | "tmdb_id"
@@ -168,10 +260,9 @@ export type FavoriteList = (Pick<
   | "runtime"
   | "vote_average"
   | "popularity"
-> & {
-  isWatching: boolean;
-  rating: number;
-})[];
+  | "isWatching"
+  | "rating"
+>[];
 
 export type GetFavoriteListResponse = {
   success: string;
@@ -232,20 +323,47 @@ export type GetMovieDetailResponse = {
   success: boolean;
   message: string;
   data: Movie;
-  reviews: any;
-  videos: any;
-  recommendations: any;
+  reviews?: MovieReview[];
+  videos?: MovieVideo[];
+  recommendations?: MovieRecommendation[];
+};
+
+export type AddToRatingListResponse = {
+  success: boolean;
+  message: string;
+};
+
+export type RemoveFromRatingListResponse = {
+  success: boolean;
+  message: string;
+};
+
+export type GetRatingListResponse = {
+  success: boolean;
+  message: string;
+  data: UserRatingMovie[];
+};
+
+export type AddToWatchListResponse = {
+  success: boolean;
+  message: string;
+};
+
+export type RemoveFromWatchListResponse = {
+  success: boolean;
+  message: string;
+};
+
+export type GetWatchListResponse = {
+  success: boolean;
+  message: string;
+  data: UserWatchingMovie[];
 };
 
 export type GetCastByIDResponse = {
   success: boolean;
   message: string;
   data: People;
-};
-
-export type MovieTrailer = {
-  key: string;
-  tmdb_id: Movie;
 };
 
 export type GetMovieTrailersResponse = {

@@ -17,7 +17,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import CustomImage from "@/components/ui/custom-image";
-import { useAddToFavoriteList } from "@/api/user/favorite-list";
+import {
+  useAddToFavoriteListServer,
+  useRemoveFromFavoriteListServer,
+} from "@/api/user/favorite-list";
 import { toast } from "@/hooks/use-toast";
 import { Spinner } from "@/components/ui/spinner";
 
@@ -42,12 +45,13 @@ export default function MovieInfo({
       "linear-gradient(179deg, rgba(17, 19, 25, 0) 1%, rgba(17, 19, 25, 0.05) 17%, rgba(17, 19, 25, 0.2) 31%, rgba(17, 19, 25, 0.39) 44%, rgba(17, 19, 25, 0.61) 56%, rgba(17, 19, 25, 0.8) 69%, rgba(17, 19, 25, 0.95) 83%, rgb(17, 19, 25) 99%)",
   };
 
-  const addToFavoriteMutation = useAddToFavoriteList({
+  const addToFavoriteMutation = useAddToFavoriteListServer({
     onSuccess: () => {
       toast({
         variant: "success",
         title: "Added to favorite",
       });
+      router.refresh();
     },
     onError: (error) => {
       toast({
@@ -60,6 +64,35 @@ export default function MovieInfo({
 
   const handleAddToFavorite = (idMovie: number) => {
     addToFavoriteMutation.mutate(idMovie);
+  };
+
+  const removeFromFavoriteListMutation = useRemoveFromFavoriteListServer({
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Removed from favorite list",
+      });
+      router.refresh();
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Fail to remove from favorite list",
+        description: error.message,
+      });
+    },
+  });
+
+  const handleRemoveFromFavorite = (idMovie: number) => {
+    removeFromFavoriteListMutation.mutate(idMovie);
+  };
+
+  const handleOnFavoriteButtonClick = () => {
+    if (!movieDetail.isFavorite) {
+      handleAddToFavorite(movieDetail.tmdb_id);
+    } else {
+      handleRemoveFromFavorite(movieDetail.tmdb_id);
+    }
   };
 
   return movieDetail ? (
@@ -143,12 +176,15 @@ export default function MovieInfo({
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button className="flex justify-center items-center rounded-full w-12 h-12">
+                      <Button
+                        className="flex justify-center items-center rounded-full w-12 h-12"
+                        variant="secondary"
+                      >
                         <List />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Add to your playlist</p>
+                      <p>Add to list</p>
                       <TooltipArrow className="fill-primary"></TooltipArrow>
                     </TooltipContent>
                   </Tooltip>
@@ -159,11 +195,17 @@ export default function MovieInfo({
                     <TooltipTrigger asChild>
                       <Button
                         className="flex justify-center items-center rounded-full w-12 h-12"
-                        onClick={() => handleAddToFavorite(movieDetail.tmdb_id)}
+                        onClick={handleOnFavoriteButtonClick}
                         disabled={addToFavoriteMutation.isPending}
+                        variant="secondary"
                       >
                         {addToFavoriteMutation.isPending ? (
-                          <Spinner />
+                          <Spinner variant="light" />
+                        ) : movieDetail.isFavorite ? (
+                          <Heart
+                            fill="hsl(var(--favorite))"
+                            color="hsl(var(--favorite))"
+                          />
                         ) : (
                           <Heart />
                         )}
@@ -179,7 +221,10 @@ export default function MovieInfo({
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button className="flex justify-center items-center rounded-full w-12 h-12">
+                      <Button
+                        className="flex justify-center items-center rounded-full w-12 h-12"
+                        variant="secondary"
+                      >
                         <Bookmark />
                       </Button>
                     </TooltipTrigger>
@@ -217,7 +262,9 @@ export default function MovieInfo({
                   />
                   <div className="flex-col gap-1 text-foreground justify-center items-center p-3 w-full h-[6rem]">
                     <p className="w-full font-bold leading-6">{cast.name}</p>
-                    <p className="w-full leading-6 text-sm">{cast.character}</p>
+                    <p className="w-full leading-6 text-sm line-clamp-3 text-ellipsis">
+                      {cast.character}
+                    </p>
                   </div>
                 </div>
               ))}

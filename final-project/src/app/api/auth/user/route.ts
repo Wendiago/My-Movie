@@ -10,7 +10,6 @@ export async function GET(request: NextRequest): Promise<Response> {
         cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
       },
       next: { revalidate: 15 * 60 },
-      cache: "force-cache",
     }
   );
   return response;
