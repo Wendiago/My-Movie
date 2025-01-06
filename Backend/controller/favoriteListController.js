@@ -1,9 +1,10 @@
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
+
 const favoriteList = require("../models/favorite_list");
 const ratingList = require("../models/rating_list");
 const watchingList = require("../models/watching_list");
-const AppError = require("../utils/appError");
 const Session = require("../models/sessionModel");
-const catchAsync = require("../utils/catchAsync");
 
 const favoriteListController = {
   addToList: catchAsync(async (req, res, next) => {
@@ -65,6 +66,7 @@ const favoriteListController = {
 
       // 6. Thêm phim vào danh sách
       favorite_list.favoriteList.push({ tmdb_id: idMovie });
+      await favorite_list.save();
 
       return res.status(200).json({
         success: true,
@@ -129,6 +131,7 @@ const favoriteListController = {
 
       // 4. Cập nhật danh sách yêu thích
       favorite_list.favoriteList = updatedMovies;
+      await favorite_list.save();
 
       res.status(200).json({
         success: true,

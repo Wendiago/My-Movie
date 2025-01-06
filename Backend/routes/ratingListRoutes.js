@@ -3,7 +3,7 @@ const ratingListController = require("../controller/ratingListController");
 
 const router = express.Router();
 
-router.post("/api/v1/add/rating", ratingListController.addToList);
-router.post("/api/v1/remove/rating", ratingListController.removeFromList);
-router.get("/api/v1/get/rating", ratingListController.getAllRatingList);
+router.post("/api/v1/ratings", ratingListController.addToList);
+router.delete("/api/v1/ratings/:idMovie", ratingListController.removeFromList);
+router.get("/api/v1/ratings", ratingListController.getAllRatingList);
 module.exports = router;

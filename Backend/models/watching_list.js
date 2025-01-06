@@ -17,6 +17,6 @@ const watchingListSchema = new mongoose.Schema({
     ]
 });
 
-const watchingList = mongoose.model('watching_list_test', watchingListSchema, 'watching_list_test');
+const watchingList = mongoose.model('watching_list', watchingListSchema, 'watching_list');
 
 module.exports = watchingList;

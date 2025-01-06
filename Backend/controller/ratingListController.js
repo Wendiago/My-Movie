@@ -1,7 +1,8 @@
-const watchingList = require("../models/watching_list");
-const AppError = require("../utils/appError");
-const Session = require("../models/sessionModel");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
+
+const watchingList = require("../models/watching_list");
+const Session = require("../models/sessionModel");
 const Movie = require("../models/movies");
 const favoriteList = require("../models/favorite_list");
 const ratingList = require("../models/rating_list");
@@ -99,7 +100,7 @@ const ratingListController = {
         }
 
         const userId = session.userId;
-        const { idMovie } = req.body;
+        const { idMovie } = req.params;
 
         if (!idMovie) {
             return res.status(400).json({
@@ -118,7 +119,7 @@ const ratingListController = {
         }
 
         const updatedMovies = rating_list.ratingList.filter(
-            (item) => item.tmdb_id !== idMovie
+            (item) => item.tmdb_id !== Number(idMovie)
         );
 
         if (updatedMovies.length === rating_list.ratingList.length) {

@@ -1,9 +1,11 @@
 const catchAsync = require("../utils/catchAsync");
+const CustomApi = require("../utils/customApi");
+const AppError = require("../utils/appError");
+
 const Genre = require("../models/movies_genres");
 const Movie = require("../models/movies");
 const MovieTrendingDay = require("../models/movies_trending_day");
 const MovieTrendingWeek = require("../models/movies_trending_week");
-const CustomApi = require("../utils/customApi");
 const favoriteList = require("../models/favorite_list");
 const watchingList = require("../models/watching_list");
 const ratingList = require("../models/rating_list");

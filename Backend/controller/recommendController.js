@@ -1,11 +1,12 @@
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
+const customApi = require("../utils/customApi");
+
 const Movie = require("../models/movies");
 const FavoriteList = require("../models/favorite_list");
-const AppError = require("../utils/appError");
 const Session = require("../models/sessionModel");
 const MovieUpcoming = require("../models/movies_upcoming");
 const LatestTrailerList = require("../models/latest_trailer_list");
-const customApi = require("../utils/customApi");
 
 const recommendController = {
   getRecommendationBasedFavoriteList: catchAsync(async (req, res, next) => {
