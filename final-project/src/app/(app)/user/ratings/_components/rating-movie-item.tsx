@@ -232,16 +232,6 @@ export default function RatingMovieItem({
               size="icon"
               variant="outline"
               className="text-textGrey border-foreground/50 rounded-full w-7 h-7"
-            >
-              <List />
-            </Button>
-            <div className="text-textGrey">Add to list</div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              size="icon"
-              variant="outline"
-              className="text-textGrey border-foreground/50 rounded-full w-7 h-7"
               onClick={handleRemoveFromRating}
               disabled={removeRatingMovieMutation.isPending}
             >

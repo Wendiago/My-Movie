@@ -5,7 +5,7 @@ export default function CastInfoSkeleton() {
     <>
       {/* Background and Header Skeleton */}
       <div className="w-full mx-auto bg-cover bg-center h-[200px]">
-        <div className="w-full px-16 py-4 flex items-center gap-5">
+        <div className="container py-4 flex items-center gap-5">
           <Skeleton className="w-[58px] h-[87px]" />
           <div className="flex flex-col gap-2 w-[50%]">
             <Skeleton className="h-[24px] w-[70%]" />
@@ -15,7 +15,7 @@ export default function CastInfoSkeleton() {
       </div>
 
       {/* Main Content Skeleton */}
-      <div className="w-full px-16 py-8 grid grid-cols-2 gap-8">
+      <div className="container py-8 grid grid-cols-2 gap-8">
         {/* Cast Section Skeleton */}
         <div className="flex flex-col">
           <Skeleton className="h-[24px] w-[150px] mb-5" />

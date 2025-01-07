@@ -75,7 +75,7 @@ export default function RecommendResults() {
   }
 
   return (
-    <div className="min-h-screen mx-auto px-16 w-full">
+    <div className="container h-full">
       {isLoading ? (
         <div className="flex flex-wrap gap-4 justify-center mt-16">
           {Array.from({ length: 20 }).map((_, index) => (
@@ -85,8 +85,8 @@ export default function RecommendResults() {
             />
           ))}
         </div>
-      ) : data?.length === 0 ? (
-        <div className="text-center py-4">
+      ) : data?.data == null || data?.data?.length == 0 ? (
+        <div className="flex items-center justify-center h-full">
           No results found for Recommendations.
         </div>
       ) : (

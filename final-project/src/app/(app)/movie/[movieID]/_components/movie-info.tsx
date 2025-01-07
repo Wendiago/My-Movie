@@ -155,7 +155,7 @@ export default function MovieInfo({
             style={bottomLayerStyle}
           ></div>
         </div>
-        <div className="w-full mt-[10%] z-30 flex flex-col gap-3">
+        <div className="container mt-[10%] z-30 flex flex-col gap-3">
           <div className="flex flex-col w-[500px] mb-8">
             <h1 className="text-[2rem] font-semibold text-foreground mb-3">
               {movieDetail.title}
@@ -307,47 +307,43 @@ export default function MovieInfo({
         </div>
       </div>
 
-      <div className="w-full">
+      <div className="container">
         <p className="text-foreground font-semibold text-xl mb-3">
           Top Billed Cast
         </p>
-        <div className="w-full pr-16">
-          <ScrollArea className="w-full">
-            <div className="flex gap-4 w-max pr-8 pb-8">
-              {partialCast.map((cast, index) => (
-                <div
-                  key={index}
-                  className="rounded-md cursor-pointer w-[145px]"
-                  onClick={() => router.push(`/person/${cast.id}`)}
-                >
-                  <CustomImage
-                    src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w185${cast.profile_path}`}
-                    alt={cast.name}
-                    width="145"
-                    height="217"
-                    className="rounded-t-md w-full h-[217px]"
-                  />
-                  <div className="flex-col gap-1 text-foreground justify-center items-center p-3 w-full h-[6rem]">
-                    <p className="w-full font-bold leading-6">{cast.name}</p>
-                    <p className="w-full leading-6 text-sm line-clamp-3 text-ellipsis">
-                      {cast.character}
-                    </p>
-                  </div>
-                </div>
-              ))}
+        <ScrollArea className="w-full">
+          <div className="flex gap-4 w-max pr-8 pb-8">
+            {partialCast.map((cast, index) => (
               <div
-                className="flex text-foreground items-center justify-center font-bold cursor-pointer"
-                onClick={() =>
-                  router.push(`/movie/${movieDetail.tmdb_id}/cast`)
-                }
+                key={index}
+                className="rounded-md cursor-pointer w-[145px]"
+                onClick={() => router.push(`/person/${cast.id}`)}
               >
-                View full
-                <ChevronRight />
+                <CustomImage
+                  src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w185${cast.profile_path}`}
+                  alt={cast.name}
+                  width="145"
+                  height="217"
+                  className="rounded-t-md w-full h-[217px]"
+                />
+                <div className="flex-col gap-1 text-foreground justify-center items-center p-3 w-full h-[6rem]">
+                  <p className="w-full font-bold leading-6">{cast.name}</p>
+                  <p className="w-full leading-6 text-sm line-clamp-3 text-ellipsis">
+                    {cast.character}
+                  </p>
+                </div>
               </div>
+            ))}
+            <div
+              className="flex text-foreground items-center justify-center font-bold cursor-pointer"
+              onClick={() => router.push(`/movie/${movieDetail.tmdb_id}/cast`)}
+            >
+              View full
+              <ChevronRight />
             </div>
-            <ScrollBar orientation="horizontal"></ScrollBar>
-          </ScrollArea>
-        </div>
+          </div>
+          <ScrollBar orientation="horizontal"></ScrollBar>
+        </ScrollArea>
       </div>
     </>
   ) : (

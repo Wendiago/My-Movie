@@ -1,10 +1,14 @@
 import CustomImage from "@/components/ui/custom-image";
 import { RatingCircle } from "@/components/ui/rating-circle";
-import { Movie } from "@/types/api";
+import { TrendingMovies } from "@/types/api";
 
-export default function TrendingCarouselItem({ data }: { data: Movie }) {
+export default function TrendingCarouselItem({
+  data,
+}: {
+  data: TrendingMovies;
+}) {
   return (
-    <div className="p-1 relative group">
+    <div className="relative group">
       <div className="flex flex-col justify-center items-center bg-transparent rounded-md overflow-hidden">
         <div className="rounded-md relative">
           <CustomImage

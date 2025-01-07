@@ -4,7 +4,7 @@ import React from "react";
 export default function Footer() {
   return (
     <footer className="w-full py-6 border-t">
-      <div className="container lg:grid lg:grid-cols-4 md:flex md:justify-between">
+      <div className="container flex justify-between items-center">
         <div className="flex items-center gap-2">
           <Popcorn className="text-primary" />
           <p className="font-bold ">WENDIAGO MOVIE</p>
