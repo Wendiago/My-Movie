@@ -7,11 +7,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import SubCarouselItem from "./trending-carousel-item";
 import { useRouter } from "next/navigation";
 import { paths } from "@/lib/routes";
 import { GetTrendingMoviesResponse } from "@/types/api";
 import { use } from "react";
+import TrendingCarouselItem from "./trending-carousel-item";
 
 type TrendingCarouselProps = {
   carouselName?: string;
@@ -26,28 +26,29 @@ export default function TrendingCarousel({
   const trendingMovies = use(data).data;
 
   return (
-    <div className="flex flex-col gap-3 max-w-screen lg:px-8">
+    <div className="w-full flex flex-col gap-3">
       {carouselName && (
-        <div className="font-bold text-foreground ml-8 text-2xl">
-          {carouselName}
-        </div>
+        <div className="font-bold text-foreground text-2xl">{carouselName}</div>
       )}
-      <Carousel opts={{ align: "start", loop: true }} className="mx-auto">
-        <CarouselPrevious className="bg-foreground [&_svg]:text-background hover:bg-foreground/80 left-6 z-10 border-none" />
-        <CarouselContent className="">
+      <Carousel
+        opts={{ align: "start", loop: true }}
+        className="w-full mx-auto"
+      >
+        <CarouselPrevious className="bg-foreground [&_svg]:text-background hover:bg-foreground/80 z-10 border-none left-0" />
+        <CarouselContent className="w-full -ml-2">
           {trendingMovies.map((movie, index) => (
             <CarouselItem
               key={index}
-              className="md:basis-1/3 lg:basis-1/5 pl-2 cursor-pointer"
+              className="md:basis-1/4 lg:basis-1/6 basis-1/2 cursor-pointer"
               onClick={() =>
                 router.push(paths.details.getHref(movie.tmdb_id.toString()))
               }
             >
-              <SubCarouselItem data={movie} />
+              <TrendingCarouselItem data={movie} />
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselNext className="bg-foreground [&_svg]:text-background hover:bg-foreground/80 right-6 z-10 border-none" />
+        <CarouselNext className="bg-foreground [&_svg]:text-background hover:bg-foreground/80 z-10 border-none right-0" />
       </Carousel>
     </div>
   );

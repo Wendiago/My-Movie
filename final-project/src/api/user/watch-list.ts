@@ -1,43 +1,43 @@
 import { customFetch } from "@/lib/api-client";
 import {
-  AddToFavoriteListResponse,
-  GetFavoriteListResponse,
-  RemoveFromFavoriteListResponse,
+  AddToWatchListResponse,
+  GetWatchListResponse,
+  RemoveFromWatchListResponse,
 } from "@/types/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  addToFavoriteListServerAction,
-  removeFromFavoriteListServerAction,
-} from "./favorite-list-actions";
+  addToWatchlistServerAction,
+  removeFromWatchlistServerAction,
+} from "./watchlist-actions";
 
-export const getFavoriteList = async (): Promise<GetFavoriteListResponse> => {
-  return customFetch.get<GetFavoriteListResponse>("/api/v1/favorites");
+export const getWatchlist = async (): Promise<GetWatchListResponse> => {
+  return customFetch.get<GetWatchListResponse>("/api/v1/watchings");
 };
 
-export const addToFavoriteList = async (
+export const addToWatchlist = async (
   movieID: number
-): Promise<AddToFavoriteListResponse> => {
-  return customFetch.post<AddToFavoriteListResponse>("/api/v1/favorites", {
+): Promise<AddToWatchListResponse> => {
+  return customFetch.post<AddToWatchListResponse>("/api/v1/watchings", {
     idMovie: movieID,
   });
 };
 
-export const removeFromFavoriteList = async (
+export const removeFromWatchlist = async (
   movieID: number
-): Promise<RemoveFromFavoriteListResponse> => {
-  return customFetch.delete<RemoveFromFavoriteListResponse>(
-    `/api/v1/favorites/${movieID}`
+): Promise<RemoveFromWatchListResponse> => {
+  return customFetch.delete<RemoveFromWatchListResponse>(
+    `/api/v1/watchings/${movieID}`
   );
 };
 
-export const useFavoriteList = () => {
+export const useWatchlist = () => {
   return useQuery({
-    queryKey: ["get-favoriteList"],
-    queryFn: () => getFavoriteList(),
+    queryKey: ["get-watchlist"],
+    queryFn: () => getWatchlist(),
   });
 };
 
-export const useAddToFavoriteList = ({
+export const useAddToWatchlist = ({
   onSuccess,
   onError,
 }: {
@@ -46,8 +46,8 @@ export const useAddToFavoriteList = ({
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationKey: ["add-to-favoriteList"],
-    mutationFn: addToFavoriteList,
+    mutationKey: ["add-to-watchlist"],
+    mutationFn: addToWatchlist,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["get-ratingList"],
@@ -68,7 +68,7 @@ export const useAddToFavoriteList = ({
   return mutation;
 };
 
-export const useRemoveFromFavoriteList = ({
+export const useRemoveFromWatchlist = ({
   onSuccess,
   onError,
 }: {
@@ -77,8 +77,8 @@ export const useRemoveFromFavoriteList = ({
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationKey: ["remove-from-favoriteList"],
-    mutationFn: removeFromFavoriteList,
+    mutationKey: ["remove-from-watchlist"],
+    mutationFn: removeFromWatchlist,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["get-ratingList"],
@@ -99,7 +99,7 @@ export const useRemoveFromFavoriteList = ({
   return mutation;
 };
 
-export const useAddToFavoriteListServer = ({
+export const useAddToWatchlistServerAction = ({
   onSuccess,
   onError,
 }: {
@@ -108,8 +108,8 @@ export const useAddToFavoriteListServer = ({
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationKey: ["add-to-favoriteList"],
-    mutationFn: addToFavoriteListServerAction,
+    mutationKey: ["add-to-watchlist"],
+    mutationFn: addToWatchlistServerAction,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["get-ratingList"],
@@ -130,7 +130,7 @@ export const useAddToFavoriteListServer = ({
   return mutation;
 };
 
-export const useRemoveFromFavoriteListServer = ({
+export const useRemoveFromWatchlistServerAction = ({
   onSuccess,
   onError,
 }: {
@@ -139,8 +139,8 @@ export const useRemoveFromFavoriteListServer = ({
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationKey: ["remove-from-favoriteList"],
-    mutationFn: removeFromFavoriteListServerAction,
+    mutationKey: ["remove-from-watchlist"],
+    mutationFn: removeFromWatchlistServerAction,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["get-ratingList"],

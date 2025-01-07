@@ -20,7 +20,7 @@ export default function MovieOverview({
         "flex flex-col max-w-[40%] absolute top-[20%] left-[7%]"
       )}
     >
-      <h1 className="md:text-[2rem] lg:text-[4rem] font-extrabold text-foreground line-clamp-2">
+      <h1 className="text-[3rem] lg:text-[4rem]  font-extrabold text-foreground line-clamp-2">
         {data.title}
       </h1>
       <div className="pb-4">

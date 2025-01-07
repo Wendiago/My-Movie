@@ -22,7 +22,7 @@ export default function MovieInfoSkeleton() {
           style={bottomLayerStyle}
         ></div>
       </div>
-      <div className="w-full mt-[15%] z-30 flex flex-col gap-3">
+      <div className="container mt-[15%] z-30 flex flex-col gap-3">
         <div className="flex flex-col w-[500px] mb-8">
           <Skeleton className="h-[2rem] w-[70%] mb-3" />
           <div className="flex items-center gap-2 h-4 mb-4">

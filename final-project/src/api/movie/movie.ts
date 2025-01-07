@@ -75,7 +75,7 @@ export const getMovieDetail = async (
 ): Promise<GetMovieDetailResponse> => {
   const response = customFetch.get<GetMovieDetailResponse>(
     `/api/v1/detail/movie/${movieID}`,
-    { cache: "force-cache" }
+    { cache: "force-cache", next: { tags: ["get-movie-detail"] } }
   );
   return response;
 };

@@ -30,11 +30,11 @@ export default function NavBar() {
 
   return (
     <nav
-      className={`px-16 fixed top-0 z-50 flex justify-between items-center py-4 w-full transition-all duration-1000 ease-in-out ${
+      className={`w-full fixed top-0 z-50 flex justify-between items-center py-4 transition-all duration-1000 ease-in-out ${
         isScrolled ? "bg-background" : "bg-transparent"
       }`}
     >
-      <div className="w-full flex justify-between items-center">
+      <div className="container flex justify-between items-center">
         <div className="flex items-center lg:gap-8 md:gap-4">
           <Link href="/home" className="flex items-center">
             <div className="flex items-center gap-3 text-2xl">

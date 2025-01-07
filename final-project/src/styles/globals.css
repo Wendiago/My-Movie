@@ -36,6 +36,8 @@
     --text-grey: 240 1.78% 66.86%;
 
     --progress-bar-bg: 0 0 40%;
+
+    --favorite: 320 84% 61%;
   }
 
   :root {
@@ -71,6 +73,10 @@
     --text-grey: 240 1.78% 66.86%;
     
     --progress-bar-bg: 0 0 40%;
+
+    --favorite: 320 84% 61%;
+
+    --watching: 0 62% 50%;
   }
 
   * {
@@ -109,4 +115,23 @@ input[type="search"]::-ms-clear {
 input::-ms-reveal,
 input::-ms-clear {
   display: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px; 
+  height: 8px; 
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--secondary)); 
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-corner {
+  background: #f1f1f1;
 }

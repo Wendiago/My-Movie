@@ -37,7 +37,7 @@ export default function PersonInfo({
   }
 
   return person ? (
-    <div className="w-full grid grid-cols-[300px_1fr]">
+    <div className="container grid grid-cols-[300px_1fr]">
       <div className="flex flex-col">
         <CustomImage
           src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w300${person.profile_path}`}
@@ -126,61 +126,59 @@ export default function PersonInfo({
         {/* Known for section */}
         <section className="mt-8">
           <h3 className="font-semibold text-xl mb-3">Known For</h3>
-          <div className="w-full pr-16">
-            <ScrollArea className="w-full">
-              <div className="flex gap-4 max-w pr-8 pb-8">
-                {person.movie_credits.cast.length > 0
-                  ? person.movie_credits.cast.map((movie, index) => (
-                      <div
-                        key={index}
-                        className="rounded-md cursor-pointer w-[130px] flex flex-col"
-                        onClick={() => router.push(`/movie/${movie.id}`)}
-                      >
-                        <CustomImage
-                          src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w185${movie.poster_path}`}
-                          alt={movie.title}
-                          width="130"
-                          height="195"
-                          className="rounded-t-md w-full h-[195px]"
-                        />
-                        <div className="flex-1 mx-auto text-center m-3 w-full font-light line-clamp-3 text-ellipsis">
-                          {movie.title}
-                        </div>
+          <ScrollArea className="w-full">
+            <div className="flex gap-4 max-w pr-8 pb-8">
+              {person.movie_credits.cast.length > 0
+                ? person.movie_credits.cast.map((movie, index) => (
+                    <div
+                      key={index}
+                      className="rounded-md cursor-pointer w-[130px] flex flex-col"
+                      onClick={() => router.push(`/movie/${movie.id}`)}
+                    >
+                      <CustomImage
+                        src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w185${movie.poster_path}`}
+                        alt={movie.title}
+                        width="130"
+                        height="195"
+                        className="rounded-t-md w-full h-[195px]"
+                      />
+                      <div className="flex-1 mx-auto text-center m-3 w-full font-light line-clamp-3 text-ellipsis">
+                        {movie.title}
                       </div>
-                    ))
-                  : null}
+                    </div>
+                  ))
+                : null}
 
-                {/* Check and render crew */}
-                {person.movie_credits.crew.length > 0
-                  ? person.movie_credits.cast.map((movie, index) => (
-                      <div
-                        key={index}
-                        className="rounded-md cursor-pointer w-[130px] flex flex-col"
-                        onClick={() => router.push(`/movie/${movie.id}`)}
-                      >
-                        <CustomImage
-                          src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w185${movie.poster_path}`}
-                          alt={movie.title}
-                          width="130"
-                          height="195"
-                          className="rounded-t-md w-full h-[195px]"
-                        />
-                        <div className="flex-1 mx-auto text-center m-3 w-full font-light line-clamp-3 text-ellipsis">
-                          {movie.title}
-                        </div>
+              {/* Check and render crew */}
+              {person.movie_credits.crew.length > 0
+                ? person.movie_credits.cast.map((movie, index) => (
+                    <div
+                      key={index}
+                      className="rounded-md cursor-pointer w-[130px] flex flex-col"
+                      onClick={() => router.push(`/movie/${movie.id}`)}
+                    >
+                      <CustomImage
+                        src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w185${movie.poster_path}`}
+                        alt={movie.title}
+                        width="130"
+                        height="195"
+                        className="rounded-t-md w-full h-[195px]"
+                      />
+                      <div className="flex-1 mx-auto text-center m-3 w-full font-light line-clamp-3 text-ellipsis">
+                        {movie.title}
                       </div>
-                    ))
-                  : null}
+                    </div>
+                  ))
+                : null}
 
-                {/* Show "No data available" only if both cast and crew are empty */}
-                {person.movie_credits.cast.length === 0 &&
-                  person.movie_credits.crew.length === 0 && (
-                    <div>No data available</div>
-                  )}
-              </div>
-              <ScrollBar orientation="horizontal"></ScrollBar>
-            </ScrollArea>
-          </div>
+              {/* Show "No data available" only if both cast and crew are empty */}
+              {person.movie_credits.cast.length === 0 &&
+                person.movie_credits.crew.length === 0 && (
+                  <div>No data available</div>
+                )}
+            </div>
+            <ScrollBar orientation="horizontal"></ScrollBar>
+          </ScrollArea>
         </section>
       </div>
     </div>

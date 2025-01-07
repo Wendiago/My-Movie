@@ -17,9 +17,16 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import CustomImage from "@/components/ui/custom-image";
-import { useAddToFavoriteList } from "@/api/user/favorite-list";
+import {
+  useAddToFavoriteListServer,
+  useRemoveFromFavoriteListServer,
+} from "@/api/user/favorite-list";
 import { toast } from "@/hooks/use-toast";
 import { Spinner } from "@/components/ui/spinner";
+import {
+  useAddToWatchlistServerAction,
+  useRemoveFromWatchlistServerAction,
+} from "@/api/user/watch-list";
 
 const TooltipArrow = TooltipPrimitive.Arrow;
 export default function MovieInfo({
@@ -42,12 +49,14 @@ export default function MovieInfo({
       "linear-gradient(179deg, rgba(17, 19, 25, 0) 1%, rgba(17, 19, 25, 0.05) 17%, rgba(17, 19, 25, 0.2) 31%, rgba(17, 19, 25, 0.39) 44%, rgba(17, 19, 25, 0.61) 56%, rgba(17, 19, 25, 0.8) 69%, rgba(17, 19, 25, 0.95) 83%, rgb(17, 19, 25) 99%)",
   };
 
-  const addToFavoriteMutation = useAddToFavoriteList({
+  // Favorite mutations
+  const addToFavoriteMutation = useAddToFavoriteListServer({
     onSuccess: () => {
       toast({
         variant: "success",
         title: "Added to favorite",
       });
+      router.refresh();
     },
     onError: (error) => {
       toast({
@@ -58,8 +67,72 @@ export default function MovieInfo({
     },
   });
 
-  const handleAddToFavorite = (idMovie: number) => {
-    addToFavoriteMutation.mutate(idMovie);
+  const removeFromFavoriteListMutation = useRemoveFromFavoriteListServer({
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Removed from favorite list",
+      });
+      router.refresh();
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Fail to remove from favorite list",
+        description: error.message,
+      });
+    },
+  });
+
+  const handleOnFavoriteButtonClick = () => {
+    if (!movieDetail.isFavorite) {
+      addToFavoriteMutation.mutate(movieDetail.tmdb_id);
+    } else {
+      removeFromFavoriteListMutation.mutate(movieDetail.tmdb_id);
+    }
+  };
+
+  // Watchlist mutations
+  const addToWatchlistMutation = useAddToWatchlistServerAction({
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Added to watchlist",
+      });
+      router.refresh();
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Fail to add to watchlist",
+        description: error.message,
+      });
+    },
+  });
+
+  const removeFromWatchlistMutation = useRemoveFromWatchlistServerAction({
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Removed from watchlist",
+      });
+      router.refresh();
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Fail to remove from watchlist",
+        description: error.message,
+      });
+    },
+  });
+
+  const handleOnBookmarkButtonClick = () => {
+    if (!movieDetail.isWatching) {
+      addToWatchlistMutation.mutate(movieDetail.tmdb_id);
+    } else {
+      removeFromWatchlistMutation.mutate(movieDetail.tmdb_id);
+    }
   };
 
   return movieDetail ? (
@@ -82,7 +155,7 @@ export default function MovieInfo({
             style={bottomLayerStyle}
           ></div>
         </div>
-        <div className="w-full mt-[10%] z-30 flex flex-col gap-3">
+        <div className="container mt-[10%] z-30 flex flex-col gap-3">
           <div className="flex flex-col w-[500px] mb-8">
             <h1 className="text-[2rem] font-semibold text-foreground mb-3">
               {movieDetail.title}
@@ -143,12 +216,15 @@ export default function MovieInfo({
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button className="flex justify-center items-center rounded-full w-12 h-12">
+                      <Button
+                        className="flex justify-center items-center rounded-full w-12 h-12"
+                        variant="secondary"
+                      >
                         <List />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Add to your playlist</p>
+                      <p>Add to list</p>
                       <TooltipArrow className="fill-primary"></TooltipArrow>
                     </TooltipContent>
                   </Tooltip>
@@ -159,18 +235,32 @@ export default function MovieInfo({
                     <TooltipTrigger asChild>
                       <Button
                         className="flex justify-center items-center rounded-full w-12 h-12"
-                        onClick={() => handleAddToFavorite(movieDetail.tmdb_id)}
-                        disabled={addToFavoriteMutation.isPending}
+                        onClick={handleOnFavoriteButtonClick}
+                        disabled={
+                          addToFavoriteMutation.isPending ||
+                          removeFromFavoriteListMutation.isPending
+                        }
+                        variant="secondary"
                       >
-                        {addToFavoriteMutation.isPending ? (
-                          <Spinner />
+                        {addToFavoriteMutation.isPending ||
+                        removeFromFavoriteListMutation.isPending ? (
+                          <Spinner variant="light" />
+                        ) : movieDetail.isFavorite ? (
+                          <Heart
+                            fill="hsl(var(--favorite))"
+                            color="hsl(var(--favorite))"
+                          />
                         ) : (
-                          <Heart />
+                          <Heart fill="hsl(var(--foreground))" />
                         )}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Mark as favorite</p>
+                      {movieDetail.isFavorite ? (
+                        <p className="py-2">Remove from favorite</p>
+                      ) : (
+                        <p className="py-2">Mark as favorite</p>
+                      )}
                       <TooltipArrow className="fill-primary"></TooltipArrow>
                     </TooltipContent>
                   </Tooltip>
@@ -179,12 +269,34 @@ export default function MovieInfo({
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button className="flex justify-center items-center rounded-full w-12 h-12">
-                        <Bookmark />
+                      <Button
+                        className="flex justify-center items-center rounded-full w-12 h-12"
+                        variant="secondary"
+                        onClick={handleOnBookmarkButtonClick}
+                        disabled={
+                          addToWatchlistMutation.isPending ||
+                          removeFromWatchlistMutation.isPending
+                        }
+                      >
+                        {addToWatchlistMutation.isPending ||
+                        removeFromWatchlistMutation.isPending ? (
+                          <Spinner variant="light" />
+                        ) : movieDetail.isWatching ? (
+                          <Bookmark
+                            fill="hsl(var(--watching))"
+                            color="hsl(var(--watching))"
+                          />
+                        ) : (
+                          <Bookmark fill="hsl(var(--foreground))" />
+                        )}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Add to your watchlist</p>
+                      {movieDetail.isWatching ? (
+                        <p className="py-2">Remove from your watchlist</p>
+                      ) : (
+                        <p className="py-2">Add to your watchlist</p>
+                      )}
                       <TooltipArrow className="fill-primary"></TooltipArrow>
                     </TooltipContent>
                   </Tooltip>
@@ -195,45 +307,43 @@ export default function MovieInfo({
         </div>
       </div>
 
-      <div className="w-full">
+      <div className="container">
         <p className="text-foreground font-semibold text-xl mb-3">
           Top Billed Cast
         </p>
-        <div className="w-full pr-16">
-          <ScrollArea className="w-full">
-            <div className="flex gap-4 w-max pr-8 pb-8">
-              {partialCast.map((cast, index) => (
-                <div
-                  key={index}
-                  className="rounded-md cursor-pointer w-[145px]"
-                  onClick={() => router.push(`/person/${cast.id}`)}
-                >
-                  <CustomImage
-                    src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w185${cast.profile_path}`}
-                    alt={cast.name}
-                    width="145"
-                    height="217"
-                    className="rounded-t-md w-full h-[217px]"
-                  />
-                  <div className="flex-col gap-1 text-foreground justify-center items-center p-3 w-full h-[6rem]">
-                    <p className="w-full font-bold leading-6">{cast.name}</p>
-                    <p className="w-full leading-6 text-sm">{cast.character}</p>
-                  </div>
-                </div>
-              ))}
+        <ScrollArea className="w-full">
+          <div className="flex gap-4 w-max pr-8 pb-8">
+            {partialCast.map((cast, index) => (
               <div
-                className="flex text-foreground items-center justify-center font-bold cursor-pointer"
-                onClick={() =>
-                  router.push(`/movie/${movieDetail.tmdb_id}/cast`)
-                }
+                key={index}
+                className="rounded-md cursor-pointer w-[145px]"
+                onClick={() => router.push(`/person/${cast.id}`)}
               >
-                View full
-                <ChevronRight />
+                <CustomImage
+                  src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w185${cast.profile_path}`}
+                  alt={cast.name}
+                  width="145"
+                  height="217"
+                  className="rounded-t-md w-full h-[217px]"
+                />
+                <div className="flex-col gap-1 text-foreground justify-center items-center p-3 w-full h-[6rem]">
+                  <p className="w-full font-bold leading-6">{cast.name}</p>
+                  <p className="w-full leading-6 text-sm line-clamp-3 text-ellipsis">
+                    {cast.character}
+                  </p>
+                </div>
               </div>
+            ))}
+            <div
+              className="flex text-foreground items-center justify-center font-bold cursor-pointer"
+              onClick={() => router.push(`/movie/${movieDetail.tmdb_id}/cast`)}
+            >
+              View full
+              <ChevronRight />
             </div>
-            <ScrollBar orientation="horizontal"></ScrollBar>
-          </ScrollArea>
-        </div>
+          </div>
+          <ScrollBar orientation="horizontal"></ScrollBar>
+        </ScrollArea>
       </div>
     </>
   ) : (

@@ -1,5 +1,8 @@
 "use client";
-import { useRemoveFromFavoriteList } from "@/api/user/favorite-list";
+import {
+  useAddToFavoriteList,
+  useRemoveFromFavoriteList,
+} from "@/api/user/favorite-list";
 import { Button } from "@/components/ui/button";
 import CustomImage from "@/components/ui/custom-image";
 import { RatingCircle } from "@/components/ui/rating-circle";
@@ -7,15 +10,15 @@ import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/hooks/use-toast";
 import { Movie } from "@/types/api";
 import { formatDate } from "@/utils/utils";
-import { List, Star, X } from "lucide-react";
+import { Heart, List, Star, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import StarRating from "../../_components/star-rating";
 import { useAddToRatingList } from "@/api/user/rating-list";
+import { useRemoveFromWatchlist } from "@/api/user/watch-list";
 
-type FavoriteMovieItemProps = Pick<
+type WatchingMovieItemProps = Pick<
   Movie,
-  | "_id"
   | "tmdb_id"
   | "title"
   | "backdrop_path"
@@ -28,13 +31,13 @@ type FavoriteMovieItemProps = Pick<
   | "vote_count"
   | "popularity"
 > & {
-  isWatching?: boolean;
   rating?: number;
+  isFavorite?: boolean;
 };
-export default function FavoriteMovieItem({
+export default function WatchingMovieItem({
   data,
 }: {
-  data: FavoriteMovieItemProps;
+  data: WatchingMovieItemProps;
 }) {
   const [isStarRatingOpen, setStarRatingOpen] = useState(false);
   const starRatingRef = useRef<HTMLDivElement>(null);
@@ -55,6 +58,24 @@ export default function FavoriteMovieItem({
     };
   }, []);
   const router = useRouter();
+
+  const addToFavoriteMutation = useAddToFavoriteList({
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Added to favorite",
+      });
+      router.refresh();
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Fail to add to favorite",
+        description: error.message,
+      });
+    },
+  });
+
   const removeFromFavoriteListMutation = useRemoveFromFavoriteList({
     onSuccess: () => {
       toast({
@@ -87,8 +108,30 @@ export default function FavoriteMovieItem({
     },
   });
 
-  const handleRemoveFromFavorite = (idMovie: number) => {
-    removeFromFavoriteListMutation.mutate(idMovie);
+  const removeFromWatchlistMutation = useRemoveFromWatchlist({
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Removed from watchlist",
+      });
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Fail to remove from watch list",
+        description: error.message,
+      });
+    },
+  });
+
+  const handleOnFavoriteButtonClick = () => {
+    if (data.isFavorite) {
+      // Remove from favorite
+      removeFromFavoriteListMutation.mutate(data.tmdb_id);
+    } else {
+      // Add to favorite
+      addToFavoriteMutation.mutate(data.tmdb_id);
+    }
   };
 
   const handleOpenStarRating = () => {
@@ -99,6 +142,10 @@ export default function FavoriteMovieItem({
     setStarRatingOpen(false);
     rateMovieMutation.mutate({ movieID: data.tmdb_id, rating: rating });
   };
+
+  const handleRemoveFromWatchlist = () => [
+    removeFromWatchlistMutation.mutate(data.tmdb_id),
+  ];
 
   return (
     <div className="w-full flex border rounded-md">
@@ -160,10 +207,32 @@ export default function FavoriteMovieItem({
               size="icon"
               variant="outline"
               className="text-textGrey border-foreground/50 rounded-full w-7 h-7"
-              onClick={() => handleRemoveFromFavorite(data.tmdb_id)}
-              disabled={removeFromFavoriteListMutation.isPending}
+              onClick={handleOnFavoriteButtonClick}
+              disabled={
+                addToFavoriteMutation.isPending ||
+                removeFromFavoriteListMutation.isPending
+              }
             >
-              {removeFromFavoriteListMutation.isPending ? <Spinner /> : <X />}
+              {data.isFavorite ? (
+                <Heart
+                  fill="hsl(var(--favorite))"
+                  color="hsl(var(--favorite))"
+                />
+              ) : (
+                <Heart />
+              )}
+            </Button>
+            <div className="text-textGrey">Favorite</div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              size="icon"
+              variant="outline"
+              className="text-textGrey border-foreground/50 rounded-full w-7 h-7"
+              onClick={handleRemoveFromWatchlist}
+              disabled={removeFromWatchlistMutation.isPending}
+            >
+              {removeFromWatchlistMutation.isPending ? <Spinner /> : <X />}
             </Button>
             <div className="text-textGrey">Remove</div>
           </div>

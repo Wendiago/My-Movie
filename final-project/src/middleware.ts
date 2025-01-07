@@ -19,13 +19,12 @@ export async function middleware(request: NextRequest) {
   }
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/auth/user`,
+    `${process.env.NEXT_PUBLIC_API_URL}/authenticate`,
     {
       method: "GET",
       headers: {
         cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
       },
-      cache: "force-cache",
     }
   );
 

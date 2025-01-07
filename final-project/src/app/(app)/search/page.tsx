@@ -3,7 +3,7 @@ import SearchResults from "./_components/search-results";
 
 export default function SearchPage() {
   return (
-    <div className="flex flex-col pt-[72px] w-full">
+    <div className="flex-1 pt-[72px] ">
       <Suspense fallback={<div>Loading...</div>}>
         <SearchResults />
       </Suspense>

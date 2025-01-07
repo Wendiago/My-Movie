@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function FavoriteMovieItemSkeleton() {
+export default function MovieItemSkeleton() {
   return (
     <div className="w-full h-[200px] border rounded-md flex">
       <Skeleton className="w-[133px] h-[199px] rounded-tl-md rounded-bl-md"></Skeleton>

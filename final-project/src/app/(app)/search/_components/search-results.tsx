@@ -78,7 +78,7 @@ export default function SearchResults() {
   }
 
   return (
-    <div className="px-16 min-h-screen mx-auto w-full">
+    <div className="container h-full">
       {isLoading ? (
         <div className="flex flex-wrap gap-4 justify-center mt-16">
           {Array.from({ length: 20 }).map((_, index) => (
@@ -89,7 +89,7 @@ export default function SearchResults() {
           ))}
         </div>
       ) : data?.length === 0 ? (
-        <div className="text-center py-4">
+        <div className="flex items-center justify-center h-full">
           No results found for &quot;{search}&quot;.
         </div>
       ) : (

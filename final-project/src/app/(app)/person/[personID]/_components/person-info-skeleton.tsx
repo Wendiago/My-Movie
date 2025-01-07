@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function PersonInfoSkeleton() {
   return (
-    <div className="w-full grid grid-cols-[300px_1fr] gap-8">
+    <div className="container grid grid-cols-[300px_1fr] gap-8">
       {/* Left Section Skeleton */}
       <div className="flex flex-col">
         <Skeleton className="w-[300px] h-[450px] rounded-md" />
@@ -24,7 +24,7 @@ export default function PersonInfoSkeleton() {
 
         {/* Bio Section Skeleton */}
         <section className="mt-8">
-          <Skeleton className="h-[24px] w-[150px] mb-3" />
+          <Skeleton className="h-[50px] w-[150px] mb-3" />
         </section>
 
         {/* Known For Section Skeleton */}

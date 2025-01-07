@@ -1,13 +1,19 @@
-'use client';
+"use client";
 
 import { useCallback, useState } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useGenres } from "@/api/genre/genre";
 
 interface Genre {
-  id: string,
-  name: string
+  id: string;
+  name: string;
 }
 
 export default function GenreFilter() {
@@ -15,7 +21,9 @@ export default function GenreFilter() {
   const pathName = usePathname();
   const searchParams = useSearchParams();
   const { data: genres } = useGenres();
-  const [selectValue, setSelectValue] = useState(searchParams.get("genres") || "");
+  const [selectValue, setSelectValue] = useState(
+    searchParams.get("genres") || ""
+  );
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -42,7 +50,9 @@ export default function GenreFilter() {
         handleGenreSelect(value);
       }}
     >
-      <SelectTrigger className={`w-[120px] bg-background/80 text-foreground border-none pl-4 h-[40px] backdrop-blur-md `}>
+      <SelectTrigger
+        className={`w-[120px] bg-background/80 text-foreground border-none pl-4 h-[40px] backdrop-blur-md `}
+      >
         <SelectValue placeholder="Genre" />
       </SelectTrigger>
       <SelectContent>

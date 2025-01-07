@@ -24,7 +24,7 @@ export default async function layout({
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://media.themoviedb.org/t/p/w3840_and_h1200_multi_faces_filter(duotone,00192f,00baff)/xpba0Dxz3sxV3QgYLR8UIe1LAAX.jpg")`,
           }}
         >
-          <div className="flex-1 px-16 pt-[112px] pb-10 mx-auto flex items-center gap-10">
+          <div className="container pt-[112px] pb-10 mx-auto flex items-center gap-10">
             <CustomImage
               src={user.photo}
               alt="avatar placeholder"

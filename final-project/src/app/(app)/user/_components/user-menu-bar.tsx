@@ -13,7 +13,7 @@ import Link from "next/link";
 
 export default function UserMenuBar() {
   return (
-    <div className="w-full flex justify-center items-center gap-6 py-2">
+    <div className="container flex justify-center items-center gap-6 py-2">
       <DropdownMenu>
         <DropdownMenuTrigger className="flex items-center focus-visible:border-none focus-visible:outline-none">
           <div className="p-2">Overview</div>
@@ -28,7 +28,7 @@ export default function UserMenuBar() {
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Link href={"/user/favourites"} className="flex-1">
-                Favourites
+                Favorites
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
@@ -48,9 +48,6 @@ export default function UserMenuBar() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Link className="p-2 cursor-pointer" href={"/user/lists"}>
-        Lists
-      </Link>
       <Link className="p-2 cursor-pointer" href={"/user/ratings"}>
         Ratings
       </Link>

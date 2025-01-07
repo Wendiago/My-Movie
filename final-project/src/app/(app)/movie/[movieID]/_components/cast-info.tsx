@@ -25,7 +25,7 @@ export default function CastInfo({
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${movieDetail.backdrop_path})`,
         }}
       >
-        <div className="w-full px-16 py-4 flex items-center gap-5">
+        <div className="container py-4 flex items-center gap-5">
           <CustomImage
             src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${movieDetail.poster_path}`}
             alt={movieDetail.title}
@@ -47,7 +47,7 @@ export default function CastInfo({
           </div>
         </div>
       </div>
-      <div className="w-full px-16 py-8 grid grid-cols-2">
+      <div className="container py-8 grid grid-cols-2">
         <div className="flex flex-col">
           <h3 className="text-foreground font-bold text-xl mb-5">
             Cast{" "}

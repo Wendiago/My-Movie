@@ -12,7 +12,7 @@ export default async function page({
   const movieDetailResponse = getMovieDetail(movieID);
 
   return (
-    <div className="pl-16 w-full flex flex-col pb-60">
+    <div className="w-full flex flex-col pb-60">
       <ErrorBoundary
         fallback={
           <div className="flex justify-center items-center flex-1">
