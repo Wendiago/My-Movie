@@ -1,5 +1,5 @@
 import React from "react";
-import RatingLists from "./_components/rating-list";
+import RatingList from "./_components/rating-list";
 
 export default function page() {
   return (
@@ -7,7 +7,7 @@ export default function page() {
       <div className="w-full items-center">
         <h1 className="font-bold text-2xl pb-6 pt-2">My Ratings</h1>
       </div>
-      <RatingLists />
+      <RatingList />
     </div>
   );
 }

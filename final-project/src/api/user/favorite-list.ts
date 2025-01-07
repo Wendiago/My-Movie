@@ -55,6 +55,9 @@ export const useAddToFavoriteList = ({
       queryClient.invalidateQueries({
         queryKey: ["get-favoriteList"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["get-watchlist"],
+      });
       onSuccess?.();
     },
     onError: (error: Error) => {
@@ -83,6 +86,9 @@ export const useRemoveFromFavoriteList = ({
       queryClient.invalidateQueries({
         queryKey: ["get-favoriteList"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["get-watchlist"],
+      });
       onSuccess?.();
     },
     onError: (error: Error) => {
@@ -105,7 +111,15 @@ export const useAddToFavoriteListServer = ({
     mutationKey: ["add-to-favoriteList"],
     mutationFn: addToFavoriteListServerAction,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["get-favoriteList"] });
+      queryClient.invalidateQueries({
+        queryKey: ["get-ratingList"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["get-favoriteList"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["get-watchlist"],
+      });
       onSuccess?.();
     },
     onError: (error: Error) => {
@@ -128,7 +142,15 @@ export const useRemoveFromFavoriteListServer = ({
     mutationKey: ["remove-from-favoriteList"],
     mutationFn: removeFromFavoriteListServerAction,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["get-favoriteList"] });
+      queryClient.invalidateQueries({
+        queryKey: ["get-ratingList"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["get-favoriteList"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["get-watchlist"],
+      });
       onSuccess?.();
     },
     onError: (error: Error) => {

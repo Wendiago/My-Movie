@@ -23,6 +23,10 @@ import {
 } from "@/api/user/favorite-list";
 import { toast } from "@/hooks/use-toast";
 import { Spinner } from "@/components/ui/spinner";
+import {
+  useAddToWatchlistServerAction,
+  useRemoveFromWatchlistServerAction,
+} from "@/api/user/watch-list";
 
 const TooltipArrow = TooltipPrimitive.Arrow;
 export default function MovieInfo({
@@ -45,6 +49,7 @@ export default function MovieInfo({
       "linear-gradient(179deg, rgba(17, 19, 25, 0) 1%, rgba(17, 19, 25, 0.05) 17%, rgba(17, 19, 25, 0.2) 31%, rgba(17, 19, 25, 0.39) 44%, rgba(17, 19, 25, 0.61) 56%, rgba(17, 19, 25, 0.8) 69%, rgba(17, 19, 25, 0.95) 83%, rgb(17, 19, 25) 99%)",
   };
 
+  // Favorite mutations
   const addToFavoriteMutation = useAddToFavoriteListServer({
     onSuccess: () => {
       toast({
@@ -61,10 +66,6 @@ export default function MovieInfo({
       });
     },
   });
-
-  const handleAddToFavorite = (idMovie: number) => {
-    addToFavoriteMutation.mutate(idMovie);
-  };
 
   const removeFromFavoriteListMutation = useRemoveFromFavoriteListServer({
     onSuccess: () => {
@@ -83,15 +84,54 @@ export default function MovieInfo({
     },
   });
 
-  const handleRemoveFromFavorite = (idMovie: number) => {
-    removeFromFavoriteListMutation.mutate(idMovie);
-  };
-
   const handleOnFavoriteButtonClick = () => {
     if (!movieDetail.isFavorite) {
-      handleAddToFavorite(movieDetail.tmdb_id);
+      addToFavoriteMutation.mutate(movieDetail.tmdb_id);
     } else {
-      handleRemoveFromFavorite(movieDetail.tmdb_id);
+      removeFromFavoriteListMutation.mutate(movieDetail.tmdb_id);
+    }
+  };
+
+  // Watchlist mutations
+  const addToWatchlistMutation = useAddToWatchlistServerAction({
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Added to watchlist",
+      });
+      router.refresh();
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Fail to add to watchlist",
+        description: error.message,
+      });
+    },
+  });
+
+  const removeFromWatchlistMutation = useRemoveFromWatchlistServerAction({
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Removed from watchlist",
+      });
+      router.refresh();
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Fail to remove from watchlist",
+        description: error.message,
+      });
+    },
+  });
+
+  const handleOnBookmarkButtonClick = () => {
+    if (!movieDetail.isWatching) {
+      addToWatchlistMutation.mutate(movieDetail.tmdb_id);
+    } else {
+      removeFromWatchlistMutation.mutate(movieDetail.tmdb_id);
     }
   };
 
@@ -196,10 +236,14 @@ export default function MovieInfo({
                       <Button
                         className="flex justify-center items-center rounded-full w-12 h-12"
                         onClick={handleOnFavoriteButtonClick}
-                        disabled={addToFavoriteMutation.isPending}
+                        disabled={
+                          addToFavoriteMutation.isPending ||
+                          removeFromFavoriteListMutation.isPending
+                        }
                         variant="secondary"
                       >
-                        {addToFavoriteMutation.isPending ? (
+                        {addToFavoriteMutation.isPending ||
+                        removeFromFavoriteListMutation.isPending ? (
                           <Spinner variant="light" />
                         ) : movieDetail.isFavorite ? (
                           <Heart
@@ -207,12 +251,16 @@ export default function MovieInfo({
                             color="hsl(var(--favorite))"
                           />
                         ) : (
-                          <Heart />
+                          <Heart fill="hsl(var(--foreground))" />
                         )}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Mark as favorite</p>
+                      {movieDetail.isFavorite ? (
+                        <p className="py-2">Remove from favorite</p>
+                      ) : (
+                        <p className="py-2">Mark as favorite</p>
+                      )}
                       <TooltipArrow className="fill-primary"></TooltipArrow>
                     </TooltipContent>
                   </Tooltip>
@@ -224,12 +272,31 @@ export default function MovieInfo({
                       <Button
                         className="flex justify-center items-center rounded-full w-12 h-12"
                         variant="secondary"
+                        onClick={handleOnBookmarkButtonClick}
+                        disabled={
+                          addToWatchlistMutation.isPending ||
+                          removeFromWatchlistMutation.isPending
+                        }
                       >
-                        <Bookmark />
+                        {addToWatchlistMutation.isPending ||
+                        removeFromWatchlistMutation.isPending ? (
+                          <Spinner variant="light" />
+                        ) : movieDetail.isWatching ? (
+                          <Bookmark
+                            fill="hsl(var(--watching))"
+                            color="hsl(var(--watching))"
+                          />
+                        ) : (
+                          <Bookmark fill="hsl(var(--foreground))" />
+                        )}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Add to your watchlist</p>
+                      {movieDetail.isWatching ? (
+                        <p className="py-2">Remove from your watchlist</p>
+                      ) : (
+                        <p className="py-2">Add to your watchlist</p>
+                      )}
                       <TooltipArrow className="fill-primary"></TooltipArrow>
                     </TooltipContent>
                   </Tooltip>

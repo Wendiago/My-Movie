@@ -1,0 +1,36 @@
+.starRatingWrap {
+  display: flex;
+  touch-action: none;
+  align-items: center;
+}
+
+.simpleStarRating {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  touch-action: none;
+}
+
+.fillIcons {
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.emptyIcons {
+  display: inline-block;
+}
+
+.tooltip {
+  display: inline-block;
+  padding: 5px 15px;
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  vertical-align: middle;
+  border-radius: 5px;
+}

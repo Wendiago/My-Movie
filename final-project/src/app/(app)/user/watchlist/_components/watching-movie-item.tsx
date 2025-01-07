@@ -14,12 +14,10 @@ import { Heart, List, Star, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import StarRating from "../../_components/star-rating";
-import {
-  useAddToRatingList,
-  useRemoveFromRatingList,
-} from "@/api/user/rating-list";
+import { useAddToRatingList } from "@/api/user/rating-list";
+import { useRemoveFromWatchlist } from "@/api/user/watch-list";
 
-type RatingMovieItemProps = Pick<
+type WatchingMovieItemProps = Pick<
   Movie,
   | "tmdb_id"
   | "title"
@@ -33,14 +31,13 @@ type RatingMovieItemProps = Pick<
   | "vote_count"
   | "popularity"
 > & {
-  isWatching?: boolean;
   rating?: number;
   isFavorite?: boolean;
 };
-export default function RatingMovieItem({
+export default function WatchingMovieItem({
   data,
 }: {
-  data: RatingMovieItemProps;
+  data: WatchingMovieItemProps;
 }) {
   const [isStarRatingOpen, setStarRatingOpen] = useState(false);
   const starRatingRef = useRef<HTMLDivElement>(null);
@@ -111,17 +108,17 @@ export default function RatingMovieItem({
     },
   });
 
-  const removeRatingMovieMutation = useRemoveFromRatingList({
+  const removeFromWatchlistMutation = useRemoveFromWatchlist({
     onSuccess: () => {
       toast({
         variant: "success",
-        title: "Removed movie successfully",
+        title: "Removed from watchlist",
       });
     },
     onError: (error) => {
       toast({
         variant: "destructive",
-        title: "Fail to remove",
+        title: "Fail to remove from watch list",
         description: error.message,
       });
     },
@@ -146,9 +143,9 @@ export default function RatingMovieItem({
     rateMovieMutation.mutate({ movieID: data.tmdb_id, rating: rating });
   };
 
-  const handleRemoveFromRating = () => {
-    removeRatingMovieMutation.mutate(data.tmdb_id);
-  };
+  const handleRemoveFromWatchlist = () => [
+    removeFromWatchlistMutation.mutate(data.tmdb_id),
+  ];
 
   return (
     <div className="w-full flex border rounded-md">
@@ -242,10 +239,10 @@ export default function RatingMovieItem({
               size="icon"
               variant="outline"
               className="text-textGrey border-foreground/50 rounded-full w-7 h-7"
-              onClick={handleRemoveFromRating}
-              disabled={removeRatingMovieMutation.isPending}
+              onClick={handleRemoveFromWatchlist}
+              disabled={removeFromWatchlistMutation.isPending}
             >
-              {removeRatingMovieMutation.isPending ? <Spinner /> : <X />}
+              {removeFromWatchlistMutation.isPending ? <Spinner /> : <X />}
             </Button>
             <div className="text-textGrey">Remove</div>
           </div>

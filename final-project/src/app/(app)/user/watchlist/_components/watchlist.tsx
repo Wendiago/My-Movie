@@ -1,19 +1,19 @@
 "use client";
 import React from "react";
 import MovieItemSkeleton from "../../_components/movie-item-skeleton";
-import RatingMovieItem from "./rating-movie-item";
-import { useRatingList } from "@/api/user/rating-list";
+import WatchingMovieItem from "./watching-movie-item";
+import { useWatchlist } from "@/api/user/watch-list";
 
-export default function RatingList() {
-  const { data, status } = useRatingList();
+export default function Watchlist() {
+  const { data, status } = useWatchlist();
   return status == "success" ? (
     <div className="flex-1 flex flex-col gap-3">
       {data.data != null && data.data.length != 0 ? (
         data.data.map((movie, index) => (
-          <RatingMovieItem key={index} data={movie} />
+          <WatchingMovieItem key={index} data={movie} />
         ))
       ) : (
-        <div className="">You haven't rated any movie.</div>
+        <div className="">You haven't added any movie to watchlist.</div>
       )}
     </div>
   ) : status == "pending" ? (

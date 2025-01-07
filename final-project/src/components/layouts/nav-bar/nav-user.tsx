@@ -77,7 +77,7 @@ export default function NavUser() {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link href={`/user/favourites`} className="flex-1">
-                  Favourites
+                  Favorites
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
@@ -86,8 +86,8 @@ export default function NavUser() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={`/user/watchlists`} className="flex-1">
-                  Watchlists
+                <Link href={`/user/watchlist`} className="flex-1">
+                  Watchlist
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>

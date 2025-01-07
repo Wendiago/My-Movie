@@ -31,6 +31,7 @@ const config: Config = {
         foreground: "hsl(var(--foreground))",
         textGrey: "hsl(var(--text-grey))",
         favorite: "hsl(var(--favorite))",
+        watching: "hsl(var(--watching))",
         progressBarBg: "hsl(var(--progress-bar-bg))",
         primary: {
           DEFAULT: "hsl(var(--primary))",

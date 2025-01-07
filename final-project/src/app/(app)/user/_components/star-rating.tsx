@@ -1,9 +1,8 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
 import { cn } from "@/utils/cn";
-import { Minus } from "lucide-react";
 import { forwardRef } from "react";
-import { Rating } from "react-simple-star-rating";
+import { Rating } from "@/components/ui/star-rating";
 
 const StarRating = forwardRef<
   HTMLDivElement,
@@ -13,10 +12,6 @@ const StarRating = forwardRef<
     onRating(rate);
   };
 
-  const onPointerEnter = () => {};
-  const onPointerLeave = () => {};
-  const onPointerMove = (value: number, index: number) => {};
-
   return (
     <div
       ref={ref}
@@ -25,24 +20,29 @@ const StarRating = forwardRef<
         "flex items-center z-10 px-2 py-1 gap-2 border rounded-md bg-primary"
       )}
     >
-      <Button
-        size="icon"
-        variant="secondary"
-        className="rounded-full w-4 h-4"
-        onClick={() => onRating(0)}
-      >
-        <Minus />
-      </Button>
-
       <Rating
         onClick={handleRating}
-        onPointerEnter={onPointerEnter}
-        onPointerLeave={onPointerLeave}
-        onPointerMove={onPointerMove}
         SVGstyle={{ display: "inline-block" }}
-        style={{ display: "flex", alignItems: "center" }}
         size={24}
         allowFraction={true}
+        tooltipArray={[
+          "10",
+          "20",
+          "30",
+          "40",
+          "50",
+          "60",
+          "70",
+          "80",
+          "90",
+          "100",
+        ]}
+        showTooltip={true}
+        tooltipStyle={{
+          marginLeft: "10px",
+          display: "flex",
+          whiteSpace: "nowrap",
+        }}
       />
     </div>
   );

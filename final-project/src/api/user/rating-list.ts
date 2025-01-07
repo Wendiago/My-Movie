@@ -56,6 +56,9 @@ export const useAddToRatingList = ({
       queryClient.invalidateQueries({
         queryKey: ["get-favoriteList"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["get-watchlist"],
+      });
       onSuccess?.();
     },
     onError: (error: Error) => {
@@ -83,6 +86,9 @@ export const useRemoveFromRatingList = ({
       });
       queryClient.invalidateQueries({
         queryKey: ["get-favoriteList"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["get-watchlist"],
       });
       onSuccess?.();
     },
