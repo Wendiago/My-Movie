@@ -15,6 +15,7 @@ const favoriteListRouter = require("./routes/favoriteListRoutes");
 const recommendRouter = require("./routes/recommendRoutes");
 const watchListRouter = require("./routes/watchingListRoutes");
 const ratingListRouter = require("./routes/ratingListRoutes");
+const aiRouter = require("./routes/aiRoutes");
 
 require("./config/googleStrategy");
 
@@ -53,6 +54,7 @@ app.use("/", favoriteListRouter);
 app.use("/", recommendRouter);
 app.use("/", watchListRouter);
 app.use("/", ratingListRouter);
+app.use("/", aiRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
