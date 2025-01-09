@@ -2,7 +2,7 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
 const watchingList = require("../models/watching_list");
-const Session = require("../models/sessionModel");
+const Session = require("../models/accessModel");
 const Movie = require("../models/movies");
 const favoriteList = require("../models/favorite_list");
 const ratingList = require("../models/rating_list");
@@ -21,7 +21,7 @@ const ratingListController = {
         return next(new AppError("You are not logged in.", 401));
       }
 
-      const userId = session.userId;
+      const userId = session.user_id;
       const { idMovie, rating } = req.body;
 
       if (!idMovie) {
@@ -106,7 +106,7 @@ const ratingListController = {
       return next(new AppError("You are not logged in.", 401));
     }
 
-    const userId = session.userId;
+    const userId = session.user_id;
     const { idMovie } = req.params;
 
     if (!idMovie) {
@@ -157,7 +157,7 @@ const ratingListController = {
       return next(new AppError("You are not logged in.", 401));
     }
 
-    const userId = session.userId;
+    const userId = session.user_id;
 
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;

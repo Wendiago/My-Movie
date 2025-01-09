@@ -3,7 +3,7 @@ const castController = require("../controller/castController");
 
 const router = express.Router();
 
-router.get("/api/v1/detail/cast/name/:name", castController.getCastByName);
-router.get("/api/v1/detail/cast/:idCast", castController.getCastById);
+router.get("/detail/name/:name", castController.getCastByName);
+router.get("/detail/:idCast", castController.getCastById);
 
 module.exports = router;

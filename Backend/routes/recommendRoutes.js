@@ -1,18 +1,10 @@
 const express = require("express");
 const recommendController = require("../controller/recommendController");
-
+const AccessMiddleware = require("../middlewares/access.middleware");
+const handleAsync = require("../utils/catchAsync");
 const router = express.Router();
 
-router.get(
-  "/api/v1/recommend/movie",
-  recommendController.getRecommendationBasedFavoriteList
-);
-router.get(
-  "/api/v1/recommend/latest/trailer",
-  recommendController.getLatestTrailerList
-);
-router.get(
-  "/api/v1/recommend/movie/upcoming",
-  recommendController.getLatestTrailerList
-);
+router.use(handleAsync(AccessMiddleware.checkAccess));
+
+router.get("/movie", recommendController.getRecommendationBasedFavoriteList);
 module.exports = router;

@@ -1,12 +1,12 @@
 const express = require("express");
 const favoriteListController = require("../controller/favoriteListController");
-
+const AccessMiddleware = require("../middlewares/access.middleware");
+const handleAsync = require("../utils/catchAsync");
 const router = express.Router();
 
-router.post("/api/v1/favorites", favoriteListController.addToList);
-router.delete(
-  "/api/v1/favorites/:idMovie",
-  favoriteListController.removeFromFavorite
-);
-router.get("/api/v1/favorites", favoriteListController.getAllFavoriteList);
+router.use(handleAsync(AccessMiddleware.checkAccess));
+
+router.post("/", favoriteListController.addToList);
+router.delete("/:idMovie", favoriteListController.removeFromFavorite);
+router.get("/", favoriteListController.getAllFavoriteList);
 module.exports = router;

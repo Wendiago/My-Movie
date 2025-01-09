@@ -1,6 +1,5 @@
 "use client";
 
-import { useLogout, useUser } from "@/api/auth/auth";
 import CustomImage from "@/components/ui/custom-image";
 import {
   DropdownMenu,
@@ -12,41 +11,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "@/hooks/use-toast";
+import { useUser } from "@/hooks/use-user";
 import { paths } from "@/lib/routes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function NavUser() {
   const router = useRouter();
-  const { data, status } = useUser();
-  //   console.log("User data: ", data);
-  //   console.log("User data status: ", status);
-  const logoutMutation = useLogout({
-    onSuccess: () => {
-      toast({
-        variant: "success",
-        title: "Log out successfully",
-        description: "Redirected to login page",
-      });
-      router.push(paths.auth.login.getHref());
-    },
-    onError: (error: Error) => {
-      toast({
-        variant: "destructive",
-        title: "Log out failed",
-        description: error.message,
-      });
-    },
-  });
-
-  const handleLogout = () => {
-    logoutMutation.mutate();
-  };
+  const { user } = useUser();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <CustomImage
-          src="/avatar.jpeg"
+          src={user?.photo || "/avatar.jpeg"}
           alt="avatar placeholder"
           width="40"
           height="40"
@@ -59,54 +36,45 @@ export default function NavUser() {
         sideOffset={4}
         align="end"
       >
-        {status == "success" ? (
-          <>
-            {" "}
-            <DropdownMenuLabel>
-              <div className="font-bold">{data.data.name}</div>
-              <Link href={`/user/profile`} className="text-textGrey text-sm">
-                View profile
-              </Link>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Link href={`/user/favourites`} className="flex-1">
-                  Favorites
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href={`/user/ratings`} className="flex-1">
-                  Ratings
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href={`/user/watchlist`} className="flex-1">
-                  Watchlist
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Link href="">Edit profile</Link>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={handleLogout}
-              >
-                Log out
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </>
-        ) : (
-          <DropdownMenuGroup>
-            <div>You have to log in first</div>
-          </DropdownMenuGroup>
-        )}
+        <DropdownMenuLabel>
+          <div className="font-bold">{user?.name}</div>
+          <Link href={`/user/profile`} className="text-textGrey text-sm">
+            View profile
+          </Link>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <Link href={`/user/favourites`} className="flex-1">
+              Favorites
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href={`/user/ratings`} className="flex-1">
+              Ratings
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href={`/user/watchlist`} className="flex-1">
+              Watchlist
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <Link href="">Edit profile</Link>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            // onClick={handleLogout}
+          >
+            Log out
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

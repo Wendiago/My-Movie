@@ -4,7 +4,7 @@ const customApi = require("../utils/customApi");
 
 const Movie = require("../models/movies");
 const FavoriteList = require("../models/favorite_list");
-const Session = require("../models/sessionModel");
+const Session = require("../models/accessModel");
 const MovieUpcoming = require("../models/movies_upcoming");
 const LatestTrailerList = require("../models/latest_trailer_list");
 
