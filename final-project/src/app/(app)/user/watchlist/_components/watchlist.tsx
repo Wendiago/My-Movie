@@ -13,7 +13,7 @@ export default function Watchlist() {
           <WatchingMovieItem key={index} data={movie} />
         ))
       ) : (
-        <div className="">You haven't added any movie to watchlist.</div>
+        <div className="">You haven`&apos;`t added any movie to watchlist.</div>
       )}
     </div>
   ) : status == "pending" ? (

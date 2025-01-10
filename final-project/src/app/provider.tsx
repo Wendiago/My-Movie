@@ -7,20 +7,26 @@ import { ErrorBoundary } from "react-error-boundary";
 import { MainErrorFallback } from "@/components/errors/main";
 import { getQueryClient } from "@/lib/react-query";
 import { ToastProvider } from "@/components/ui/toast";
+import { SessionProvider } from "next-auth/react"
+import { Session } from "next-auth";
 
-type AppProviderProps = {
+export const AppProvider = ({
+  children,
+  session,
+}: {
   children: React.ReactNode;
-};
-
-export const AppProvider = ({ children }: AppProviderProps) => {
+  session?: Session;
+}) => {
   const queryClient = getQueryClient();
   return (
     <ErrorBoundary FallbackComponent={MainErrorFallback}>
       <QueryClientProvider client={queryClient}>
-        <ToastProvider>
-          <ReactQueryDevtools />
-          {children}
-        </ToastProvider>
+        <SessionProvider session={session}>
+          <ToastProvider>
+            <ReactQueryDevtools />
+            {children}
+          </ToastProvider>
+        </SessionProvider>
       </QueryClientProvider>
     </ErrorBoundary>
   );
