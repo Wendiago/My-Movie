@@ -37,7 +37,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // If the user is not logged in, only allow access to login and sign-up
-  if (!session && pathname.startsWith("/user")) {
+  if (!session && (pathname.startsWith("/user") || pathname.startsWith("/recommend"))) {
     return NextResponse.redirect(new URL("/login", url));
   }
 
