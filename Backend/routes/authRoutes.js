@@ -1,166 +1,31 @@
-const express = require("express");
-const passport = require("passport");
-const authController = require("../controller/authController");
-const setTokenCookies = require("../utils/setTokenCookies");
+const AuthController = require("../controller/auth.controller");
+const handleAsync = require("../utils/catchAsync");
 
-const router = express.Router();
+const router = require("express").Router();
 
-/**
- * @swagger
- * tags:
- *   name: Authentication
- *   description: The authentication API for registering, logging in, and managing users.
- */
+router.post("/signup", handleAsync(AuthController.handleSignup));
+router.post("/login", handleAsync(AuthController.handleLogin));
+router.post(
+  "/invoke-new-tokens",
+  handleAsync(AuthController.handleInvokeNewTokens)
+);
+router.post("/verify/send-otp", handleAsync(AuthController.handleVerifyEmail));
+router.post("/verify/confirm-otp", handleAsync(AuthController.handleVerifyOTP));
 
-/**
- * @swagger
- * /login/federated/google:
- *   get:
- *     summary: Initiates Google login
- *     description: Redirects to Google for federated authentication
- *     tags: [Authentication]
- *     responses:
- *       200:
- *         description: Redirects to Google authentication page
- *       400:
- *         description: Bad request
- */
-router.get(
-  "/login/federated/google",
-  passport.authenticate("google", {
-    session: false,
-    scope: ["profile", "email"],
-  })
+router.post("/google/auth", handleAsync(AuthController.handleLoginWithGoogle));
+
+router.post(
+  "/reset-password/send-otp",
+  handleAsync(AuthController.handleSendOTPToResetPassword)
 );
 
-/**
- * @swagger
- * /auth/google/callback:
- *   get:
- *     summary: Callback from Google authentication
- *     description: Handles the Google authentication callback and sets tokens in cookies
- *     tags: [Authentication]
- *     responses:
- *       302:
- *         description: Redirects to the home page after successful login
- *       401:
- *         description: Unauthorized access
- */
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    session: false,
-    failureRedirect: `${process.env.API_URL}/login`,
-  }),
-  (req, res) => {
-    // Access user object and tokens from req.user
-    const { user, accessToken, refreshToken, refreshTokenExp } = req.user;
-    setTokenCookies(res, accessToken, refreshToken, refreshTokenExp);
-
-    res.redirect(`${process.env.API_URL}/private`);
-  }
+router.post(
+  "/reset-password/confirm-otp",
+  handleAsync(AuthController.handleConfirmOTPToResetPassword)
 );
 
-/**
- * @swagger
- * /api/v1/register:
- *   post:
- *     summary: Registers a new user
- *     description: Creates a new user account
- *     tags: [Authentication]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       201:
- *         description: User created successfully
- *       400:
- *         description: Bad request
- */
-router.post("/api/v1/register", authController.registerUser);
+router.post("/reset-password", handleAsync(AuthController.handleResetPassword));
 
-/**
- * @swagger
- * /api/v1/login:
- *   post:
- *     summary: Logs in an existing user
- *     description: Authenticates a user and returns an authentication token
- *     tags: [Authentication]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: Login successful, returns user and token
- *       400:
- *         description: Invalid credentials
- */
-router.post("/api/v1/login", authController.loginUser);
-
-/**
- * @swagger
- * /confirmation/{token}:
- *   get:
- *     summary: Confirms user signup
- *     description: Confirms the user's signup using a token
- *     tags: [Authentication]
- *     parameters:
- *       - in: path
- *         name: token
- *         required: true
- *         description: The confirmation token
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Confirmation successful
- *       400:
- *         description: Invalid token
- */
-router.get("/confirmation/:token", authController.confirmSignup);
-
-/**
- * @swagger
- * /authenticate:
- *   get:
- *     summary: Checks if the user is logged in
- *     description: Verifies if the user is authenticated
- *     tags: [Authentication]
- *     responses:
- *       200:
- *         description: User is authenticated
- *       401:
- *         description: User is not authenticated
- */
-router.get("/authenticate", authController.isLoggedIn);
-
-/**
- * @swagger
- * /api/v1/logout:
- *   post:
- *     summary: Logs out the user
- *     description: Logs out the current authenticated user
- *     tags: [Authentication]
- *     responses:
- *       200:
- *         description: Logout successful
- */
-router.post("/api/v1/logout", authController.logout);
+router.post("/logout", handleAsync(AuthController.handleLogout));
 
 module.exports = router;

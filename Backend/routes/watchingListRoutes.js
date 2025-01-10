@@ -1,9 +1,11 @@
 const express = require("express");
 const watchingListController = require("../controller/watchingListController");
-
+const AccessMiddleware = require("../middlewares/access.middleware");
+const handleAsync = require("../utils/catchAsync");
 const router = express.Router();
 
-router.post("/api/v1/watchings", watchingListController.addToList);
-router.delete("/api/v1/watchings/:idMovie", watchingListController.removeFromList);
-router.get("/api/v1/watchings", watchingListController.getAllWatchingList);
+router.use(handleAsync(AccessMiddleware.checkAccess));
+router.post("/", watchingListController.addToList);
+router.delete("/:idMovie", watchingListController.removeFromList);
+router.get("/", watchingListController.getAllWatchingList);
 module.exports = router;

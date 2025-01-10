@@ -3,35 +3,15 @@ import {
   GetAllGenresResponse,
   GetMovieDetailResponse,
   GetTrendingMoviesResponse,
+  GetMovieTrailersResponse
 } from "@/types/api";
-
 import { useQuery } from "@tanstack/react-query";
-
-// Search movie
-export const searchMovie = async ({
-  query,
-  page = 1,
-}: {
-  query: string;
-  page?: number;
-}): Promise<any> => {
-  if (!query) {
-    throw new Error("Search query is required.");
-  }
-
-  const response = await customFetch.get("/api/v1/search", {
-    params: { query, page },
-  });
-  console.log("res", response);
-
-  return response;
-};
 
 // Get today trending movie
 export const getTodayTrendingMovies =
   async (): Promise<GetTrendingMoviesResponse> => {
     const response = customFetch.get<GetTrendingMoviesResponse>(
-      "/api/v1/trending/movie/day",
+      "/api/v1/movie/trending/day",
       { cache: "force-cache" }
     );
     return response;
@@ -48,7 +28,7 @@ export const useTodayTrendingMovies = () => {
 export const getWeekTrendingMovies =
   async (): Promise<GetTrendingMoviesResponse> => {
     const response = customFetch.get<GetTrendingMoviesResponse>(
-      "/api/v1/trending/movie/week",
+      "/api/v1/movie/trending/week",
       { cache: "force-cache" }
     );
     return response;
@@ -74,7 +54,7 @@ export const getMovieDetail = async (
   movieID: string
 ): Promise<GetMovieDetailResponse> => {
   const response = customFetch.get<GetMovieDetailResponse>(
-    `/api/v1/detail/movie/${movieID}`,
+    `/api/v1/movie/${movieID}`,
     { cache: "force-cache", next: { tags: ["get-movie-detail"] } }
   );
   return response;
@@ -84,5 +64,21 @@ export const useMovieDetail = (movieID: string) => {
   return useQuery({
     queryKey: ["getMovieDetail"],
     queryFn: () => getMovieDetail(movieID),
+  });
+};
+
+// Get latest trailer list
+export const getLatestTrailerList =
+  async (): Promise<GetMovieTrailersResponse> => {
+    const response = await customFetch.get<GetMovieTrailersResponse>(
+      "/api/v1/movie/upcoming"
+    );
+    return response;
+  };
+
+export const useLatestTrailerList = () => {
+  return useQuery({
+    queryKey: ["getLatestTrailerList"],
+    queryFn: () => getLatestTrailerList(),
   });
 };

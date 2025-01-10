@@ -13,6 +13,9 @@ export default function MovieOverview({
   className?: string;
   data: TrendingMovies;
 }) {
+  if (!data) {
+    return <div></div>;
+  }
   return (
     <div
       className={cn(

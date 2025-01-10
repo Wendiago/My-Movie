@@ -13,7 +13,7 @@ export default function FavoriteLists() {
           <FavoriteMovieItem key={index} data={movie} />
         ))
       ) : (
-        <div className="">You haven't added any favorite movies.</div>
+        <div className="">You haven`&apos;`t added any favorite movies.</div>
       )}
     </div>
   ) : status == "pending" ? (

@@ -3,8 +3,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   getTodayTrendingMovies,
   getWeekTrendingMovies,
+  getLatestTrailerList
 } from "@/api/movie/movie";
-import { getLatestTrailerList } from "@/api/recommend/recommend";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import TrendingCarousel from "./_components/trending-carousel";

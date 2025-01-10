@@ -44,15 +44,15 @@ app.use(passport.initialize());
 app.use(cookieParser());
 
 // Routes
-app.use("/", authRouter);
-app.use("/", userRouter);
-app.use("/", movieRouter);
-app.use("/", searchRouter);
-app.use("/", castRouter);
-app.use("/", favoriteListRouter);
-app.use("/", recommendRouter);
-app.use("/", watchListRouter);
-app.use("/", ratingListRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/movie", movieRouter);
+app.use("/api/v1/search", searchRouter);
+app.use("/api/v1/cast", castRouter);
+app.use("/api/v1/favorites", favoriteListRouter);
+app.use("/api/v1/recommend", recommendRouter);
+app.use("/api/v1/watchlist", watchListRouter);
+app.use("/api/v1/ratings", ratingListRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

@@ -3,7 +3,7 @@ const AppError = require("../utils/appError");
 
 const watchingList = require("../models/watching_list");
 const ratingList = require("../models/rating_list");
-const Session = require("../models/sessionModel");
+const Session = require("../models/accessModel");
 const Movie = require("../models/movies");
 const favoriteList = require("../models/favorite_list");
 

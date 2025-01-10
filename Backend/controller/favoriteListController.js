@@ -4,25 +4,25 @@ const AppError = require("../utils/appError");
 const favoriteList = require("../models/favorite_list");
 const ratingList = require("../models/rating_list");
 const watchingList = require("../models/watching_list");
-const Session = require("../models/sessionModel");
+const Session = require("../models/accessModel");
 
 const favoriteListController = {
   addToList: catchAsync(async (req, res, next) => {
-    const { refreshToken } = req.cookies;
+    // const { refreshToken } = req.cookies;
 
     // 1. Kiểm tra refresh token
-    if (!refreshToken) {
-      return next(new AppError("You are not logged in.", 401));
-    }
+    // if (!refreshToken) {
+    //   return next(new AppError("You are not logged in.", 401));
+    // }
 
     try {
-      const session = await Session.findOne({ token: refreshToken });
+      // const session = await Session.findOne({ token: refreshToken });
 
-      if (!session) {
-        return next(new AppError("You are not logged in.", 401));
-      }
+      // if (!session) {
+      //   return next(new AppError("You are not logged in.", 401));
+      // }
 
-      const userId = session.userId;
+      const userId = req.user.id;
 
       const { idMovie } = req.body;
 
@@ -82,22 +82,22 @@ const favoriteListController = {
   }),
 
   removeFromFavorite: catchAsync(async (req, res, next) => {
-    const { refreshToken } = req.cookies;
+    // const { refreshToken } = req.cookies;
 
     // 1. Kiểm tra refresh token
-    if (!refreshToken) {
-      return next(new AppError("You are not logged in.", 401));
-    }
+    // if (!refreshToken) {
+    //   return next(new AppError("You are not logged in.", 401));
+    // }
 
     try {
       // Lấy thông tin phiên từ token
-      const session = await Session.findOne({ token: refreshToken });
+      // const session = await Session.findOne({ token: refreshToken });
 
-      if (!session) {
-        return next(new AppError("You are not logged in.", 401));
-      }
+      // if (!session) {
+      //   return next(new AppError("You are not logged in.", 401));
+      // }
 
-      const userId = session.userId;
+      const userId = req.user.id;
       const { idMovie } = req.params;
 
       if (!idMovie) {
@@ -143,20 +143,20 @@ const favoriteListController = {
   }),
 
   getAllFavoriteList: catchAsync(async (req, res, next) => {
-    const { refreshToken } = req.cookies;
+    // const { refreshToken } = req.cookies;
 
     // 1. Validate refresh token
-    if (!refreshToken) {
-      return next(new AppError("You are not logged in.", 401));
-    }
+    // if (!refreshToken) {
+    //   return next(new AppError("You are not logged in.", 401));
+    // }
 
     try {
-      const session = await Session.findOne({ token: refreshToken });
-      if (!session) {
-        return next(new AppError("You are not logged in.", 401));
-      }
+      // const session = await Session.findOne({ token: refreshToken });
+      // if (!session) {
+      //   return next(new AppError("You are not logged in.", 401));
+      // }
 
-      const userId = session.userId;
+      const userId = req.user.id;
 
       // 2. Validate and parse query parameters
       const page = parseInt(req.query.page, 10) || 1;
