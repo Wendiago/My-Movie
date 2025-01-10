@@ -2,7 +2,6 @@ import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { jwtDecode } from "jwt-decode";
-
 import {
   INVALID_LOGIN_ERROR_MESSAGE,
   ACCOUNT_NOT_VERIFIED_ERROR_MESSAGE,
@@ -12,6 +11,7 @@ import {
 } from "@/constants/data";
 import { ApiResponse, LoginReponse } from "@/types/auth";
 import { customFetch } from "./lib/api-client";
+import httpMethods from "./lib/https";
 
 class AccountNotVerifiedError extends CredentialsSignin {
   code = ACCOUNT_NOT_VERIFIED_ERROR_MESSAGE;
@@ -142,14 +142,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             "x-client-id": token.id,
           };
 
-          const response = await customFetch.post<ApiResponse<LoginReponse>>(
+          const response = await httpMethods.post<ApiResponse<LoginReponse>>(
             "/api/v1/auth/invoke-new-tokens",
             {
               refreshToken: token.refreshToken,
             },
-            {
-              headers: headers,
-            }
+            headers
           );
 
           if (response.data) {
@@ -160,6 +158,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.accessToken = accessToken;
             token.refreshToken = refreshToken;
             token.expiresAt = expiresAt;
+          } else {
+            // If refresh fails, mark the token as expired and do not try again
+            token.error = "RefreshTokenError";
           }
 
           return token;
