@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
   const { pathname, origin } = url;
   const isAllowedOrigin = allowedOrigins.includes(origin);
   const session = await auth();
-  console.log('session', session);
+  //console.log("session", session);
 
   // Prevent API access from different origins (CORS check)
   if (pathname.startsWith("/api") && !isAllowedOrigin) {
@@ -37,8 +37,11 @@ export async function middleware(request: NextRequest) {
   }
 
   // If the user is not logged in, only allow access to login and sign-up
-  if (!session && (pathname.startsWith("/user") || pathname.startsWith("/recommend"))) {
-    return NextResponse.redirect(new URL("/login", url));
+  if (
+    !session &&
+    (pathname.startsWith("/user") || pathname.startsWith("/recommend"))
+  ) {
+    return NextResponse.redirect(new URL("/", url));
   }
 
   // If the user does not have an error and is trying to log out, redirect to home
@@ -56,6 +59,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!unauthorized|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+    "/((?!unauthorized|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api).*)",
   ],
 };

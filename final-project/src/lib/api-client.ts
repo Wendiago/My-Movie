@@ -1,3 +1,7 @@
+import { auth } from "@/auth";
+import { getSession, useSession } from "next-auth/react";
+import { getSessionData } from "./getSession";
+
 type RequestOptions = {
   method?: string;
   headers?: Record<string, string>;
@@ -33,7 +37,6 @@ async function fetchApi<T>(
     method = "GET",
     headers = {},
     body,
-    cookie,
     params,
     cache = "no-store",
     next,
@@ -47,12 +50,26 @@ async function fetchApi<T>(
 
   console.log("Api called: ", fullUrl);
 
+  // Try to retrieve the session
+  const session = await getSessionData().catch(() => null);
+
+  // Construct headers, attaching authentication info only if the session exists
+  const authHeaders = session?.accessToken
+    ? {
+        "x-client-id": session.user.id,
+        Authorization: `Bearer ${session.accessToken}`,
+      }
+    : {};
+
+  //console.log(authHeaders);
+
   const response = await fetch(fullUrl, {
     ...otherOptions,
     method,
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
+      ...authHeaders, // Add auth headers only if authenticated
       ...headers,
     },
     body: body ? JSON.stringify(body) : undefined,
@@ -62,10 +79,8 @@ async function fetchApi<T>(
   });
 
   if (!response.ok) {
-    const message = (await response.json()).message || response.statusText;
-    if (typeof window !== "undefined") {
-      //dosth
-    }
+    const errorBody = await response.json();
+    const message = errorBody.message || response.statusText;
     throw new Error(message);
   }
 

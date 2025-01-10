@@ -20,7 +20,7 @@ export default async function layout({
       >
         <div className="container pt-[112px] pb-10 mx-auto flex items-center gap-10">
           <CustomImage
-            src={user?.photo}
+            src={user?.photo || "/avatar.jpeg"}
             alt="avatar placeholder"
             width={150}
             height={150}

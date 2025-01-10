@@ -13,7 +13,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { useToast } from "@/hooks/use-toast";
+import { toast, useToast } from "@/hooks/use-toast";
 import wretch from "wretch";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -30,7 +30,6 @@ const OtpDialog: React.FC<OtpDialogProps> = ({ email, isOpen, onClose }) => {
   const [otp, setOtp] = useState<string>("");
   const [isResendDisabled, setIsResendDisabled] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { toast } = useToast();
   const router = useRouter();
 
   useEffect(() => {
@@ -52,7 +51,7 @@ const OtpDialog: React.FC<OtpDialogProps> = ({ email, isOpen, onClose }) => {
       const errorReponse: ApiResponse<null> = error?.json || {};
       toast({
         variant: "destructive",
-        title: "Oops! Something went wrong.",
+        title: "Resend OTP failed",
         description: errorReponse.message,
       });
     }
@@ -84,7 +83,7 @@ const OtpDialog: React.FC<OtpDialogProps> = ({ email, isOpen, onClose }) => {
       const errorReponse: ApiResponse<null> = error?.json || {};
       toast({
         variant: "destructive",
-        title: "Oops! Something went wrong.",
+        title: "Verify failed",
         description: errorReponse.message,
       });
     } finally {
@@ -131,7 +130,7 @@ const OtpDialog: React.FC<OtpDialogProps> = ({ email, isOpen, onClose }) => {
             onClick={handleSubmit}
             disabled={otp.length !== 6 || isLoading}
           >
-            {isLoading && <Spinner />}
+            {isLoading && <Spinner variant="light" />}
             Submit
           </Button>
         </DialogFooter>

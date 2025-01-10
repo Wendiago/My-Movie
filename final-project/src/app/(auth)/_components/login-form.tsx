@@ -21,6 +21,7 @@ import SendOTPDialog from "./forgot-password/send-otp-dialog";
 import ConfirmOTPDialog from "./forgot-password/confirm-otp-dialog";
 import ResetPasswordDialog from "./forgot-password/reset-password-dialog";
 import { signIn } from "next-auth/react";
+import { Spinner } from "@/components/ui/spinner";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -52,6 +53,7 @@ const LoginForm = () => {
     setIsLoading(true);
     setVerificationEmail(data.email);
 
+    console.log("Login data: ", data);
     // Sign in with credentials using NextAuth
     const result = await signIn(Providers.Credentials, {
       email: data.email,
@@ -59,18 +61,20 @@ const LoginForm = () => {
       redirect: false,
     });
 
+    console.log(result);
+
     if (result?.code === INVALID_LOGIN_ERROR_MESSAGE) {
       // Email or password is invalid
       toast({
         variant: "destructive",
-        title: "Oops! Something went wrong.",
+        title: "Login failed",
         description: result.code,
       });
     } else if (result?.code === ACCOUNT_NOT_VERIFIED_ERROR_MESSAGE) {
       // Account not verified
       toast({
         variant: "destructive",
-        title: "Oops! Something went wrong.",
+        title: "Login failed",
         description: result.code,
       });
 
@@ -89,6 +93,12 @@ const LoginForm = () => {
 
       // Redirect to the home pages
       router.push("/");
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Login failed",
+        description: "Something is wrong!",
+      });
     }
 
     setIsLoading(false);
@@ -156,6 +166,7 @@ const LoginForm = () => {
             type="submit"
             disabled={isLoading}
           >
+            {isLoading && <Spinner variant="light" />}
             Login
           </Button>
           <div className="flex justify-center mt-4 space-x-6">

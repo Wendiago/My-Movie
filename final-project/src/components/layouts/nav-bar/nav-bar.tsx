@@ -36,7 +36,7 @@ export default function NavBar() {
     >
       <div className="container flex justify-between items-center">
         <div className="flex items-center lg:gap-8 md:gap-4">
-          <Link href="/home" className="flex items-center">
+          <Link href="/" className="flex items-center">
             <div className="flex items-center gap-3 text-2xl">
               <Popcorn className="text-primary size-8" />
               <p className="font-bold text-primary">WENDIAGO MOVIE</p>

@@ -13,7 +13,7 @@ export default function RatingList() {
           <RatingMovieItem key={index} data={movie} />
         ))
       ) : (
-        <div className="">You haven`&apos;`t rated any movie.</div>
+        <div className="">You have not rated any movie.</div>
       )}
     </div>
   ) : status == "pending" ? (

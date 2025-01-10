@@ -39,7 +39,7 @@ const SignupForm = () => {
       const errorReponse: ApiResponse<null> = error?.json || {};
       toast({
         variant: "destructive",
-        title: "Oops! Something went wrong.",
+        title: "Sign up failed",
         description: errorReponse.message,
       });
     } finally {
@@ -98,23 +98,13 @@ const SignupForm = () => {
               <p className="text-destructive my-1">{`${errors.confirmPassword.message}`}</p>
             )}
           </div>
-          {/*<div className="inline-flex items-center mb-6">
-            <Input
-              type="checkbox"
-              name="remember-me"
-              className="mr-2 h-3 w-3"
-            ></Input>
-            <label htmlFor="remember-me" className="text-card-foreground">
-              Remember me?
-            </label>
-          </div>*/}
           <Button
             className="w-full"
             size="lg"
             type="submit"
             disabled={isLoading}
           >
-            {isLoading && <Spinner />}
+            {isLoading && <Spinner variant="light" />}
             Sign up
           </Button>
           <div className="flex justify-center mt-4 space-x-6">

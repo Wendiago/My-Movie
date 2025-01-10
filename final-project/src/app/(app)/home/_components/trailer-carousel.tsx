@@ -55,14 +55,20 @@ export default function TrailerCarousel({
     backgrounds[currentBackgroundIndex] &&
     `${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${backgrounds[currentBackgroundIndex]}`;
 
+  if (!movieTrailers) {
+    return <></>;
+  }
+
   return (
     <div
       className="w-full py-3 "
       style={{
         backgroundImage: currentBackground
-          ? `linear-gradient(hsla(263.4, 70%, 30.4%, 0.3), hsla(263.4, 70%, 30.4%, 0.3)), url(${currentBackground})`
-          : "linear-gradient(hsla(263.4, 70%, 30.4%, 0.3), hsla(263.4, 70%, 30.4%, 0.3))",
-        backgroundColor: currentBackground ? "transparent" : "#000", // Fallback color
+          ? `linear-gradient(hsla(263.4, 70%, 30.4%, 0.4) 0%, hsla(263.4, 70%, 30.4%, 0.4) 100%), url(${currentBackground})`
+          : "linear-gradient(hsla(263.4, 70%, 30.4%, 0.4) 0%, hsla(263.4, 70%, 30.4%, 0.4) 100%)",
+        backgroundColor: currentBackground
+          ? "transparent"
+          : "linear-gradient(hsla(263.4, 70%, 30.4%, 0.4) 0%, hsla(263.4, 70%, 30.4%, 0.4) 100%)", // Fallback color
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

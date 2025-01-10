@@ -28,7 +28,7 @@ app.use(
       process.env.API_URL,
     ],
     methods: ["GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie", "x-client-id"],
     credentials: true,
   })
 );
