@@ -9,6 +9,7 @@ export async function middleware(request: NextRequest) {
   const { pathname, origin } = url;
   const isAllowedOrigin = allowedOrigins.includes(origin);
   const session = await auth();
+  console.log('session', session);
 
   // Prevent API access from different origins (CORS check)
   if (pathname.startsWith("/api") && !isAllowedOrigin) {
@@ -36,7 +37,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // If the user is not logged in, only allow access to login and sign-up
-  if (!session && !["/login", "/signup"].includes(pathname)) {
+  if (!session && pathname.startsWith("/user")) {
     return NextResponse.redirect(new URL("/login", url));
   }
 

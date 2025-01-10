@@ -7,11 +7,11 @@ import {
 } from "@/api/movie/movie";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import TrendingCarousel from "./_components/trending-carousel";
-import TrendingCarouselSkeleton from "./_components/trending-carousel-skeleton";
-import MainCarousel from "./_components/main-carousel";
-import TrailerCarousel from "./_components/trailer-carousel";
-import TrailerCarouselSkeleton from "./_components/trailer-carousel-skeleton";
+import TrendingCarousel from "./home/_components/trending-carousel";
+import TrendingCarouselSkeleton from "./home/_components/trending-carousel-skeleton";
+import MainCarousel from "./home/_components/main-carousel";
+import TrailerCarousel from "./home/_components/trailer-carousel";
+import TrailerCarouselSkeleton from "./home/_components/trailer-carousel-skeleton";
 
 export default async function Page() {
   const weeklyTrendingMovies = getWeekTrendingMovies();

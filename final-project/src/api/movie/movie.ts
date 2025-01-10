@@ -3,8 +3,8 @@ import {
   GetAllGenresResponse,
   GetMovieDetailResponse,
   GetTrendingMoviesResponse,
+  GetMovieTrailersResponse
 } from "@/types/api";
-
 import { useQuery } from "@tanstack/react-query";
 
 // Get today trending movie
@@ -64,5 +64,21 @@ export const useMovieDetail = (movieID: string) => {
   return useQuery({
     queryKey: ["getMovieDetail"],
     queryFn: () => getMovieDetail(movieID),
+  });
+};
+
+// Get latest trailer list
+export const getLatestTrailerList =
+  async (): Promise<GetMovieTrailersResponse> => {
+    const response = await customFetch.get<GetMovieTrailersResponse>(
+      "/api/v1/movie/upcoming"
+    );
+    return response;
+  };
+
+export const useLatestTrailerList = () => {
+  return useQuery({
+    queryKey: ["getLatestTrailerList"],
+    queryFn: () => getLatestTrailerList(),
   });
 };
