@@ -79,7 +79,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       },
     }),
-    Google,
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID as string,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET as string,
+    }),
   ],
   pages: {
     signIn: "/login",
@@ -87,6 +90,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account?.provider === Providers.Google) {
+        console.log('google');
         try {
           const response = await customFetch.post<ApiResponse<LoginReponse>>(
             "/api/v1/auth/google/auth",
@@ -94,6 +98,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               id_token: account.id_token,
             }
           );
+          console.log(response);
 
           // If the response does not contain the user data, throw an error
           if (!response.data) {
@@ -129,7 +134,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
         token.expiresAt = user.expiresAt;
-      } else if (Date.now() < token.expiresAt * 1000) {
+      } else if (Date.now() / 1000 < (token.expiresAt ?? 0)) {
         // Subsequent logins, but the `access_token` is still valid
         return token;
       } else {

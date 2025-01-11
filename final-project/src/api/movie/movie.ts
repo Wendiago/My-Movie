@@ -69,7 +69,7 @@ export const useMovieDetail = (movieID: string) => {
 export const getLatestTrailerList =
   async (): Promise<GetMovieTrailersResponse> => {
     const response = await customFetch.get<GetMovieTrailersResponse>(
-      "/api/v1/movie/upcoming"
+      "/api/v1/movie/trailer/latest"
     );
     return response;
   };
