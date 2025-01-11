@@ -11,10 +11,9 @@ const recommendController = {
     
           const offset = (page - 1) * limit;
 
-          const favorite_list = await FavoriteList.findOne({ idUser: userId });
-
+          
           const query = {};
-    
+          
           if (genres) {
             query["genres.name"] = { $regex: new RegExp(genres, "i") }; // lọc theo tên thể loại
           }
@@ -22,21 +21,26 @@ const recommendController = {
           if (rating) {
             query.vote_average = { $gte: parseFloat(rating) }; // lọc theo rating
           }
-    
+          
           if (release_year) {
             query.release_date = { $regex: `^${release_year}` };
           }
-    
+          
+          const favorite_list = await FavoriteList.findOne({ idUser: userId });
+
           if (!favorite_list) {
+
             const movies = await Movie.find(query)
               .skip(offset)
-              .limit(parseInt(limit));
+              .limit(parseInt(limit))
+              .select("tmdb_id title original_title poster_path genres vote_average release_date");
+
             return res.status(200).json({
               success: true,
-              message: "No favorite list found!, so Get All Movies successfully",
+              message: "Favorite List is not found, so Get All Movies successfully",
               data: movies,
               page: page,
-              totalPage: 100
+              totalPage: 10
             });
           }
     
@@ -46,10 +50,18 @@ const recommendController = {
           );
 
           if (favoriteIdMovies.length === 0) {
+
+            const movies = await Movie.find(query)
+              .skip(offset)
+              .limit(parseInt(limit))
+              .select("tmdb_id title original_title poster_path genres vote_average release_date");
+
             return res.status(200).json({
               success: true,
-              message: "Your favorite list is empty.",
-              data: [],
+              message: "Your favorite list is empty, so Get All Movies successfully",
+              data: movies,
+              page: page,
+              totalPage: 10
             });
           }
           // Lấy thông tin các phim yêu thích
@@ -172,10 +184,9 @@ const recommendController = {
             { $project: { 
                 title: 1, // lấy trường `title`,
                 tmdb_id: 1, 
-                poster_path: 1, 
-                backdrop_path: 1, 
+                original_title: 1,
+                poster_path: 1,
                 genres: 1, 
-                overview: 1, 
                 release_date: 1, 
                 vote_average: 1, 
               } 
