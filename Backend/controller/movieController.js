@@ -10,51 +10,6 @@ const favoriteList = require("../models/favorite_list");
 const watchingList = require("../models/watching_list");
 const ratingList = require("../models/rating_list");
 
-const getRecommendationBasedSelectedMovie = async (idMovie) => {
-  try {
-    const movie = await Movie.findOne({ tmdb_id: idMovie });
-    if (!movie) {
-      return [];
-    }
-
-    // Lấy danh sách thể loại của phim
-    const genres = movie.genres.map((genre) => genre.id);
-    let count = 0;
-
-    if(genres.length < 3) {
-      count = genres.length;
-    } else {
-      count = 3;
-    }
-    const recommendedMovies = await Movie.aggregate([
-      { $match: { _id: { $ne: movie._id } } }, // Loại trừ phim được chọn
-      { $addFields: { 
-          commonCount: { $size: { $setIntersection: ["$genres.id", genres] } } 
-        } 
-      },
-      { $match: { commonCount: { $gte: count } } }, // Ít nhất count thể loại trùng
-      { $project: { 
-          title: 1, // lấy trường `title`,
-          tmdb_id: 1, 
-          poster_path: 1, 
-          backdrop_path: 1, 
-          genres: 1, 
-          overview: 1, 
-          release_date: 1, 
-          vote_average: 1, 
-        } 
-      },
-      { $limit: 20 } 
-    ]);
-
-    return recommendedMovies;
-
-  } catch (error) {
-    console.error("Error fetching recommended movies:", error);
-    return [];
-  }
-};
-
 const movieController = {
   getDetailMovieById: catchAsync(async (req, res, next) => {
     try {
@@ -74,8 +29,6 @@ const movieController = {
         CustomApi(`movie/${idMovie}/videos`),
       ]);
 
-      const recommendations = await getRecommendationBasedSelectedMovie(idMovie);
-      
       // Initialize response data
       const response = {
         success: true,
@@ -83,7 +36,6 @@ const movieController = {
         data: data,
         reviews: reviews.results,
         videos: videos.results,
-        recommendations: recommendations,
       };
 
       // Check if user is logged in

@@ -12,6 +12,7 @@ const movieRouter = require("./routes/movieRoutes");
 const searchRouter = require("./routes/searchRoutes");
 const castRouter = require("./routes/castRoutes");
 const favoriteListRouter = require("./routes/favoriteListRoutes");
+const recommandRouter = require("./routes/recommandRoute");
 const watchListRouter = require("./routes/watchingListRoutes");
 const ratingListRouter = require("./routes/ratingListRoutes");
 
@@ -49,6 +50,7 @@ app.use("/api/v1/movie", movieRouter);
 app.use("/api/v1/search", searchRouter);
 app.use("/api/v1/cast", castRouter);
 app.use("/api/v1/favorites", favoriteListRouter);
+app.use("/api/v1/recommend", recommandRouter);
 app.use("/api/v1/watchlist", watchListRouter);
 app.use("/api/v1/ratings", ratingListRouter);
 
