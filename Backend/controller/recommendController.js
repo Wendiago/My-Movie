@@ -10,14 +10,14 @@ const LatestTrailerList = require("../models/latest_trailer_list");
 
 const recommendController = {
   getRecommendationBasedFavoriteList: catchAsync(async (req, res, next) => {
-    const { refreshToken } = req.cookies;
+    const clientId = req.headers['x-client-id'];
 
-    if (!refreshToken) {
+    if (!clientId) {
       return next(new AppError("You are not logged in.", 401));
     }
 
     try {
-      const session = await Session.findOne({ token: refreshToken });
+      const session = await Session.findOne({ user_id: clientId });
 
       if (!session) {
         return next(new AppError("You are not logged in.", 401));
@@ -52,6 +52,8 @@ const recommendController = {
           success: true,
           message: "No favorite list found!, so Get All Movies successfully",
           data: movies,
+          page: page,
+          totalPage: 100
         });
       }
 

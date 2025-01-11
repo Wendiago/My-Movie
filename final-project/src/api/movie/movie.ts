@@ -11,8 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 export const getTodayTrendingMovies =
   async (): Promise<GetTrendingMoviesResponse> => {
     const response = customFetch.get<GetTrendingMoviesResponse>(
-      "/api/v1/movie/trending/day",
-      { cache: "force-cache" }
+      "/api/v1/movie/trending/day"
     );
     return response;
   };
@@ -28,8 +27,7 @@ export const useTodayTrendingMovies = () => {
 export const getWeekTrendingMovies =
   async (): Promise<GetTrendingMoviesResponse> => {
     const response = customFetch.get<GetTrendingMoviesResponse>(
-      "/api/v1/movie/trending/week",
-      { cache: "force-cache" }
+      "/api/v1/movie/trending/week"
     );
     return response;
   };
