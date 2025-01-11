@@ -107,7 +107,7 @@ export default function SearchResults() {
           </div>
           <div className="flex flex-wrap gap-4 justify-center">
             {data?.data?.map((movie: Movie) => (
-              <MovieCard key={movie.tmdb_id} {...movie} />
+              <MovieCard key={movie?.tmdb_id} {...movie} />
             ))}
           </div>
 
