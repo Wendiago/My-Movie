@@ -3,12 +3,16 @@ const Movie = require("../models/movies");
 
 const AIController = {
     searchMovie: catchAsync(async (req, res, next) => {
-        try {
+        try { 
             const { query } = req.query;
-            const amount = req.query.amount || 10;
+            const amount = req.query.amount || 50;
             const threshold = req.query.threshold || 0.25;
             const llm_api_key = process.env.GEMINI_API_KEY;
             const collection_name = "movies";
+
+            const page = parseInt(req.query.page, 10) || 1;
+            const limit = parseInt(req.query.limit, 10) || 10;
+            const offset = (page - 1) * limit;
 
             // Gọi API để lấy danh sách ID
             const url = `https://awd-llm.azurewebsites.net/retriever/?llm_api_key=${llm_api_key}&collection_name=${collection_name}&query=${query}&amount=${amount}&threshold=${threshold}`;
@@ -31,10 +35,17 @@ const AIController = {
                 })
             );
 
+            const paginatedMovies = movies.slice(offset, offset + limit);
+            const totalMovies = movies.length;
+            const totalPages = Math.ceil(totalMovies / limit);
+
             return res.status(200).json({
                 success: true,
                 message: "Get Movies by AI successfully",
-                data: movies
+                data: paginatedMovies,
+                total: totalMovies,
+                page: page,
+                totalPages: totalPages,
             });
         } catch (error) {
             console.error("Error fetching movie details:", error);
