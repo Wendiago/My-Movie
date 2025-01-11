@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.use(handleAsync(AccessMiddleware.checkAccess));
 router.post("/", watchingListController.addToList);
-router.delete("/:idMovie", watchingListController.removeFromList);
 router.get("/", watchingListController.getAllWatchingList);
+router.delete("/:idMovie", watchingListController.removeFromList);
 module.exports = router;

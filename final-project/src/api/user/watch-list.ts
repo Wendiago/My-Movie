@@ -11,13 +11,13 @@ import {
 } from "./watchlist-actions";
 
 export const getWatchlist = async (): Promise<GetWatchListResponse> => {
-  return customFetch.get<GetWatchListResponse>("/api/v1/watchings");
+  return customFetch.get<GetWatchListResponse>("/api/v1/watchlist");
 };
 
 export const addToWatchlist = async (
   movieID: number
 ): Promise<AddToWatchListResponse> => {
-  return customFetch.post<AddToWatchListResponse>("/api/v1/watchings", {
+  return customFetch.post<AddToWatchListResponse>("/api/v1/watchlist", {
     idMovie: movieID,
   });
 };
@@ -26,7 +26,7 @@ export const removeFromWatchlist = async (
   movieID: number
 ): Promise<RemoveFromWatchListResponse> => {
   return customFetch.delete<RemoveFromWatchListResponse>(
-    `/api/v1/watchings/${movieID}`
+    `/api/v1/watchlist/${movieID}`
   );
 };
 

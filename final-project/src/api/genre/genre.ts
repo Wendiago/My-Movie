@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 // Get all genres
 export const getAllGenres = async (): Promise<any> => {
   try {
-    const response = await customFetch.get("/api/v1/genres");
+    const response = await customFetch.get("/api/v1/movie/genres");
     return response;
   } catch (error) {
     console.error("Error fetching genres:", error);
