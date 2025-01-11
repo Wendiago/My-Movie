@@ -42,16 +42,10 @@ const movieController = {
       };
 
       // Check if user is logged in
-      // const clientId = req.headers["x-client-id"];
-      // const foundUser = await userModel.findById(clientId);
-      const { refreshToken } = req.cookies;
-      if (refreshToken) {
-        const session = await Session.findOne({ token: refreshToken });
-        if (!session) {
-          return next(new AppError("You are not logged in.", 401));
-        }
-
-        const userId = session.user_id;
+      const clientId = req.headers["x-client-id"];
+      const userId = clientId;
+      
+      if (userId) {
 
         const [favoriteListData, watchingListData, ratingListData] =
           await Promise.all([

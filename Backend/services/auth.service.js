@@ -70,8 +70,6 @@ class AuthService {
       throw new ConflictResponse("Invalid access to account", 1010207);
     }
 
-    console.log(foundAccess);
-
     const privateKey = foundAccess?.private_key;
     if (!foundAccess?.public_key || !privateKey) {
       throw new ConflictResponse("Something went wrong", 1010208);
@@ -79,8 +77,6 @@ class AuthService {
 
     const accessToken = JWTHelper.generateAccessToken(foundUser, privateKey);
     const refreshToken = JWTHelper.generateRefreshToken(foundUser, privateKey);
-
-    console.log(accessToken, refreshToken);
 
     await this.accessModel.updateOne(
       { user_id: foundUser?._id },

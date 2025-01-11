@@ -9,19 +9,8 @@ const ratingList = require("../models/rating_list");
 
 const ratingListController = {
   addToList: catchAsync(async (req, res, next) => {
-    const { refreshToken } = req.cookies;
-
-    if (!refreshToken) {
-      return next(new AppError("You are not logged in.", 401));
-    }
-
     try {
-      const session = await Session.findOne({ token: refreshToken });
-      if (!session) {
-        return next(new AppError("You are not logged in.", 401));
-      }
-
-      const userId = session.user_id;
+      const userId = req.user.id;
       const { idMovie, rating } = req.body;
 
       if (!idMovie) {
@@ -95,18 +84,7 @@ const ratingListController = {
   }),
 
   removeFromList: catchAsync(async (req, res, next) => {
-    const { refreshToken } = req.cookies;
-
-    if (!refreshToken) {
-      return next(new AppError("You are not logged in.", 401));
-    }
-
-    const session = await Session.findOne({ token: refreshToken });
-    if (!session) {
-      return next(new AppError("You are not logged in.", 401));
-    }
-
-    const userId = session.user_id;
+    const userId = req.user.id;
     const { idMovie } = req.params;
 
     if (!idMovie) {
@@ -146,18 +124,8 @@ const ratingListController = {
   }),
 
   getAllRatingList: catchAsync(async (req, res, next) => {
-    const { refreshToken } = req.cookies;
-
-    if (!refreshToken) {
-      return next(new AppError("You are not logged in.", 401));
-    }
-
-    const session = await Session.findOne({ token: refreshToken });
-    if (!session) {
-      return next(new AppError("You are not logged in.", 401));
-    }
-
-    const userId = session.user_id;
+    
+    const userId = req.user.id;
 
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;

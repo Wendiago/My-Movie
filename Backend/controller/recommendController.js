@@ -153,6 +153,7 @@ const recommendController = {
       });
     }
   }),
+
   setLatestTrailerList: catchAsync(async (req, res, next) => {
     try {
       const latestTrailerList = await MovieUpcoming.find({
@@ -167,7 +168,7 @@ const recommendController = {
 
       latestTrailerListIdTMDB.forEach(async (movieId) => {
         const data = await customApi(`movie/${movieId}/videos`);
-        if (data.results.length === 0) {
+        if (data.results.length === 0 || data.success === false) {
           console.log("No trailer found for movie", movieId);
         } else {
           const newLatestTrailerList = new LatestTrailerList({
