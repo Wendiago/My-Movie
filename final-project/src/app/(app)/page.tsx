@@ -17,7 +17,7 @@ export default async function Page() {
   const weeklyTrendingMovies = getWeekTrendingMovies();
   const todayTrendingMovies = getTodayTrendingMovies();
   const latestTrailerList = getLatestTrailerList();
-
+  
   return (
     <div className="relative flex flex-col min-h-screen w-full">
       <Suspense

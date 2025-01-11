@@ -16,7 +16,7 @@ export const getRecommendationBasedFavoriteList = async ({
   page?: number;
   limit?: number;
 }): Promise<any> => {
-  const response = await customFetch.get("/api/v1/recommend/movie ", {
+  const response = await customFetch.get("/api/v1/recommend/movie", {
     params: { genres, rating, release_year, page, limit },
   });
   return response;
