@@ -9,7 +9,6 @@ const MovieTrendingWeek = require("../models/movies_trending_week");
 const favoriteList = require("../models/favorite_list");
 const watchingList = require("../models/watching_list");
 const ratingList = require("../models/rating_list");
-const Session = require("../models/accessModel");
 
 const movieController = {
   getDetailMovieById: catchAsync(async (req, res, next) => {
@@ -25,10 +24,9 @@ const movieController = {
       }
 
       // Fetch additional data from external API
-      const [reviews, videos, recommendations] = await Promise.all([
+      const [reviews, videos] = await Promise.all([
         CustomApi(`movie/${idMovie}/reviews`),
         CustomApi(`movie/${idMovie}/videos`),
-        CustomApi(`movie/${idMovie}/recommendations`),
       ]);
 
       // Initialize response data
@@ -38,7 +36,6 @@ const movieController = {
         data: data,
         reviews: reviews.results,
         videos: videos.results,
-        recommendations: recommendations.results,
       };
 
       // Check if user is logged in

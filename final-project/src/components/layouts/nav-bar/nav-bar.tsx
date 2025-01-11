@@ -69,7 +69,7 @@ export default function NavBar() {
             <SelectContent>
               <SelectItem value="name">By title</SelectItem>
               <SelectItem value="cast">By cast</SelectItem>
-              <SelectItem value="natural-query">By query</SelectItem>
+              <SelectItem value="ai">By query</SelectItem>
             </SelectContent>
           </Select>
         </div>

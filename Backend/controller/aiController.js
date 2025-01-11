@@ -4,13 +4,13 @@ const Movie = require("../models/movies");
 const AIController = {
     searchMovie: catchAsync(async (req, res, next) => {
         try {
-            const { query } = req.query;
-            const amount = req.query.amount || 10;
+            const { page = 1, limit = 10, search: query } = req.query;
+            const amount = page * limit || 10;
+            const totalPage = Math.max(page + 1, 3);
             const threshold = req.query.threshold || 0.25;
             const llm_api_key = process.env.GEMINI_API_KEY;
             const collection_name = "movies";
-
-            // Gọi API để lấy danh sách ID
+            
             const url = `https://awd-llm.azurewebsites.net/retriever/?llm_api_key=${llm_api_key}&collection_name=${collection_name}&query=${query}&amount=${amount}&threshold=${threshold}`;
             const response = await fetch(url);
             const fetchData = await response.json();
@@ -24,17 +24,27 @@ const AIController = {
 
             const movieIds = fetchData.data.result;
 
-            const movies = await Promise.all(
-                movieIds.map(async (id) => {
-                    const movie = await Movie.findById(id).select("title tmdb_id poster_path genres release_date vote_average overview");
-                    return movie;
-                })
-            );
+            const startIndex = (page - 1) * limit;
+            const endIndex = startIndex + limit;
+            const movieIdsToFetch = movieIds.slice(startIndex, endIndex);
+
+            const movies = (
+                await Promise.all(
+                    movieIdsToFetch.map(async (id) => {
+                        const movie = await Movie.findById(id).select(
+                            "title tmdb_id poster_path genres release_date vote_average overview"
+                        );
+                        return movie;
+                    })
+                )
+            ).filter((movie) => movie !== null);
 
             return res.status(200).json({
                 success: true,
                 message: "Get Movies by AI successfully",
-                data: movies
+                data: movies,
+                page: parseInt(page),
+                totalPage: parseInt(totalPage)
             });
         } catch (error) {
             console.error("Error fetching movie details:", error);

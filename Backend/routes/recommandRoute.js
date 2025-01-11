@@ -4,7 +4,8 @@ const AccessMiddleware = require("../middlewares/access.middleware");
 const handleAsync = require("../utils/catchAsync");
 const router = express.Router();
 
-router.use(handleAsync(AccessMiddleware.checkAccess));
+//router.use(handleAsync(AccessMiddleware.checkAccess));
 
-router.get("/movie", recommendController.getRecommendationBasedFavoriteList);
+router.get("/movie/:idMovie", recommendController.getRecommendationBasedSelectedMovie);
+router.get("/", handleAsync(AccessMiddleware.checkAccess), recommendController.getRecommendationBasedFavoriteList);
 module.exports = router;
