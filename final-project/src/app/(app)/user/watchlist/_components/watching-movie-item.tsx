@@ -10,7 +10,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/hooks/use-toast";
 import { Movie } from "@/types/api";
 import { formatDate } from "@/utils/utils";
-import { Heart, List, Star, X } from "lucide-react";
+import { Heart, Star, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import StarRating from "../../_components/star-rating";

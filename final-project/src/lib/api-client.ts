@@ -1,5 +1,3 @@
-import { auth } from "@/auth";
-import { getSession, useSession } from "next-auth/react";
 import { getSessionData } from "./getSession";
 
 type RequestOptions = {

@@ -5,11 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { GetMovieDetailResponse } from "@/types/api";
-import { Bookmark, ChevronRight, Heart, List, Star } from "lucide-react";
-import Image from "next/image";
+import { Bookmark, ChevronRight, Heart, Star } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { use } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Tooltip,
   TooltipContent,
@@ -27,6 +26,8 @@ import {
   useAddToWatchlistServerAction,
   useRemoveFromWatchlistServerAction,
 } from "@/api/user/watch-list";
+import Link from "next/link";
+import MovieReviewItem from "./movie-review-item";
 
 const TooltipArrow = TooltipPrimitive.Arrow;
 export default function MovieInfo({
@@ -35,11 +36,14 @@ export default function MovieInfo({
   data: Promise<GetMovieDetailResponse>;
 }) {
   const movieDetail = use(data).data;
+  const movieReviews = use(data).reviews;
   const partialCast = movieDetail?.credits?.cast
     ?.slice()
     .sort((a, b) => a.order - b.order)
     .slice(0, 10);
   const router = useRouter();
+  const currentPathname = usePathname();
+
   const leftLayerStyle = {
     backgroundImage:
       "linear-gradient(270deg, rgba(17, 19, 25, 0) 0%, rgba(17, 19, 25, 0.05) 16%, rgba(17, 19, 25, 0.2) 30%, rgba(17, 19, 25, 0.39) 43%, rgba(17, 19, 25, 0.61) 55%, rgba(17, 19, 25, 0.8) 68%, rgba(17, 19, 25, 0.95) 82%, rgb(17, 19, 25) 98%)",
@@ -139,7 +143,7 @@ export default function MovieInfo({
     <>
       <div className="flex w-full relative">
         <div className="overflow-hidden absolute top-0 right-0 w-[70.84%] h-full">
-          <Image
+          <CustomImage
             src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${movieDetail.backdrop_path}`}
             alt={movieDetail.title}
             height={576}
@@ -213,23 +217,6 @@ export default function MovieInfo({
                 {movieDetail.overview}
               </p>
               <div className="flex gap-6">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        className="flex justify-center items-center rounded-full w-12 h-12"
-                        variant="secondary"
-                      >
-                        <List />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Add to list</p>
-                      <TooltipArrow className="fill-primary"></TooltipArrow>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -326,7 +313,7 @@ export default function MovieInfo({
                   height="217"
                   className="rounded-t-md w-full h-[217px]"
                 />
-                <div className="flex-col gap-1 text-foreground justify-center items-center p-3 w-full h-[6rem]">
+                <div className="flex-col gap-1 text-foreground justify-center items-center p-3 w-full h-[6rem] border-b border-l border-r rounded-md bg-secondary rounded-t-none">
                   <p className="w-full font-bold leading-6">{cast.name}</p>
                   <p className="w-full leading-6 text-sm line-clamp-3 text-ellipsis">
                     {cast.character}
@@ -345,6 +332,40 @@ export default function MovieInfo({
           <ScrollBar orientation="horizontal"></ScrollBar>
         </ScrollArea>
       </div>
+      <div className="container mt-4 mb-4">
+        <Separator />
+      </div>
+      {movieReviews && movieReviews.length > 0 ? (
+        <div className="container">
+          <p className="text-foreground font-semibold text-xl mb-4">
+            Reviews ({movieReviews.length})
+          </p>
+
+          <MovieReviewItem data={movieReviews[0]} />
+
+          <Link
+            href={`${currentPathname}/reviews`}
+            className="font-bold my-4 flex items-center"
+          >
+            Read All Reviews <ChevronRight></ChevronRight>
+          </Link>
+        </div>
+      ) : (
+        <div className="container">
+          <p className="text-foreground font-semibold text-xl mb-4">
+            Reviews (0)
+          </p>
+          <p className="flex justify-center items-center py-4">
+            No review for this movie yet
+          </p>
+          <Link
+            href={`${currentPathname}/reviews`}
+            className="font-bold my-4 flex items-center"
+          >
+            Read All Reviews <ChevronRight></ChevronRight>
+          </Link>
+        </div>
+      )}
     </>
   ) : (
     <div className="flex justify-center items-center flex-1">

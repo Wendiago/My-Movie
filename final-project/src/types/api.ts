@@ -113,24 +113,6 @@ export type MovieVideo = {
   id: string;
 };
 
-export type MovieRecommendation = {
-  backdrop_path?: string; // URL to the backdrop image
-  id: number; // Unique identifier for the movie
-  title: string; // Title of the movie
-  original_title?: string; // Original title of the movie
-  overview?: string; // Summary of the movie's plot
-  poster_path?: string; // URL to the poster image
-  media_type?: string; // Type of media (e.g., "movie")
-  adult?: boolean; // Indicates if the movie is for adults
-  original_language?: string; // Language code of the movie's original language
-  genre_ids?: number[]; // Array of genre IDs
-  popularity?: number; // Popularity score
-  release_date?: string; // Release date of the movie in ISO format
-  video?: boolean; // Indicates if the movie is a video
-  vote_average?: number; // Average vote score
-  vote_count?: number; // Number of votes
-};
-
 export type MovieTrailer = {
   key: string;
   tmdb_id: Movie;
@@ -325,7 +307,6 @@ export type GetMovieDetailResponse = {
   data: Movie;
   reviews?: MovieReview[];
   videos?: MovieVideo[];
-  recommendations?: MovieRecommendation[];
 };
 
 export type AddToRatingListResponse = {
@@ -370,4 +351,27 @@ export type GetMovieTrailersResponse = {
   success: boolean;
   message: string;
   data: MovieTrailer[];
+};
+
+export type RecommendedMovie = Pick<
+  Movie,
+  | "title"
+  | "tmdb_id"
+  | "original_title"
+  | "backdrop_path"
+  | "genres"
+  | "release_date"
+  | "vote_average"
+>;
+export type GetMovieRecommendation = {
+  success: boolean;
+  message: string;
+  data: RecommendedMovie[];
+};
+
+export type SearchAIResponse = {
+  success: boolean;
+  message: string;
+  label: string;
+  route: string;
 };

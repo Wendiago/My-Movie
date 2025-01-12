@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   getTodayTrendingMovies,
   getWeekTrendingMovies,
-  getLatestTrailerList
+  getLatestTrailerList,
 } from "@/api/movie/movie";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -12,12 +12,11 @@ import TrendingCarouselSkeleton from "./home/_components/trending-carousel-skele
 import MainCarousel from "./home/_components/main-carousel";
 import TrailerCarousel from "./home/_components/trailer-carousel";
 import TrailerCarouselSkeleton from "./home/_components/trailer-carousel-skeleton";
-
 export default async function Page() {
   const weeklyTrendingMovies = getWeekTrendingMovies();
   const todayTrendingMovies = getTodayTrendingMovies();
   const latestTrailerList = getLatestTrailerList();
-  
+
   return (
     <div className="relative flex flex-col min-h-screen w-full">
       <Suspense

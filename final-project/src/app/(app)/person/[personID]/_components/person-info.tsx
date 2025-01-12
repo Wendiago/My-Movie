@@ -5,7 +5,6 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { GetCastByIDResponse } from "@/types/api";
 import { calculateAge, formatDate } from "@/utils/utils";
 import { ChevronRight } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useRef, useState } from "react";
 

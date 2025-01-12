@@ -6,6 +6,7 @@ import { useState } from "react";
 type CustomImageProps = React.ComponentProps<typeof Image> & {
   errorSrc?: string;
   placeholderSrc?: string;
+  usePlaceholder?: boolean;
 };
 
 export default function CustomImage({
@@ -15,6 +16,7 @@ export default function CustomImage({
   height,
   errorSrc = "/placeholder.jpeg", // Default error image
   placeholderSrc = "/placeholder.jpeg", // Default placeholder image
+  usePlaceholder = true,
   ...props
 }: CustomImageProps) {
   const [source, setSrc] = useState(src);
@@ -27,8 +29,10 @@ export default function CustomImage({
       width={width}
       height={height}
       onError={() => setSrc(errorSrc)}
-      placeholder="blur"
-      blurDataURL={placeholderSrc}
+      {...(usePlaceholder && {
+        placeholder: "blur",
+        blurDataURL: placeholderSrc,
+      })}
     />
   );
 }

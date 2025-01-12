@@ -48,7 +48,7 @@ export default function SearchResults() {
     release_year: release_year,
     page,
   });
-  console.log("data", data);
+  //console.log("data", data);
 
   const handlePageChange = (newPage: string) => {
     router.push(pathName + "?" + createQueryString("page", newPage));

@@ -20,7 +20,6 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import wretch from "wretch";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -40,7 +39,6 @@ const SendOTPDialog: React.FC<SendOTPProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
-  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(EmailforgotPasswordSchema),

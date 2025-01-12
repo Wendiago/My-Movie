@@ -42,13 +42,12 @@ export default function MainCarousel({
     };
 
     api.on("slidesInView", () => {
-      handleSlidesInView;
       handleSlidesInView();
     });
     return () => {
       api.off("slidesInView", handleSlidesInView);
     };
-  }, [api]);
+  }, [api, movies]);
 
   return (
     <Carousel

@@ -160,8 +160,11 @@ const LoginForm = () => {
               <p className="text-destructive my-1">{`${errors.password.message}`}</p>
             )}
           </div>
-          <div className="text-primary font-semibold mt-4 cursor-pointer" onClick={handleOpenForgetPasswordDialog}>
-            Forgotten password?
+          <div
+            className="mt-4 cursor-pointer text-end underline underline-offset-2"
+            onClick={handleOpenForgetPasswordDialog}
+          >
+            Forgot password?
           </div>
           <Button
             className="w-full mt-4"

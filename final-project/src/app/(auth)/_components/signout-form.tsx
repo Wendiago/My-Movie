@@ -13,7 +13,7 @@ export const SignOutForm = () => {
 
   useEffect(() => {
     handleLogOut();
-  }, []);
+  });
 
   const handleLogOut = async () => {
     try {
@@ -26,11 +26,6 @@ export const SignOutForm = () => {
       });
     } catch (error: any) {
       console.log(error);
-      toast({
-        variant: "destructive",
-        title: "Oops! Something went wrong.",
-        description: error?.json?.message || "An unexpected error occurred",
-      });
     } finally {
       await signOut();
       router.push("/login");

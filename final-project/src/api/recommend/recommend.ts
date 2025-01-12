@@ -1,4 +1,5 @@
 import { customFetch } from "@/lib/api-client";
+import { GetMovieRecommendation } from "@/types/api";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -16,7 +17,7 @@ export const getRecommendationBasedFavoriteList = async ({
   page?: number;
   limit?: number;
 }): Promise<any> => {
-  const response = await customFetch.get("/api/v1/recommend/movie", {
+  const response = await customFetch.get("/api/v1/recommend/", {
     params: { genres, rating, release_year, page, limit },
   });
   return response;
@@ -55,3 +56,8 @@ export const useRecommendationBasedFavoriteList = ({
   });
 };
 
+export const getRecommendationBasedSelection = async (idMovie: string) => {
+  return customFetch.get<GetMovieRecommendation>(
+    `/api/v1/recommend/movie/${idMovie}`
+  );
+};

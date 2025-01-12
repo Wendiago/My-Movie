@@ -47,5 +47,5 @@ const StarRating = forwardRef<
     </div>
   );
 });
-
+StarRating.displayName = "StarRating";
 export default StarRating;

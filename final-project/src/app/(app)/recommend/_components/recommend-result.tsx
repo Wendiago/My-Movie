@@ -93,7 +93,7 @@ export default function RecommendResults() {
         <>
           <div className="flex justify-between my-8 pl-2 pr-2 gap-16">
             <div className="font-bold text-2xl">
-              <span className="text-primary">Recommendations</span>
+              <span>Recommendations based on your preference:</span>
             </div>
             <div className="flex flex-row gap-1">
               <GenreFilter />

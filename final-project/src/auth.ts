@@ -88,9 +88,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/login",
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       if (account?.provider === Providers.Google) {
-        console.log('google');
+        console.log("google");
         try {
           const response = await customFetch.post<ApiResponse<LoginReponse>>(
             "/api/v1/auth/google/auth",
@@ -170,6 +170,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           return token;
         } catch (error: any) {
+          console.log(error);
           token.error = "RefreshTokenError";
           return token;
         }

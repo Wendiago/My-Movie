@@ -1,6 +1,5 @@
 "use client";
 
-import { Popcorn } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import SearchBar from "@/components/ui/search-bar";
@@ -12,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import NavUser from "./nav-user";
+import CustomImage from "@/components/ui/custom-image";
 
 export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -30,7 +30,7 @@ export default function NavBar() {
 
   return (
     <nav
-      className={`w-full fixed top-0 z-50 flex justify-between items-center py-4 transition-all duration-1000 ease-in-out ${
+      className={`w-full fixed top-0 z-50 flex justify-between items-center py-4 transition-all duration-500 ease-in-out ${
         isScrolled ? "bg-background" : "bg-transparent"
       }`}
     >
@@ -38,13 +38,22 @@ export default function NavBar() {
         <div className="flex items-center lg:gap-8 md:gap-4">
           <Link href="/" className="flex items-center">
             <div className="flex items-center gap-3 text-2xl">
-              <Popcorn className="text-primary size-8" />
-              <p className="font-bold text-primary">WENDIAGO MOVIE</p>
+              <CustomImage
+                src={"/logo.png"}
+                alt="logo"
+                width={32}
+                height={32}
+                className="w-8 h-8"
+                usePlaceholder={false}
+              />
+              <p className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#209dc2] via-[#b05f99] to-[#e85a75]">
+                WENDIAGO MOVIE
+              </p>
             </div>
           </Link>
           <Link href="/recommend" className="flex gap-1">
             <p
-              className="font-bold inline-block animate-glowing"
+              className="font-bold inline-block"
               style={{
                 filter:
                   "drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px #fff) drop-shadow(0 0 30px #fff)",

@@ -43,7 +43,7 @@ export default function CastInfoItem({ data, isCast }: CastInfoItem) {
   const description = isCast ? (data as Cast).character : (data as Crew).job;
   return (
     <div
-      className="flex gap-4 items-center cursor-pointer"
+      className="flex gap-4 items-center cursor-pointer w-fit"
       onClick={() => router.push(`/person/${data.id}`)}
     >
       <CustomImage

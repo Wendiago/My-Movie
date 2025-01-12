@@ -1,3 +1,3 @@
-export async function GET(req: Request) {
-  return Response.json({ message: 'Welcome to the API!' });
+export async function GET() {
+  return Response.json({ message: "Welcome to the API!" });
 }

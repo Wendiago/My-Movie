@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { PasswordInput } from "./password-input";
 import { paths } from "@/lib/routes";
-import { useRouter } from "next/navigation";
 import LoginGoogleButton from "./google-login-button";
 import { toast } from "@/hooks/use-toast";
 import wretch from "wretch";
@@ -26,10 +25,8 @@ const SignupForm = () => {
     formState: { errors },
   } = useForm<TRegisterSchema>({ resolver: zodResolver(registerSchema) });
 
-  const router = useRouter();
-
   const onSubmit = async (data: TRegisterSchema) => {
-    const { email, password } = data;
+    const { email } = data;
     setIsLoading(true);
     setVerificationEmail(email);
     try {

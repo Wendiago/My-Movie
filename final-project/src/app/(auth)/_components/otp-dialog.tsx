@@ -13,7 +13,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { toast, useToast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 import wretch from "wretch";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
