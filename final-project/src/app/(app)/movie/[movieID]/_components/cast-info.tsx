@@ -32,6 +32,7 @@ export default function CastInfo({
             width="58"
             height="87"
             className="w-[58px] h-[87px]"
+            placeholderSrc={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${movieDetail.poster_path}`}
           ></CustomImage>
           <div className="flex flex-col gap-2">
             <h1 className="text-primary-foreground text-2xl font-extrabold">

@@ -151,6 +151,7 @@ export default function MovieInfo({
             height={576}
             width={1000}
             className="object-cover w-full h-full"
+            placeholderSrc={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${movieDetail.backdrop_path}`}
           />
           <div
             className="left-layer absolute h-full w-[28%] bottom-0"

@@ -20,6 +20,7 @@ export default function MovieCard(movie: Movie) {
         width={500}
         height={300}
         className="w-full lg:h-[400px] md:h-[350px] object-cover rounded-sm"
+        placeholderSrc={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w300${movie.poster_path}`}
       ></CustomImage>
       <div className="flex flex-col justify-start items-center py-2">
         <h3 className="text-lg font-medium text-center group-hover:text-primary">

@@ -13,6 +13,7 @@ export default function TrailerCarouselItem({ data }: { data: Movie }) {
             width="315"
             height="176"
             className="w-[315px] h-[176px] rounded-md object-cover object-center"
+            placeholderSrc={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${data?.poster_path}`}
           />
           <Play
             width={40}

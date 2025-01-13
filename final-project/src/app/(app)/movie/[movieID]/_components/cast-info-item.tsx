@@ -52,6 +52,7 @@ export default function CastInfoItem({ data, isCast }: CastInfoItem) {
         width="66"
         height="80"
         className="w-[66px] h-[80px] rounded-md"
+        placeholderSrc={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w300${data.profile_path}`}
       ></CustomImage>
       <div className="flex flex-col justify-center items-start">
         <h1 className="font-bold">{data.name}</h1>

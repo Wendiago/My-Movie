@@ -17,6 +17,7 @@ export default function TrendingCarouselItem({
             width="250"
             height="288"
             className="w-full h-72 rounded-md object-cover object-center hover:scale-110 transition-transform duration-300"
+            placeholderSrc={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${data.poster_path}`}
           />
           <RatingCircle
             customStyles={{
