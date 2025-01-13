@@ -28,6 +28,8 @@ import {
 } from "@/api/user/watch-list";
 import Link from "next/link";
 import MovieReviewItem from "./movie-review-item";
+import LoadingOverlay from "@/components/ui/loading/loading-overlay";
+import { SolarSystem } from "@/components/ui/loading/solar-system";
 
 const TooltipArrow = TooltipPrimitive.Arrow;
 export default function MovieInfo({
@@ -204,12 +206,8 @@ export default function MovieInfo({
                 {movieDetail.budget ? `$${movieDetail.budget}` : "-"}
               </p>
               <p className="text-foreground">
-                <span className="text-textGrey">
-                  Production Companies: {""}
-                </span>
-                {movieDetail.production_companies?.map(
-                  (productionCompany) => productionCompany.name + ", "
-                ) || "-"}
+                <span className="text-textGrey">Revenue: {""}</span>
+                {movieDetail.revenue ? `$${movieDetail.revenue}` : "-"}
               </p>
               {/* add to prevent overflow max-h-[63px] line-clamp-2 */}
               <p className="text-foreground">
@@ -313,9 +311,9 @@ export default function MovieInfo({
                   height="217"
                   className="rounded-t-md w-full h-[217px]"
                 />
-                <div className="flex-col gap-1 text-foreground justify-center items-center p-3 w-full h-[6rem] border-b border-l border-r rounded-md bg-secondary rounded-t-none">
-                  <p className="w-full font-bold leading-6">{cast.name}</p>
-                  <p className="w-full leading-6 text-sm line-clamp-3 text-ellipsis">
+                <div className="flex-col gap-1 text-foreground justify-center items-center p-3 w-full border-b border-l border-r rounded-md bg-secondary rounded-t-none h-[6rem]">
+                  <p className="w-full font-bold line-clamp-2">{cast.name}</p>
+                  <p className="w-full leading-6 text-sm line-clamp-1 text-ellipsis">
                     {cast.character}
                   </p>
                 </div>
@@ -366,6 +364,12 @@ export default function MovieInfo({
           </Link>
         </div>
       )}
+      {addToFavoriteMutation.isPending ||
+        removeFromFavoriteListMutation.isPending ||
+        addToWatchlistMutation.isPending ||
+        (removeFromWatchlistMutation.isPending && (
+          <LoadingOverlay spinner={<SolarSystem />}></LoadingOverlay>
+        ))}
     </>
   ) : (
     <div className="flex justify-center items-center flex-1">

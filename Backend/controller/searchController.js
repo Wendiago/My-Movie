@@ -7,7 +7,7 @@ const searchController = {
       const { genres, rating, release_year, page = 1, limit = 10 } = req.query;
       const keyWordSearch = req.query.search;
 
-      console.log("keyWordSearch", keyWordSearch);
+      //console.log("keyWordSearch", keyWordSearch);
       const offset = (page - 1) * limit;
 
       const query = {};

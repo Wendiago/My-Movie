@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
   const { pathname, origin } = url;
   const isAllowedOrigin = allowedOrigins.includes(origin);
   const session = await auth();
-  //console.log("session", session);
+  console.log("session", session);
 
   // Prevent API access from different origins (CORS check)
   if (pathname.startsWith("/api") && !isAllowedOrigin) {

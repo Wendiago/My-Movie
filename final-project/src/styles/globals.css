@@ -38,6 +38,10 @@
     --progress-bar-bg: 0 0 40%;
 
     --favorite: 320 84% 61%;
+
+    --good-rating: 150, 73%, 47%;
+    --average-rating: 61, 63%, 50%;
+    --bad-rating: 340, 73%, 49%;
   }
 
   :root {
@@ -71,12 +75,16 @@
 
     --radius: 0.5rem;
     --text-grey: 240 1.78% 66.86%;
-    
+
     --progress-bar-bg: 0 0 40%;
 
     --favorite: 320 84% 61%;
 
     --watching: 0 62% 50%;
+
+    --good-rating: 150, 73%, 47%;
+    --average-rating: 61, 63%, 50%;
+    --bad-rating: 340, 73%, 49%;
   }
 
   * {
@@ -118,17 +126,17 @@ input::-ms-clear {
 }
 
 ::-webkit-scrollbar {
-  width: 8px; 
-  height: 8px; 
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--secondary)); 
+  background: hsl(var(--secondary));
   border-radius: 8px;
 }
 

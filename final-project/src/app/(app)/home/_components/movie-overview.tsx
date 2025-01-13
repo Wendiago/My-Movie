@@ -1,9 +1,8 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { RatingCircle } from "@/components/ui/rating-circle/rating-circle";
 import { Separator } from "@/components/ui/separator";
 import { TrendingMovies } from "@/types/api";
 import { cn } from "@/utils/cn";
-import { Play, Star } from "lucide-react";
 import React from "react";
 
 export default function MovieOverview({
@@ -31,13 +30,13 @@ export default function MovieOverview({
           {data.media_type}
         </Badge>
       </div>
-      <div className="flex items-center gap-2 h-4 mb-4">
-        <div className="flex items-center gap-1">
-          <Star className="text-yellow-500 fill-yellow-500" />
-          <p className="text-yellow-500 font-semibold">
-            {data.vote_average.toPrecision(2)}
-          </p>
-        </div>
+      <div className="flex items-center gap-2 mb-4">
+        <RatingCircle
+          value={Number.parseFloat((data.vote_average * 10).toPrecision(1))}
+          customStyles={{
+            root: { display: "block", width: "60px", height: "60px" },
+          }}
+        />
         <Separator orientation="vertical" />
         <p className="text-foreground">{data.release_date}</p>
         {data.adult && (
@@ -48,13 +47,7 @@ export default function MovieOverview({
           </>
         )}
       </div>
-      <p className="text-foreground line-clamp-2">{data.overview}</p>
-
-      <div className="mt-6">
-        <Button size="icon" className="rounded-full h-16 w-16 [&_svg]:size-8">
-          <Play />
-        </Button>
-      </div>
+      <p className="text-foreground line-clamp-3">{data.overview}</p>
     </div>
   );
 }

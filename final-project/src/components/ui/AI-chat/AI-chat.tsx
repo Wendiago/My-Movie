@@ -110,9 +110,11 @@ function AIChat() {
               </div>
               {message.type === "user" && (
                 <CustomImage
+                  unoptimized
+                  priority
                   src={
-                    session?.user?.photo && session?.user?.photo != ""
-                      ? session.user.photo
+                    session?.user?.image && session?.user?.image != ""
+                      ? session.user.image
                       : "/avatar.jpeg"
                   }
                   alt="user-avatar"

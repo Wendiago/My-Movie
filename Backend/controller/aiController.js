@@ -157,6 +157,7 @@ const AIController = {
           route: routeName,
         });
       }
+      console.log("AI-Controller: Can't find any info");
       return res.status(200).json({
         success: true,
         message: "Not found information",

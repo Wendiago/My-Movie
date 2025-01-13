@@ -11,10 +11,10 @@ import Autoplay from "embla-carousel-autoplay";
 import { use, useEffect, useRef, useState } from "react";
 import { cn } from "@/utils/cn";
 import { GetTrendingMoviesResponse } from "@/types/api";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { paths } from "@/lib/routes";
 import MovieOverview from "./movie-overview";
+import CustomImage from "@/components/ui/custom-image";
 export default function MainCarousel({
   className,
   data,
@@ -65,7 +65,7 @@ export default function MainCarousel({
       <CarouselContent>
         {movies.map((movie, index) => (
           <CarouselItem key={index} className="relative">
-            <Image
+            <CustomImage
               src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${movie.backdrop_path}`}
               alt="main carousel item"
               width={1440}

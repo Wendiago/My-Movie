@@ -292,6 +292,7 @@ class AuthService {
       if (!userInfo) {
         throw new BadRequestResponse("Invalid ID Token", 1010602);
       }
+      console.log("Auth-service. login with google user info: ", userInfo);
       const user = await this.userModel
         .findOne({ email: userInfo.email })
         .lean();
@@ -299,6 +300,7 @@ class AuthService {
         const newUser = await this.userModel.create({
           email: userInfo?.email,
           name: userInfo?.name,
+          photo: userInfo?.picture,
           google_id: userInfo?.googleId,
           type_login: "google",
           isVerified: true,

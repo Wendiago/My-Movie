@@ -61,16 +61,11 @@ export default function TrailerCarousel({
 
   return (
     <div
-      className="w-full py-3 "
+      className="w-full py-3 backdrop-blur-md bg-cover bg-center backdrop-saturate-100"
       style={{
         backgroundImage: currentBackground
-          ? `linear-gradient(hsla(263.4, 70%, 30.4%, 0.4) 0%, hsla(263.4, 70%, 30.4%, 0.4) 100%), url(${currentBackground})`
+          ? `url(${currentBackground})`
           : "linear-gradient(hsla(263.4, 70%, 30.4%, 0.4) 0%, hsla(263.4, 70%, 30.4%, 0.4) 100%)",
-        backgroundColor: currentBackground
-          ? "transparent"
-          : "linear-gradient(hsla(263.4, 70%, 30.4%, 0.4) 0%, hsla(263.4, 70%, 30.4%, 0.4) 100%)", // Fallback color
-        backgroundSize: "cover",
-        backgroundPosition: "center",
       }}
     >
       <div className="container flex flex-col gap-4">

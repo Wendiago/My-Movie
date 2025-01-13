@@ -40,6 +40,7 @@
     "prettier": "^3.4.1",
     "prettier-plugin-tailwindcss": "^0.6.9",
     "react": "^18",
+    "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18",
     "react-draggable": "^4.4.6",
     "react-error-boundary": "^4.1.2",
@@ -47,6 +48,7 @@
     "react-tooltip": "^5.28.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
+    "tinycolor2": "^1.6.0",
     "wretch": "^2.11.0",
     "zod": "^3.24.1"
   },
@@ -54,6 +56,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/tinycolor2": "^1.4.6",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8",

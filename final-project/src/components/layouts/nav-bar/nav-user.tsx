@@ -41,11 +41,14 @@ export default function NavUser() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <CustomImage
-              src={user?.photo || "/avatar.jpeg"}
+              unoptimized
+              priority
+              src={user?.image || "/avatar.jpeg"}
               alt="avatar placeholder"
               width="40"
               height="40"
               className="cursor-pointer h-full aspect-square rounded-full"
+              errorSrc="/avatar.jpeg"
             />
           </DropdownMenuTrigger>
           <DropdownMenuContent

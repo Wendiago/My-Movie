@@ -27,7 +27,7 @@ export default function SearchBar({ searchType }: { searchType: string }) {
       <Input
         placeholder="Search anything..."
         name="keyword"
-        className="pl-4 bg-transparent border-foreground/50 backdrop-blur-md border text-foreground placeholder:text-foreground"
+        className="pl-4 bg-transparent border-foreground/50 backdrop-blur-md border text-foreground placeholder:text-foreground focus-visible:ring-0 focus-visible:ring-offset-0"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />

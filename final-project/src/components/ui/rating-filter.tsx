@@ -1,7 +1,13 @@
-'use client';
+"use client";
 
 import { useCallback, useState } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function RatingFilter() {
@@ -9,7 +15,9 @@ export default function RatingFilter() {
   const pathName = usePathname();
   const searchParams = useSearchParams();
   const ratings = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const [selectValue, setSelectValue] = useState(searchParams.get("rating") || "");
+  const [selectValue, setSelectValue] = useState(
+    searchParams.get("rating") || ""
+  );
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -36,7 +44,9 @@ export default function RatingFilter() {
         handleRatingSelect(value);
       }}
     >
-      <SelectTrigger className={`w-[120px] bg-background/80 text-foreground border-none pl-4 h-[40px] backdrop-blur-md `}>
+      <SelectTrigger
+        className={`w-[120px] bg-background/80 text-foreground pl-4 h-[40px] backdrop-blur-md `}
+      >
         <SelectValue placeholder="Rating" />
       </SelectTrigger>
       <SelectContent>

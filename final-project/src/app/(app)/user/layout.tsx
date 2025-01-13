@@ -1,6 +1,6 @@
 import CustomImage from "@/components/ui/custom-image";
 import { auth } from "@/auth";
-import { RatingCircle } from "@/components/ui/rating-circle";
+import { RatingCircle } from "@/components/ui/rating-circle/rating-circle";
 import UserMenuBar from "./_components/user-menu-bar";
 import { Separator } from "@/components/ui/separator";
 
@@ -20,7 +20,9 @@ export default async function layout({
       >
         <div className="container pt-[112px] pb-10 mx-auto flex items-center gap-10">
           <CustomImage
-            src={user?.photo || "/avatar.jpeg"}
+            unoptimized
+            priority
+            src={user?.image || "/avatar.jpeg"}
             alt="avatar placeholder"
             width={150}
             height={150}
@@ -32,13 +34,9 @@ export default async function layout({
             <h1 className="font-bold text-2xl">{user?.email}</h1>
             <div className="flex items-center gap-3">
               <RatingCircle
-                progress={50}
-                showPercentage
-                bgClassName="fill-background"
-                textClassName="text-foreground font-bold"
-                progressClassName="stroke-primary"
-                size={60}
-                className="text-muted"
+                value={50}
+                customStyles={{ root: { width: "60px", height: "60px" } }}
+                background
               />
               <div className="w-24">Average movie score</div>
             </div>

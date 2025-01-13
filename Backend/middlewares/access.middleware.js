@@ -10,7 +10,7 @@ const {
 class AccessMiddleware {
   static async checkAccess(req, res, next) {
     const clientId = req.headers["x-client-id"];
-    console.log("Clientid: ", clientId);
+    //console.log("Clientid: ", clientId);
     if (!clientId) {
       throw new UnauthorizedResponse("Unauthorized", 1000101);
     }

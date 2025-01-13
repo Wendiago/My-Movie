@@ -47,7 +47,7 @@ const SignupForm = () => {
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="bg-card p-10 rounded-lg shadow-lg max-w-md">
-        <h2 className="text-2xl font-semibold mb-6 text-center text-primary">
+        <h2 className="text-2xl font-semibold mb-6 text-center">
           Account Sign up
         </h2>
         <p className="text-gray-500 text-center mb-8">

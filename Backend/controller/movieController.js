@@ -41,9 +41,8 @@ const movieController = {
       // Check if user is logged in
       const clientId = req.headers["x-client-id"];
       const userId = clientId;
-      
-      if (userId) {
 
+      if (userId) {
         const [favoriteListData, watchingListData, ratingListData] =
           await Promise.all([
             favoriteList.findOne({ idUser: userId }),
@@ -114,7 +113,7 @@ const movieController = {
   getAllGenres: catchAsync(async (req, res, next) => {
     try {
       const genres = await Genre.find();
-      console.log("genres", genres);
+      //console.log("genres", genres);
 
       res.status(200).json({
         success: true,

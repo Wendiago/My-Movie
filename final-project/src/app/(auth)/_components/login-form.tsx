@@ -22,6 +22,8 @@ import ConfirmOTPDialog from "./forgot-password/confirm-otp-dialog";
 import ResetPasswordDialog from "./forgot-password/reset-password-dialog";
 import { signIn } from "next-auth/react";
 import { Spinner } from "@/components/ui/spinner";
+import LoadingOverlay from "@/components/ui/loading/loading-overlay";
+import { SolarSystem } from "@/components/ui/loading/solar-system";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -127,7 +129,7 @@ const LoginForm = () => {
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="bg-card p-10 rounded-lg shadow-lg max-w-md">
-        <h2 className="text-2xl font-semibold mb-6 text-center text-primary">
+        <h2 className="text-2xl font-semibold mb-6 text-center">
           Account Login
         </h2>
         <p className="text-gray-500 text-center mb-8">
@@ -161,7 +163,7 @@ const LoginForm = () => {
             )}
           </div>
           <div
-            className="mt-4 cursor-pointer text-end underline underline-offset-2"
+            className="mt-4 cursor-pointer text-end"
             onClick={handleOpenForgetPasswordDialog}
           >
             Forgot password?
@@ -216,6 +218,7 @@ const LoginForm = () => {
         isOpen={isOpenForgotPassword}
         onClose={() => setIsOpenForgotPassword(false)}
       />
+      {isLoading && <LoadingOverlay spinner={<SolarSystem />} />}
     </div>
   );
 };

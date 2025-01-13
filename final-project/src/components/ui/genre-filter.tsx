@@ -51,7 +51,7 @@ export default function GenreFilter() {
       }}
     >
       <SelectTrigger
-        className={`w-[120px] bg-background/80 text-foreground border-none pl-4 h-[40px] backdrop-blur-md `}
+        className={`w-[120px] bg-background/80 text-foreground pl-4 h-[40px] backdrop-blur-md `}
       >
         <SelectValue placeholder="Genre" />
       </SelectTrigger>

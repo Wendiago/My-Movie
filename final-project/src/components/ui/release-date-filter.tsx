@@ -1,14 +1,22 @@
-'use client';
+"use client";
 
 import { useCallback, useState } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function ReleaseDateFilter() {
   const router = useRouter();
   const pathName = usePathname();
   const searchParams = useSearchParams();
-  const [selectValue, setSelectValue] = useState(searchParams.get("release_year") || "");
+  const [selectValue, setSelectValue] = useState(
+    searchParams.get("release_year") || ""
+  );
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -28,7 +36,9 @@ export default function ReleaseDateFilter() {
   );
 
   // Generate a list of years from 1970 to 2024
-  const years = Array.from({ length: 2024 - 1970 + 1 }, (_, i) => (1970 + i).toString());
+  const years = Array.from({ length: 2024 - 1970 + 1 }, (_, i) =>
+    (1970 + i).toString()
+  );
 
   return (
     <Select
@@ -38,7 +48,7 @@ export default function ReleaseDateFilter() {
         handleYearSelect(value);
       }}
     >
-      <SelectTrigger className="w-[120px] bg-background/80 text-foreground border-none pl-4 h-[40px] backdrop-blur-md">
+      <SelectTrigger className="w-[120px] bg-background/80 text-foreground pl-4 h-[40px] backdrop-blur-md">
         <SelectValue placeholder="Year" />
       </SelectTrigger>
       <SelectContent>
