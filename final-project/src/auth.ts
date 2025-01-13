@@ -1,3 +1,4 @@
+/* eslint-disable */
 import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
@@ -56,7 +57,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             id: user.id,
             email: user.email,
             name: user.name,
-            photo: user.photo,
+            image: user.image,
             accessToken,
             refreshToken,
             expiresAt,
@@ -113,7 +114,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.id = response.data.user.id;
           user.email = response.data.user.email;
           user.name = response.data.user.name;
-          user.photo = response.data.user.photo;
+          user.image = response.data.user.image;
           user.accessToken = accessToken;
           user.refreshToken = refreshToken;
           user.expiresAt = expiresAt;
@@ -130,7 +131,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id as string;
         token.email = user.email as string;
         token.name = user.name;
-        token.photo = user.photo as string;
+        token.image = user.image as string;
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
         token.expiresAt = user.expiresAt;
@@ -182,7 +183,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.user.id = token.id as string;
       session.user.email = token.email as string;
       session.user.name = token.name as string;
-      session.user.photo = token.photo as string;
+      session.user.image = token.image as string;
       session.accessToken = token.accessToken as string;
       session.refreshToken = token.refreshToken as string;
       session.error = token.error;

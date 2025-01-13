@@ -11,7 +11,7 @@ export interface LoginReponse {
     id: string;
     email: string;
     name: string;
-    photo: string;
+    image: string;
   };
   accessToken: string;
   refreshToken: string;
@@ -21,6 +21,6 @@ export type User = {
   _id: string;
   name?: string;
   email: string;
-  photo: string;
+  image: string;
   isVerified: boolean;
 };

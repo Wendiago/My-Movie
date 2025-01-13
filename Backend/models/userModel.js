@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String, default: "" },
     password: { type: String, default: "" },
     name: { type: String, default: "" },
-    photo: { type: String, default: "/avatar.jpeg" },
+    image: { type: String, default: "/avatar.jpeg" },
     isVerified: { type: Boolean, default: false },
     type_login: {
       type: String,

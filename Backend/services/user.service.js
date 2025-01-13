@@ -14,7 +14,7 @@ class UserService {
     this.accessModel = accessModel;
   }
 
-  async createNewUser({ name, email, password, isVerified, photo }) {
+  async createNewUser({ name, email, password, isVerified, image }) {
     const existingUser = await this.userModel.findOne({ email });
     if (existingUser) {
       throw new ConflictResponse("Email already exists", 1040108);
@@ -28,7 +28,7 @@ class UserService {
       email,
       password: hashedPassword,
       isVerified,
-      photo,
+      image,
     });
 
     const { privateKey, publicKey } = generateRSAKeysForAccess();
@@ -53,7 +53,7 @@ class UserService {
     });
   }
 
-  async updateUser(userId, { name, password, isVerified, photo, slug }) {
+  async updateUser(userId, { name, password, isVerified, image, slug }) {
     const foundUser = await this.userModel.findById(
       MongooseUtil.convertToMongooseObjectIdType(userId)
     );
@@ -70,8 +70,8 @@ class UserService {
     if (isVerified) {
       foundUser.isVerified = isVerified;
     }
-    if (photo) {
-      foundUser.photo = photo;
+    if (image) {
+      foundUser.image = image;
     }
     if (slug) {
       foundUser.slug = slug;

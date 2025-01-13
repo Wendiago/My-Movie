@@ -28,7 +28,6 @@ export default async function layout({
             height={150}
             className="w-[150px] h-[150px] rounded-full"
             errorSrc="/avatar.jpeg"
-            placeholderSrc="/avatar.jpeg"
           />
           <div className="flex flex-col gap-4">
             <h1 className="font-bold text-2xl">{user?.email}</h1>

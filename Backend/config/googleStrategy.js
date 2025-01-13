@@ -5,7 +5,7 @@ const {
   generateRefreshToken,
   generateAccessToken,
 } = require("../utils/generateTokens");
-require('dotenv').config();
+require("dotenv").config();
 passport.use(
   new GoogleStrategy(
     {
@@ -23,7 +23,7 @@ passport.use(
           user.set("name", profile.displayName);
           user.set("email", profile.emails[0].value);
           user.set("isVerified", true);
-          // user.set('photo', profile.photos[0].value);
+          user.set("image", profile.images[0].value);
           await user.save({ validateBeforeSave: false });
         }
         // // Generate JWT tokens

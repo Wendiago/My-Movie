@@ -300,7 +300,7 @@ class AuthService {
         const newUser = await this.userModel.create({
           email: userInfo?.email,
           name: userInfo?.name,
-          photo: userInfo?.picture,
+          image: userInfo?.picture,
           google_id: userInfo?.googleId,
           type_login: "google",
           isVerified: true,

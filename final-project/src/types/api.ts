@@ -225,7 +225,7 @@ export type User = {
   _id: string;
   name?: string;
   email: string;
-  photo: string;
+  image: string;
   isVerified: boolean;
 };
 

@@ -8,7 +8,7 @@ class UserValidator extends ValidatorConfig {
       "email",
       "password",
       "name",
-      "photo",
+      "image",
       "isVerified",
       "type_login",
       "google_id",
@@ -51,7 +51,7 @@ class UserValidator extends ValidatorConfig {
       password: body.password,
       isVerified: emailVerified,
       name: body.name ?? "",
-      photo: body.photo ?? "",
+      image: body.image ?? "",
     });
   }
 
@@ -115,7 +115,7 @@ class UserValidator extends ValidatorConfig {
       password: body.password ?? undefined,
       isVerified: body.isVerified ?? undefined,
       name: body.name ?? undefined,
-      photo: body.photo ?? undefined,
+      image: body.image ?? undefined,
       slug: body.slug ?? undefined,
     });
   }

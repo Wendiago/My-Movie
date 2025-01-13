@@ -18,14 +18,14 @@ class UserController {
       );
     }
 
-    const { name, email, password, isVerified, photo } = validationResult?.data;
+    const { name, email, password, isVerified, image } = validationResult?.data;
     try {
       const result = await this.userService.createNewUser({
         name,
         email,
         password,
         isVerified,
-        photo,
+        image,
       });
       return new OKSuccessResponse({
         message: "Create new user success",
@@ -74,7 +74,7 @@ class UserController {
       );
     }
 
-    const { userId, name, password, isVerified, photo, slug } =
+    const { userId, name, password, isVerified, image, slug } =
       validationResult?.data;
     try {
       const result = await this.userService.updateUser(userId, {
@@ -82,7 +82,7 @@ class UserController {
         name,
         password,
         isVerified,
-        photo,
+        image,
         slug,
       });
       return new OKSuccessResponse({
