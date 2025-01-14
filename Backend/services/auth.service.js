@@ -21,7 +21,10 @@ class AuthService {
   }
 
   async handleSignup(email, password) {
-    const existingUser = await this.userModel.findOne({ email });
+    const existingUser = await this.userModel.findOne({
+      email,
+      type_login: "local",
+    });
     if (existingUser) {
       throw new ConflictResponse("Email already exists", 1010105);
     }
@@ -294,7 +297,7 @@ class AuthService {
       }
       console.log("Auth-service. login with google user info: ", userInfo);
       const user = await this.userModel
-        .findOne({ email: userInfo.email })
+        .findOne({ email: userInfo.email, type_login: "google" })
         .lean();
       if (!user) {
         const newUser = await this.userModel.create({

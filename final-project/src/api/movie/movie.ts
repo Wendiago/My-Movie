@@ -3,7 +3,7 @@ import {
   GetAllGenresResponse,
   GetMovieDetailResponse,
   GetTrendingMoviesResponse,
-  GetMovieTrailersResponse
+  GetMovieTrailersResponse,
 } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 
@@ -11,7 +11,8 @@ import { useQuery } from "@tanstack/react-query";
 export const getTodayTrendingMovies =
   async (): Promise<GetTrendingMoviesResponse> => {
     const response = customFetch.get<GetTrendingMoviesResponse>(
-      "/api/v1/movie/trending/day"
+      "/api/v1/movie/trending/day",
+      { cache: "force-cache" }
     );
     return response;
   };
@@ -27,7 +28,8 @@ export const useTodayTrendingMovies = () => {
 export const getWeekTrendingMovies =
   async (): Promise<GetTrendingMoviesResponse> => {
     const response = customFetch.get<GetTrendingMoviesResponse>(
-      "/api/v1/movie/trending/week"
+      "/api/v1/movie/trending/week",
+      { cache: "force-cache" }
     );
     return response;
   };
@@ -69,7 +71,8 @@ export const useMovieDetail = (movieID: string) => {
 export const getLatestTrailerList =
   async (): Promise<GetMovieTrailersResponse> => {
     const response = await customFetch.get<GetMovieTrailersResponse>(
-      "/api/v1/movie/trailer/latest"
+      "/api/v1/movie/trailer/latest",
+      { cache: "force-cache" }
     );
     return response;
   };

@@ -63,6 +63,7 @@ export default function FavoriteMovieItem({
         variant: "success",
         title: "Removed from favorite list",
       });
+      router.refresh();
     },
     onError: (error) => {
       toast({
@@ -79,6 +80,7 @@ export default function FavoriteMovieItem({
         variant: "success",
         title: "Rated successfully",
       });
+      router.refresh();
     },
     onError: (error) => {
       toast({
@@ -167,7 +169,11 @@ export default function FavoriteMovieItem({
                 onClick={() => handleRemoveFromFavorite(data.tmdb_id)}
                 disabled={removeFromFavoriteListMutation.isPending}
               >
-                {removeFromFavoriteListMutation.isPending ? <Spinner /> : <X />}
+                {removeFromFavoriteListMutation.isPending ? (
+                  <Spinner variant="light" />
+                ) : (
+                  <X />
+                )}
               </Button>
               <div className="text-textGrey">Remove</div>
             </div>

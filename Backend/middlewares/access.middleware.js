@@ -10,7 +10,7 @@ const {
 class AccessMiddleware {
   static async checkAccess(req, res, next) {
     const clientId = req.headers["x-client-id"];
-    //console.log("Clientid: ", clientId);
+    console.log("Clientid: ", clientId);
     if (!clientId) {
       throw new UnauthorizedResponse("Unauthorized", 1000101);
     }
@@ -35,6 +35,8 @@ class AccessMiddleware {
       throw new BadRequestResponse("Unauthorized", 1000106);
     }
     const accessToken = token.split(" ")[1];
+
+    console.log(accessToken);
 
     try {
       const decodedToken = await JWTHelper.verifyToken(

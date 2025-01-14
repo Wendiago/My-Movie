@@ -1,3 +1,4 @@
+//export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 import { AppProvider } from "./provider";

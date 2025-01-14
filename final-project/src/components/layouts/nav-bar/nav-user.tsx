@@ -15,8 +15,14 @@ import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { paths } from "@/lib/routes";
+import { useState } from "react";
+import wretch from "wretch";
+import { toast } from "@/hooks/use-toast";
+import LoadingOverlay from "@/components/ui/loading/loading-overlay";
+import { SolarSystem } from "@/components/ui/loading/solar-system";
 
 export default function NavUser() {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
   const user = session?.user;
@@ -25,8 +31,21 @@ export default function NavUser() {
     router.push(paths.auth.login.getHref());
   };
 
-  const handleLogout = () => {
-    signOut();
+  const handleLogout = async () => {
+    setIsLoading(true);
+
+    try {
+      await wretch("/api/access/logout").post().json();
+      await signOut();
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Log out failed",
+        description: error?.json?.message || "An unexpected error occurred",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <>
@@ -43,7 +62,7 @@ export default function NavUser() {
             <CustomImage
               unoptimized
               priority
-              src={user?.image || "/avatar.jpeg"}
+              src={user?.image}
               alt="avatar placeholder"
               width="40"
               height="40"
@@ -99,6 +118,7 @@ export default function NavUser() {
           </DropdownMenuContent>
         </DropdownMenu>
       )}
+      {isLoading && <LoadingOverlay spinner={<SolarSystem />} />}
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { customFetch } from "@/lib/api-client";
+import httpMethods from "@/lib/https";
 import { ApiResponse } from "@/types/auth";
 
 export async function POST() {
@@ -14,22 +14,19 @@ export async function POST() {
       "X-client-id": session.user.id,
     };
 
-    const response = await customFetch.post<ApiResponse<null>>(
+    const response = await httpMethods.post<ApiResponse<null>>(
       "/api/v1/auth/logout",
       {},
-      {
-        headers: headers,
-      }
+      headers
     );
-
     return Response.json(response.data, { status: response.status || 200 });
   } catch (error: any) {
     const errorResponse: ApiResponse<null> = error?.json || {
       message: "Internal Server Error",
     };
-
+    //console.log(errorResponse);
     return Response.json(errorResponse, {
-      status: errorResponse.status || 500,
+      status: 500,
     });
   }
 }

@@ -120,7 +120,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.expiresAt = expiresAt;
         } catch (error) {
           console.error("Failed to call backend API:", error);
-          return false; // Return false to indicate sign in failure
+          return false;
         }
       }
       return true; // Return true to indicate sign in success

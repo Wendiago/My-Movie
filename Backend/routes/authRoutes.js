@@ -1,5 +1,6 @@
 const AuthController = require("../controller/auth.controller");
 const handleAsync = require("../utils/catchAsync");
+const AccessMiddleware = require("../middlewares/access.middleware");
 
 const router = require("express").Router();
 
@@ -26,6 +27,10 @@ router.post(
 
 router.post("/reset-password", handleAsync(AuthController.handleResetPassword));
 
-router.post("/logout", handleAsync(AuthController.handleLogout));
+router.post(
+  "/logout",
+  handleAsync(AccessMiddleware.checkAccess),
+  handleAsync(AuthController.handleLogout)
+);
 
 module.exports = router;

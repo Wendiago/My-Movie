@@ -22,7 +22,7 @@ export default async function layout({
           <CustomImage
             unoptimized
             priority
-            src={user?.image || "/avatar.jpeg"}
+            src={user?.image}
             alt="avatar placeholder"
             width={150}
             height={150}

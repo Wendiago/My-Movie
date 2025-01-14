@@ -202,6 +202,7 @@ class AuthController {
     }
 
     const { user } = validationResult.data;
+    console.log("Auth controlle - log out: ", user);
 
     try {
       await this.authService.handleLogout(user);
