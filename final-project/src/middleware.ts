@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
   const { pathname, origin } = url;
   const isAllowedOrigin = allowedOrigins.includes(origin);
   const session = await auth();
-  //console.log("session", session);
+  console.log("MIDDLEWARE");
 
   // Prevent API access from different origins (CORS check)
   if (pathname.startsWith("/api") && !isAllowedOrigin) {
@@ -49,7 +49,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", url));
   }
 
-  // If refresh token error, redirect to login
+  // Prevent loop during logout
+  if (session?.error === "RefreshTokenError" && pathname === "/logout") {
+    return NextResponse.next(); // Allow logout to proceed
+  }
+
+  // If refresh token error, redirect to logout
   if (session?.error === "RefreshTokenError" && pathname !== "/logout") {
     return NextResponse.redirect(new URL("/logout", url));
   }

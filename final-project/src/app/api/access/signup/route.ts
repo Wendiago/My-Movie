@@ -14,10 +14,6 @@ export async function POST(req: Request) {
 
     return Response.json(response.data, { status: response.status || 200 });
   } catch (error: any) {
-    const errorResponse: ApiResponse<null> = error?.json || {};
-
-    return Response.json(errorResponse, {
-      status: errorResponse.status || 500,
-    });
+    return error;
   }
 }

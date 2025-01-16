@@ -63,7 +63,7 @@ const LoginForm = () => {
       redirect: false,
     });
 
-    console.log(result);
+    //console.log(result);
 
     if (result?.code === INVALID_LOGIN_ERROR_MESSAGE) {
       // Email or password is invalid

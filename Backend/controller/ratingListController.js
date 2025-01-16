@@ -1,11 +1,14 @@
 const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
-
 const watchingList = require("../models/watching_list");
 const Session = require("../models/accessModel");
 const Movie = require("../models/movies");
 const favoriteList = require("../models/favorite_list");
 const ratingList = require("../models/rating_list");
+const {
+  BadRequestResponse,
+  NotFoundResponse,
+  InternalServerErrorResponse,
+} = require("../response/error");
 
 const ratingListController = {
   addToList: catchAsync(async (req, res, next) => {
@@ -14,26 +17,17 @@ const ratingListController = {
       const { idMovie, rating } = req.body;
 
       if (!idMovie) {
-        return res.status(400).json({
-          success: false,
-          message: "Movie ID is required!",
-        });
+        return new BadRequestResponse("Movie ID is required!");
       }
 
       if (!rating) {
-        return res.status(400).json({
-          success: false,
-          message: "Rating is required!",
-        });
+        return new BadRequestResponse("Rating is required!");
       }
 
       //Kiểm tra idMovie có tồn tại trong cơ sở dữ liệu phim
       const movieExists = await Movie.findOne({ tmdb_id: idMovie });
       if (!movieExists) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid Movie ID!",
-        });
+        return new NotFoundResponse("Movie ID not found");
       }
 
       let rating_list = await ratingList.findOne({ idUser: userId });
@@ -46,7 +40,7 @@ const ratingListController = {
 
         await newList.save();
 
-        return res.status(201).json({
+        return res.status(200).json({
           success: true,
           message: "Added to rating list successfully!",
         });
@@ -76,10 +70,9 @@ const ratingListController = {
         message: "Added to rating list successfully!",
       });
     } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return new InternalServerErrorResponse(
+        `Fail to add to rating list: ${error.message}`
+      );
     }
   }),
 
@@ -88,19 +81,13 @@ const ratingListController = {
     const { idMovie } = req.params;
 
     if (!idMovie) {
-      return res.status(400).json({
-        success: false,
-        message: "Movie ID is required!",
-      });
+      return new BadRequestResponse("Movie ID is required!");
     }
 
     const rating_list = await ratingList.findOne({ idUser: userId });
 
     if (!rating_list) {
-      return res.status(404).json({
-        success: false,
-        message: "Rating list not found!",
-      });
+      return new NotFoundResponse("Rating list not found!");
     }
 
     const updatedMovies = rating_list.ratingList.filter(
@@ -108,10 +95,7 @@ const ratingListController = {
     );
 
     if (updatedMovies.length === rating_list.ratingList.length) {
-      return res.status(400).json({
-        success: false,
-        message: "Movie not found in the rating list!",
-      });
+      return new NotFoundResponse("Movie not found in the rating list!");
     }
 
     rating_list.ratingList = updatedMovies;
@@ -124,7 +108,6 @@ const ratingListController = {
   }),
 
   getAllRatingList: catchAsync(async (req, res, next) => {
-    
     const userId = req.user.id;
 
     const page = parseInt(req.query.page, 10) || 1;

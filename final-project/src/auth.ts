@@ -14,11 +14,11 @@ import { ApiResponse, LoginReponse } from "@/types/auth";
 import { customFetch } from "./lib/api-client";
 import httpMethods from "./lib/https";
 
-class AccountNotVerifiedError extends CredentialsSignin {
+export class AccountNotVerifiedError extends CredentialsSignin {
   code = ACCOUNT_NOT_VERIFIED_ERROR_MESSAGE;
 }
 
-class InvalidLoginError extends CredentialsSignin {
+export class InvalidLoginError extends CredentialsSignin {
   code = INVALID_LOGIN_ERROR_MESSAGE;
 }
 
@@ -63,7 +63,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             expiresAt,
           };
         } catch (error: any) {
-          const { status, code } = error?.json || {};
+          //console.log("Error: ", error);
+          const { status, code } = error || {};
 
           if (status === HttpStatus.CONFLICT) {
             if (code === ErrorCode.ACCOUNT_NOT_VERIFIED) {
@@ -75,7 +76,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               throw new InvalidLoginError();
             }
           }
-
           throw error;
         }
       },
@@ -91,7 +91,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === Providers.Google) {
-        console.log("google");
         try {
           const response = await customFetch.post<ApiResponse<LoginReponse>>(
             "/api/v1/auth/google/auth",

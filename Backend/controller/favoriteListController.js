@@ -1,37 +1,26 @@
 const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
-
 const favoriteList = require("../models/favorite_list");
 const ratingList = require("../models/rating_list");
 const watchingList = require("../models/watching_list");
 const Session = require("../models/accessModel");
+const {
+  BadRequestResponse,
+  ConflictResponse,
+  InternalServerErrorResponse,
+  NotFoundResponse,
+} = require("../response/error");
+const { OKSuccessResponse } = require("../response/success");
 
 const favoriteListController = {
   addToList: catchAsync(async (req, res, next) => {
-    // const { refreshToken } = req.cookies;
-
-    // 1. Kiểm tra refresh token
-    // if (!refreshToken) {
-    //   return next(new AppError("You are not logged in.", 401));
-    // }
-
     try {
-      // const session = await Session.findOne({ token: refreshToken });
-
-      // if (!session) {
-      //   return next(new AppError("You are not logged in.", 401));
-      // }
-
       const userId = req.user.id;
 
       const { idMovie } = req.body;
 
       // 2. Kiểm tra nếu không có idMovie
       if (!idMovie) {
-        return res.status(400).json({
-          success: false,
-          message: "Movie ID is required!",
-        });
+        return new BadRequestResponse("Movie ID is required!");
       }
 
       // 3. Tìm danh sách yêu thích của người dùng
@@ -58,10 +47,7 @@ const favoriteListController = {
       );
 
       if (movieExists) {
-        return res.status(400).json({
-          success: false,
-          message: "Movie already exists in favorite list!",
-        });
+        return new ConflictResponse("Movie already exists in favorite list!");
       }
 
       // 6. Thêm phim vào danh sách
@@ -73,48 +59,26 @@ const favoriteListController = {
         message: "Added to favorite list successfully!",
       });
     } catch (error) {
-      // Xử lý lỗi
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return new InternalServerErrorResponse(
+        `Failed to add to favorite list: ${error.message}`
+      );
     }
   }),
 
   removeFromFavorite: catchAsync(async (req, res, next) => {
-    // const { refreshToken } = req.cookies;
-
-    // 1. Kiểm tra refresh token
-    // if (!refreshToken) {
-    //   return next(new AppError("You are not logged in.", 401));
-    // }
-
     try {
-      // Lấy thông tin phiên từ token
-      // const session = await Session.findOne({ token: refreshToken });
-
-      // if (!session) {
-      //   return next(new AppError("You are not logged in.", 401));
-      // }
-
       const userId = req.user.id;
       const { idMovie } = req.params;
 
       if (!idMovie) {
-        return res.status(400).json({
-          success: false,
-          message: "Movie ID is required!",
-        });
+        return new BadRequestResponse("Movie ID is required!");
       }
 
       // 2. Tìm danh sách yêu thích của người dùng
       const favorite_list = await favoriteList.findOne({ idUser: userId });
 
       if (!favorite_list) {
-        return res.status(404).json({
-          success: false,
-          message: "Favorite list not found!",
-        });
+        return new NotFoundResponse("Favorite list not found!");
       }
 
       // 3. Lọc bỏ phim cần xóa
@@ -123,10 +87,7 @@ const favoriteListController = {
       );
 
       if (updatedMovies.length === favorite_list.favoriteList.length) {
-        return res.status(400).json({
-          success: false,
-          message: "Movie not found in the favorite list!",
-        });
+        return new NotFoundResponse("Movie not found in the favorite list!");
       }
 
       // 4. Cập nhật danh sách yêu thích
@@ -138,24 +99,14 @@ const favoriteListController = {
         message: "Movie removed from favorite list successfully!",
       });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      return new InternalServerErrorResponse(
+        `Failed to remove from favorite list: ${error.message}`
+      );
     }
   }),
 
   getAllFavoriteList: catchAsync(async (req, res, next) => {
-    // const { refreshToken } = req.cookies;
-
-    // 1. Validate refresh token
-    // if (!refreshToken) {
-    //   return next(new AppError("You are not logged in.", 401));
-    // }
-
     try {
-      // const session = await Session.findOne({ token: refreshToken });
-      // if (!session) {
-      //   return next(new AppError("You are not logged in.", 401));
-      // }
-
       const userId = req.user.id;
 
       // 2. Validate and parse query parameters
@@ -219,7 +170,9 @@ const favoriteListController = {
         totalPages,
       });
     } catch (error) {
-      return next(new AppError(error.message, 500));
+      return new InternalServerErrorResponse(
+        `Failed to get favorite list: ${error.message}`
+      );
     }
   }),
 };

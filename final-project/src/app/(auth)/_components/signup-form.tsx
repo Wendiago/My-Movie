@@ -10,10 +10,10 @@ import { PasswordInput } from "./password-input";
 import { paths } from "@/lib/routes";
 import LoginGoogleButton from "./google-login-button";
 import { toast } from "@/hooks/use-toast";
-import wretch from "wretch";
 import { ApiResponse } from "@/types/auth";
 import { Spinner } from "@/components/ui/spinner";
 import OtpDialog from "./otp-dialog";
+import httpMethods from "@/lib/https";
 
 const SignupForm = () => {
   const [verificationEmail, setVerificationEmail] = useState<string>("");
@@ -30,14 +30,17 @@ const SignupForm = () => {
     setIsLoading(true);
     setVerificationEmail(email);
     try {
-      await wretch("/api/access/signup").post(data).json();
+      await httpMethods.post<ApiResponse<null>>("/api/v1/auth/signup", {
+        email: data.email,
+        password: data.password,
+      });
       setIsOtpDialogOpen(true);
     } catch (error: any) {
-      const errorReponse: ApiResponse<null> = error?.json || {};
+      console.log(error);
       toast({
         variant: "destructive",
         title: "Sign up failed",
-        description: errorReponse.message,
+        description: error.message,
       });
     } finally {
       setIsLoading(false);

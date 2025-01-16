@@ -42,7 +42,7 @@ export const useAddToFavoriteList = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: (error: Error) => void;
+  onError?: (error: any) => void;
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -60,7 +60,7 @@ export const useAddToFavoriteList = ({
       });
       onSuccess?.();
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
       onError?.(error);
     },
   });
@@ -73,7 +73,7 @@ export const useRemoveFromFavoriteList = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: (error: Error) => void;
+  onError?: (error: any) => void;
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -91,7 +91,7 @@ export const useRemoveFromFavoriteList = ({
       });
       onSuccess?.();
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
       onError?.(error);
     },
   });
@@ -104,7 +104,7 @@ export const useAddToFavoriteListServer = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: (error: Error) => void;
+  onError?: (error: any) => void;
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -122,7 +122,7 @@ export const useAddToFavoriteListServer = ({
       });
       onSuccess?.();
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
       onError?.(error);
     },
   });
@@ -135,7 +135,7 @@ export const useRemoveFromFavoriteListServer = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: (error: Error) => void;
+  onError?: (error: any) => void;
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -153,8 +153,9 @@ export const useRemoveFromFavoriteListServer = ({
       });
       onSuccess?.();
     },
-    onError: (error: Error) => {
-      onError?.(error);
+    onError: (error: any) => {
+      const { message } = error;
+      onError?.(message);
     },
   });
 

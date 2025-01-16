@@ -59,8 +59,6 @@ async function fetchApi<T>(
       }
     : {};
 
-  //console.log(authHeaders);
-
   const response = await fetch(fullUrl, {
     ...otherOptions,
     method,
@@ -78,8 +76,11 @@ async function fetchApi<T>(
 
   if (!response.ok) {
     const errorBody = await response.json();
-    const message = errorBody.message || response.statusText;
-    throw new Error(message);
+    console.log("ErrorBody: ", errorBody);
+    const error = new Error(errorBody.message || "An error occurred");
+    (error as any).status = errorBody.status;
+    (error as any).code = errorBody.code;
+    throw error;
   }
 
   return response.json();

@@ -1,4 +1,4 @@
-export const INVALID_LOGIN_ERROR_MESSAGE = "Email or password is invalid";
+export const INVALID_LOGIN_ERROR_MESSAGE = "Email or password is incorrect";
 export const ACCOUNT_NOT_VERIFIED_ERROR_MESSAGE =
   "Account has not been verified";
 

@@ -1,11 +1,10 @@
 const sendErrorProd = (err, req, res) => {
-  // Operational
-  if (err.isOperational) {
-    return res.status(err.statusCode).json({
+  // Handle Operational Errors
+  if (err instanceof ErrorResponseCore) {
+    return res.status(err.status).json({
       status: err.status,
-      error: err,
       message: err.message,
-      stack: err.stack,
+      code: err.code,
     });
   }
 

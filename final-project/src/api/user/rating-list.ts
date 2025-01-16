@@ -43,7 +43,7 @@ export const useAddToRatingList = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: (error: Error) => void;
+  onError?: (error: any) => void;
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -61,7 +61,7 @@ export const useAddToRatingList = ({
       });
       onSuccess?.();
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
       onError?.(error);
     },
   });
@@ -74,7 +74,7 @@ export const useRemoveFromRatingList = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: (error: Error) => void;
+  onError?: (error: any) => void;
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -92,7 +92,7 @@ export const useRemoveFromRatingList = ({
       });
       onSuccess?.();
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
       onError?.(error);
     },
   });

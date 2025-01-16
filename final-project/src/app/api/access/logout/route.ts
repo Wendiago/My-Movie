@@ -25,6 +25,15 @@ export async function POST() {
       message: "Internal Server Error",
     };
     //console.log(errorResponse);
+    if (
+      errorResponse.code === 1000102 ||
+      errorResponse.message === "User not found"
+    ) {
+      return Response.json(
+        { message: "User not found, considered logged out" },
+        { status: 200 }
+      );
+    }
     return Response.json(errorResponse, {
       status: 500,
     });

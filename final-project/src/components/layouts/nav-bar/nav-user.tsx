@@ -37,6 +37,10 @@ export default function NavUser() {
     try {
       await wretch("/api/access/logout").post().json();
       await signOut();
+      toast({
+        variant: "success",
+        title: "Log out successfully",
+      });
     } catch (error: any) {
       toast({
         variant: "destructive",

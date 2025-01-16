@@ -1,7 +1,5 @@
 const catchAsync = require("../utils/catchAsync");
 const CustomApi = require("../utils/customApi");
-const AppError = require("../utils/appError");
-
 const Genre = require("../models/movies_genres");
 const Movie = require("../models/movies");
 const MovieTrendingDay = require("../models/movies_trending_day");
@@ -9,6 +7,10 @@ const MovieTrendingWeek = require("../models/movies_trending_week");
 const favoriteList = require("../models/favorite_list");
 const watchingList = require("../models/watching_list");
 const ratingList = require("../models/rating_list");
+const {
+  NotFoundResponse,
+  InternalServerErrorResponse,
+} = require("../response/error");
 
 const movieController = {
   getDetailMovieById: catchAsync(async (req, res, next) => {
@@ -20,7 +22,7 @@ const movieController = {
       );
 
       if (!data) {
-        return next(new AppError("Movie not found.", 404));
+        return new NotFoundResponse("Movie not found.");
       }
 
       // Fetch additional data from external API
@@ -75,7 +77,9 @@ const movieController = {
       return res.status(200).json(response);
     } catch (error) {
       console.error("Error fetching detail movie:", error);
-      next(error);
+      return new InternalServerErrorResponse(
+        `Error fetching movie detail: ${error.message}`
+      );
     }
   }),
 
@@ -89,16 +93,15 @@ const movieController = {
       });
     } catch (error) {
       console.error("Error fetching trending movies:", error);
-      next(error);
+      return new InternalServerErrorResponse(
+        `Error fetching trending movies: ${error.message}`
+      );
     }
   }),
 
   getTrendingMoviesWeek: catchAsync(async (req, res, next) => {
     try {
       const data = await MovieTrendingWeek.find().limit(15);
-
-      //const movies = await mapGenresToMovies(data.results);
-
       return res.status(200).json({
         success: true,
         message: "Trending movies week fetched successfully",
@@ -106,7 +109,9 @@ const movieController = {
       });
     } catch (error) {
       console.error("Error fetching trending movies:", error);
-      next(error);
+      return new InternalServerErrorResponse(
+        `Error fetching trending movies: ${error.message}`
+      );
     }
   }),
 
@@ -122,7 +127,9 @@ const movieController = {
       });
     } catch (error) {
       console.error("Error fetching genres:", error);
-      throw error;
+      return new InternalServerErrorResponse(
+        `Error fetching genres: ${error.message}`
+      );
     }
   }),
 };

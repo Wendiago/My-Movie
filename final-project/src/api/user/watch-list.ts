@@ -42,7 +42,7 @@ export const useAddToWatchlist = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: (error: Error) => void;
+  onError?: (error: any) => void;
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -60,7 +60,7 @@ export const useAddToWatchlist = ({
       });
       onSuccess?.();
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
       onError?.(error);
     },
   });
@@ -73,7 +73,7 @@ export const useRemoveFromWatchlist = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: (error: Error) => void;
+  onError?: (error: any) => void;
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -91,7 +91,7 @@ export const useRemoveFromWatchlist = ({
       });
       onSuccess?.();
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
       onError?.(error);
     },
   });
@@ -104,7 +104,7 @@ export const useAddToWatchlistServerAction = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: (error: Error) => void;
+  onError?: (error: any) => void;
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -122,7 +122,7 @@ export const useAddToWatchlistServerAction = ({
       });
       onSuccess?.();
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
       onError?.(error);
     },
   });
@@ -135,7 +135,7 @@ export const useRemoveFromWatchlistServerAction = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: (error: Error) => void;
+  onError?: (error: any) => void;
 }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -153,7 +153,7 @@ export const useRemoveFromWatchlistServerAction = ({
       });
       onSuccess?.();
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
       onError?.(error);
     },
   });

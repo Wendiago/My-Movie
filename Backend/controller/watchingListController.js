@@ -1,34 +1,30 @@
 const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
-
 const watchingList = require("../models/watching_list");
 const ratingList = require("../models/rating_list");
 const Session = require("../models/accessModel");
 const Movie = require("../models/movies");
 const favoriteList = require("../models/favorite_list");
+const {
+  BadRequestResponse,
+  NotFoundResponse,
+  ConflictResponse,
+  InternalServerErrorResponse,
+} = require("../response/error");
 
 const watchingListController = {
   addToList: catchAsync(async (req, res, next) => {
-
     try {
-
       const userId = req.user.id;
       const { idMovie } = req.body;
 
       if (!idMovie) {
-        return res.status(400).json({
-          success: false,
-          message: "Movie ID is required!",
-        });
+        return new BadRequestResponse("Movie ID is required!");
       }
 
       const movieExists = await Movie.findOne({ tmdb_id: idMovie });
 
       if (!movieExists) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid Movie ID!",
-        });
+        return new NotFoundResponse("Movie ID not found");
       }
 
       let watching_list = await watchingList.findOne({ idUser: userId });
@@ -52,10 +48,7 @@ const watchingListController = {
       );
 
       if (movieExistsInList) {
-        return res.status(400).json({
-          success: false,
-          message: "Movie already exists in watching list!",
-        });
+        return new ConflictResponse("Movie already exists in watching list!");
       }
 
       watching_list.watchingList.push({ tmdb_id: idMovie });
@@ -66,10 +59,9 @@ const watchingListController = {
         message: "Added to watching list successfully!",
       });
     } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return new InternalServerErrorResponse(
+        `Fail to add to watchlist: ${error.message}`
+      );
     }
   }),
 
@@ -78,19 +70,13 @@ const watchingListController = {
     const { idMovie } = req.params;
 
     if (!idMovie) {
-      return res.status(400).json({
-        success: false,
-        message: "Movie ID is required!",
-      });
+      return new BadRequestResponse("Movie ID is required!");
     }
 
     const watching_list = await watchingList.findOne({ idUser: userId });
 
     if (!watching_list) {
-      return res.status(404).json({
-        success: false,
-        message: "Watching list not found!",
-      });
+      return new NotFoundResponse("Watching list not found!");
     }
 
     const updatedMovies = watching_list.watchingList.filter(
@@ -98,10 +84,7 @@ const watchingListController = {
     );
 
     if (updatedMovies.length === watching_list.watchingList.length) {
-      return res.status(400).json({
-        success: false,
-        message: "Movie not found in the watching list!",
-      });
+      return new NotFoundResponse("Movie not found in the watching list!");
     }
 
     watching_list.watchingList = updatedMovies;
