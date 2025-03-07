@@ -18,7 +18,7 @@ export default async function Page() {
   const latestTrailerList = getLatestTrailerList();
 
   return (
-    <div className="relative flex flex-col min-h-screen w-full">
+    <div className="relative flex flex-col min-h-screen w-full mt-[68px] md:mt-0">
       <Suspense
         fallback={
           <Skeleton className="flex justify-center items-center h-screen"></Skeleton>
@@ -27,20 +27,19 @@ export default async function Page() {
         <MainCarousel data={todayTrendingMovies} />
       </Suspense>
 
-      <div className="w-full pb-24 z-30 -mt-52 flex flex-col justify-center gap-8 items-center bg-gradient-to-b from-transparent via-background/70 via-[10%] to-background to-[15%]">
+      <div className="pt-4 md:pt-0 w-full pb-24 z-30 md:-mt-52 flex flex-col justify-center gap-8 items-center bg-gradient-to-b from-transparent via-background/70 via-[10%] to-background to-[15%]">
         <div
-          className="container"
+          className="container bg-[length:250%] md:bg-contain"
           style={{
             backgroundImage: `url('/trending.svg')`,
             backgroundRepeat: "no-repeat",
-            backgroundSize: "contain",
             backgroundPosition: "bottom center",
           }}
         >
           <Tabs defaultValue="Today" className="w-full">
             <div className="flex items-center gap-3 mb-6">
               <p className="font-bold text-2xl">TRENDING</p>
-              <TabsList className="grid grid-cols-2 max-w-[30%] bg-transparent">
+              <TabsList className="grid grid-cols-2 w-[180px] bg-transparent">
                 <TabsTrigger
                   value="Today"
                   className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"

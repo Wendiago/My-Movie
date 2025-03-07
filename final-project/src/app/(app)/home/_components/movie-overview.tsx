@@ -19,10 +19,10 @@ export default function MovieOverview({
     <div
       className={cn(
         className,
-        "flex flex-col max-w-[40%] absolute top-[20%] left-[7%]"
+        "flex flex-col md:max-w-[40%] absolute left-[10%] top-[20%] md:left-[7%]"
       )}
     >
-      <h1 className="text-[3rem] lg:text-[4rem]  font-extrabold text-foreground line-clamp-2">
+      <h1 className="md:text-[4rem] font-extrabold text-foreground line-clamp-2">
         {data.title}
       </h1>
       <div className="pb-4">
@@ -47,7 +47,9 @@ export default function MovieOverview({
           </>
         )}
       </div>
-      <p className="text-foreground line-clamp-3">{data.overview}</p>
+      <p className="hidden md:block text-foreground line-clamp-3">
+        {data.overview}
+      </p>
     </div>
   );
 }

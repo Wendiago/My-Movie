@@ -54,10 +54,7 @@ export default function NavUser() {
   return (
     <>
       {session === null ? (
-        <Button
-          onClick={handleLogin}
-          className="text-sm font-bold bg-gradient-to-r from-[#209dc2] to-[#e85a75] hover:bg-opacity-80"
-        >
+        <Button onClick={handleLogin} className="text-sm font-bold">
           Log In
         </Button>
       ) : (

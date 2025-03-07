@@ -8,12 +8,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function TrailerCarouselSkeleton() {
   return (
-    <div className="flex flex-col gap-3 w-screen lg:px-8">
+    <div className="flex flex-col gap-3 lg:px-8">
       <Carousel className="mx-auto">
-        <CarouselContent className="">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem className="md:basis-1/3 lg:basis-1/5" key={index}>
-              <Skeleton className="w-[300px] h-[170px] rounded-lg" />
+        <CarouselContent className="w-full -ml-2">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <CarouselItem className="md:basis-1/3 lg:basis-1/4" key={index}>
+              <Skeleton className="w-[315px] h-[176px] rounded-lg" />
             </CarouselItem>
           ))}
         </CarouselContent>

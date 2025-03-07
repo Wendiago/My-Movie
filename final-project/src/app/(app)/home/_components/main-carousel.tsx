@@ -71,7 +71,7 @@ export default function MainCarousel({
               width={1440}
               height={850}
               placeholderSrc={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${movie.backdrop_path}`}
-              className="w-screen h-[850px] object-cover cursor-pointer"
+              className="w-screen h-64 md:h-[850px] object-cover cursor-pointer"
               onClick={() =>
                 router.push(paths.details.getHref(movie.id.toString()))
               }
