@@ -33,7 +33,7 @@ export default function TrendingCarouselItem({
             value={Number.parseFloat((data.vote_average * 10).toPrecision(1))}
           />
         </div>
-        <p className="text-foreground py-4 text-start">{data.title}</p>
+        <p className="text-foreground py-4 text-center">{data.title}</p>
       </div>
     </div>
   );

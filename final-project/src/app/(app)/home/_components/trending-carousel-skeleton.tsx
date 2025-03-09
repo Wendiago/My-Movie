@@ -8,12 +8,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function TrendingCarouselSkeleton() {
   return (
-    <div className="flex flex-col gap-3 w-screen lg:px-8">
+    <div className="flex flex-col gap-3 lg:px-8">
       <Carousel className="mx-auto">
-        <CarouselContent className="">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <CarouselItem className="md:basis-1/3 lg:basis-1/5" key={index}>
-              <Skeleton className="w-full h-[200px] rounded-lg" />
+        <CarouselContent className="w-full -ml-2">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <CarouselItem
+              className="md:basis-1/4 lg:basis-1/6 basis-1/2"
+              key={index}
+            >
+              <Skeleton className="w-48 h-72 rounded-lg" />
             </CarouselItem>
           ))}
         </CarouselContent>
