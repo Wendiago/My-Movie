@@ -11,14 +11,20 @@ const AuthLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <Suspense fallback={<Spinner />}>
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen justify-center items-center">
+          <Spinner />
+        </div>
+      }
+    >
       <ErrorBoundary fallback={<div>Something went wrong!</div>}>
         <div className="relative">
           <div className="flex flex-col min-h-screen">
             <NavBar></NavBar>
             <main className="flex-1 flex">
-              <div className="md:grid md:grid-cols-2 mt-12">
-                <div className="md:col-span-1 p-16 md:p-24 xl:p-40 2xl:p-80">
+              <div className="flex mt-[68px]">
+                <div className="hidden md:block md:p-24">
                   <Image
                     src="/login.svg"
                     width={800}

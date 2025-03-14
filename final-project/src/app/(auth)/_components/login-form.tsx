@@ -127,7 +127,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="container flex justify-center items-center md:min-h-screen">
       <div className="bg-card p-10 rounded-lg shadow-lg max-w-md">
         <h2 className="text-2xl font-semibold mb-6 text-center">
           Account Login

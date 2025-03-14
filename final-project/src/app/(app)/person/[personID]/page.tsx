@@ -11,7 +11,7 @@ export default async function page({
   const personID = (await params).personID;
   const personDetailResponse = getCastByID(personID);
   return (
-    <div className="mt-[72px] w-full flex flex-col flex-1 pt-10 pb-10 px-16">
+    <div className="mt-[72px] w-full flex flex-col flex-1 pt-10 pb-10 lg:px-16">
       <Suspense fallback={<PersonInfoSkeleton />}>
         <PersonInfo data={personDetailResponse} />
       </Suspense>

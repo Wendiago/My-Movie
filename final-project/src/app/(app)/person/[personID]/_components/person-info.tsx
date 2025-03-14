@@ -36,8 +36,8 @@ export default function PersonInfo({
   }
 
   return person ? (
-    <div className="container grid grid-cols-[300px_1fr]">
-      <div className="flex flex-col">
+    <div className="container grid lg:grid-cols-[300px_1fr]">
+      <div className="lg:flex flex-col contents">
         <CustomImage
           src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w300${person.profile_path}`}
           alt={person.name}
@@ -45,7 +45,7 @@ export default function PersonInfo({
           height="450"
           className="w-full h-auto rounded-md"
         ></CustomImage>
-        <section className="flex flex-col mt-6">
+        <section className="flex flex-col mt-6 order-2">
           <h3 className="font-semibold text-xl mb-3">Personal Info</h3>
           <div className="flex flex-col mb-5">
             <h5 className="font-bold">Known For</h5>
@@ -90,7 +90,7 @@ export default function PersonInfo({
           </div>
         </section>
       </div>
-      <div className="px-8 min-w-0">
+      <div className="lg:px-8 min-w-0 order-1 mt-4 lg:mt-0">
         <h1 className="font-bold text-4xl">{person.name}</h1>
 
         {/* Bio section */}

@@ -48,7 +48,7 @@ export default function CastInfo({
           </div>
         </div>
       </div>
-      <div className="container py-8 grid grid-cols-2">
+      <div className="container py-8 grid grid-cols-2 gap-x-2 md:gap-x-0">
         <div className="flex flex-col">
           <h3 className="text-foreground font-bold text-xl mb-5">
             Cast{" "}

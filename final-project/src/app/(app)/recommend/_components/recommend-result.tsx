@@ -75,7 +75,7 @@ export default function RecommendResults() {
   }
 
   return (
-    <div className="container h-full">
+    <div className="px-4 md:container h-full">
       {isLoading ? (
         <div className="flex flex-wrap gap-4 justify-center mt-16">
           {Array.from({ length: 20 }).map((_, index) => (
@@ -91,7 +91,7 @@ export default function RecommendResults() {
         </div>
       ) : (
         <>
-          <div className="flex justify-between my-8 pl-2 pr-2 gap-16">
+          <div className="flex flex-col md:flex-row justify-between my-8 gap-4 md:gap-16">
             <div className="font-bold text-2xl">
               <span>Recommendations based on your preference:</span>
             </div>

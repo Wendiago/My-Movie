@@ -143,8 +143,8 @@ export default function MovieInfo({
 
   return movieDetail ? (
     <>
-      <div className="flex w-full relative">
-        <div className="overflow-hidden absolute top-0 right-0 w-[70.84%] h-full">
+      <div className="pt-[68px] md:pt-0 w-full relative">
+        <div className="block md:overflow-hidden md:absolute top-0 right-0 w-full h-60 md:w-[70.84%] md:h-full">
           <CustomImage
             src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${movieDetail.backdrop_path}`}
             alt={movieDetail.title}
@@ -154,16 +154,16 @@ export default function MovieInfo({
             placeholderSrc={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w1280${movieDetail.backdrop_path}`}
           />
           <div
-            className="left-layer absolute h-full w-[28%] bottom-0"
+            className="left-layer md:absolute h-full w-[28%] bottom-0"
             style={leftLayerStyle}
           ></div>
           <div
-            className="bottom-layer absolute w-full h-[36%] bottom-0"
+            className="bottom-layer md:absolute w-full h-[36%] bottom-0"
             style={bottomLayerStyle}
           ></div>
         </div>
-        <div className="container mt-[10%] z-30 flex flex-col gap-3">
-          <div className="flex flex-col w-[500px] mb-8">
+        <div className="container mt-3 md:mt-[10%] z-30 flex flex-col gap-3">
+          <div className="flex flex-col w-full md:w-[500px] mb-8">
             <h1 className="text-[2rem] font-semibold text-foreground mb-3">
               {movieDetail.title}
             </h1>

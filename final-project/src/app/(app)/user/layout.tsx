@@ -29,8 +29,10 @@ export default async function layout({
             className="w-[150px] h-[150px] rounded-full"
             errorSrc="/avatar.jpeg"
           />
-          <div className="flex flex-col gap-4">
-            <h1 className="font-bold text-2xl">{user?.email}</h1>
+          <div className="flex flex-col gap-4 min-w-0">
+            <h1 className="flex font-bold text-2xl w-full break-all overflow-hidden">
+              {user?.email}
+            </h1>
             <div className="flex items-center gap-3">
               <RatingCircle
                 value={50}

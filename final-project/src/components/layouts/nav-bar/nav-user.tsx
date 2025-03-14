@@ -86,6 +86,11 @@ export default function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
+                <Link href={`/recommend`} className="flex-1">
+                  Recommendation
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
                 <Link href={`/user/favourites`} className="flex-1">
                   Favorites
                 </Link>

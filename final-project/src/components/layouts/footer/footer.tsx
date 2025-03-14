@@ -1,48 +1,63 @@
-import CustomImage from "@/components/ui/custom-image";
+import { Separator } from "@/components/ui/separator";
+import { Copyright, Popcorn } from "lucide-react";
 import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="w-full py-6 border-t">
-      <div className="container flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-3 text-2xl">
-            <CustomImage
-              src={"/logo.png"}
-              alt="logo"
-              width={24}
-              height={24}
-              className="w-6 h-6"
-              usePlaceholder={false}
-            />
+    <footer className="w-full border-t">
+      <div className="px-4 py-8 md:container flex justify-between">
+        <div className="flex flex-col gap-2 items-center md:max-w-96">
+          <div className="w-fit flex flex-col md:flex-row items-center justify-center gap-2">
+            <Popcorn className="w-9 h-9 text-violet-500" />
+            <p className=" text-2xl font-bold text-violet-500 text-center">
+              WENDIAGO MOVIE
+            </p>
           </div>
-          <p className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#209dc2] via-[#b05f99] to-[#e85a75]">
-            WENDIAGO MOVIE
+          <p>
+            <span className="text-violet-500 font-semibold">
+              Wendiago Movie
+            </span>{" "}
+            is a movie database using TMDB API, features newest movie related
+            information.
           </p>
         </div>
-        <div className="flex flex-col gap-1">
+
+        <div className="hidden md:flex flex-col">
           <p className="font-bold mb-1">About us</p>
-          <p>Introduction</p>
-          <p>Services</p>
-          <p>Contact</p>
-          <p>Help center</p>
-          <p>Information</p>
+          <div className="w-full flex flex-col">
+            <p>Introduction</p>
+            <p>Services</p>
+            <p>Contact</p>
+            <p>Help center</p>
+            <p>Information</p>
+          </div>
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="hidden md:flex flex-col">
           <p className="font-bold mb-1">About us</p>
-          <p>Introduction</p>
-          <p>Services</p>
-          <p>Contact</p>
-          <p>Help center</p>
-          <p>Information</p>
+          <div className="w-full flex flex-col">
+            <p>Introduction</p>
+            <p>Services</p>
+            <p>Contact</p>
+            <p>Help center</p>
+            <p>Information</p>
+          </div>
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="hidden md:flex flex-col">
           <p className="font-bold mb-1">About us</p>
-          <p>Introduction</p>
-          <p>Services</p>
-          <p>Contact</p>
-          <p>Help center</p>
-          <p>Information</p>
+          <div className="w-full flex flex-col">
+            <p>Introduction</p>
+            <p>Services</p>
+            <p>Contact</p>
+            <p>Help center</p>
+            <p>Information</p>
+          </div>
+        </div>
+      </div>
+      <Separator className="container" />
+      <div className="py-8 container flex justify-center items-center">
+        <div className="flex justify-center items-center gap-1">
+          <Copyright />
+          2025 by Wendiago Movie
         </div>
       </div>
     </footer>
