@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="w-full border-t">
       <div className="px-4 py-8 md:container flex justify-between">
         <div className="flex flex-col gap-2 items-center md:max-w-96">
-          <div className="w-fit flex flex-col md:flex-row items-center justify-center gap-2">
+          <div className="w-full flex flex-col md:flex-row items-center justify-center md:justify-start md:items-start gap-2">
             <Popcorn className="w-9 h-9 text-violet-500" />
             <p className=" text-2xl font-bold text-violet-500 text-center">
               WENDIAGO MOVIE

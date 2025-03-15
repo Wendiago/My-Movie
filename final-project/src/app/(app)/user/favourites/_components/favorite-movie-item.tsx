@@ -107,16 +107,16 @@ export default function FavoriteMovieItem({
   return (
     <>
       <div className="w-full flex border rounded-md">
-        <CustomImage
-          src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w220_and_h330_face${data.poster_path}`}
-          width={133}
-          height={200}
-          alt={data.title}
-          className="h-[200px] w-[133px] rounded-tl-md rounded-bl-md cursor-pointer"
-          onClick={() => router.push(`/movie/${data.tmdb_id}`)}
-        />
-        <div className="px-[15px] py-[10px] flex flex-col justify-between">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-shrink-0 relative h-fit self-center">
+          <CustomImage
+            src={`${process.env.NEXT_PUBLIC_IMDB_IMAGE_URL}/w220_and_h330_face${data.poster_path}`}
+            width={133}
+            height={200}
+            alt={data.title}
+            className="h-[200px] w-[133px] rounded-tl-md rounded-bl-md cursor-pointer self-center"
+            onClick={() => router.push(`/movie/${data.tmdb_id}`)}
+          />
+          <div className="absolute right-0 top-0 md:hidden">
             <RatingCircle
               value={
                 typeof data.vote_average === "number"
@@ -126,6 +126,22 @@ export default function FavoriteMovieItem({
               customStyles={{ root: { height: "40px", width: "40px" } }}
               background
             />
+          </div>
+        </div>
+        <div className="px-[15px] py-[10px] flex flex-col justify-between">
+          <div className="flex items-center gap-3">
+            <div className="hidden md:block">
+              <RatingCircle
+                value={
+                  typeof data.vote_average === "number"
+                    ? Number.parseFloat((data.vote_average * 10).toPrecision(1))
+                    : 0
+                }
+                customStyles={{ root: { height: "40px", width: "40px" } }}
+                background
+              />
+            </div>
+
             <div>
               <h1 className="font-bold text-xl">{data.title}</h1>
               <p className="text-textGrey font-light">
