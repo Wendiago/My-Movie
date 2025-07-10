@@ -22,7 +22,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://final-project-smoky-theta.vercel.app",
+      "https://wendiago-movie.vercel.app",
       process.env.API_URL,
     ],
     methods: ["GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
